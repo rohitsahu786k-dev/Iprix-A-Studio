@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { PublicShell } from "@/components/public-shell";
 
-export const metadata: Metadata = { title: "Features | A+ Studio" };
+export const metadata: Metadata = {
+  title: "Seller Automation & AI Listing Features | A+ Studio",
+  description: "Explore AI Content Studio, bulk product uploads, PDF label analyser, and Chrome extension autofill features for Meesho, Flipkart, and Amazon sellers.",
+  keywords: ["A+ Studio features", "AI Content Studio", "PDF Label Analyser", "bulk listing upload", "marketplace listing tools"],
+  alternates: { canonical: "/features" },
+};
 
 // Minimalist vector icons using currentColor (monochrome)
 const Icons = {
@@ -153,6 +159,86 @@ export default function FeaturesPage() {
                   <Icons.ArrowRight />
                 </div>
               </article>
+            ))}
+          </div>
+
+          {/* ── SHOWCASE SECTION ── */}
+          <div className="mt-32 border-t border-neutral-100 pt-24 space-y-32">
+            <div className="text-center max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-neutral-200 bg-neutral-50 text-xs font-bold text-neutral-800 uppercase tracking-wider mb-5">
+                Product Showcase
+              </div>
+              <h2 className="text-4xl font-extrabold text-neutral-900 tracking-tight mb-4">
+                Visualizing the automation experience.
+              </h2>
+              <p className="text-sm text-neutral-500 leading-relaxed">
+                Take a closer look at the actual dashboards, AI writer panels, image optimization outputs, and Chrome extension overlays.
+              </p>
+            </div>
+
+            {[
+              {
+                title: "AI Content Studio",
+                subtitle: "High-Converting AI Listings",
+                desc: "Generate listing content that matches Meesho, Flipkart, and Amazon search algorithms. Get instant access to title optimization, custom descriptions, bullet points, and search tags.",
+                img: "/ai-content.png",
+                badge: "AI Writer",
+              },
+              {
+                title: "Chrome Extension Autofill",
+                subtitle: "Autofill Marketplace Forms",
+                desc: "Automatically sync templates and generated listing text fields directly inside active seller portal forms. Zero manual copy-pasting, zero formatting mistakes.",
+                img: "/chrome-extension-preview.png",
+                badge: "1-Click Autofill",
+              },
+              {
+                title: "Image Resizer & Enhancer",
+                subtitle: "1000x1000 Pixel Canvas",
+                desc: "Enhance product catalog assets to meet marketplace requirements. Automatically crop, resize, clean backgrounds, and format graphics for high-quality previews.",
+                img: "/image-optimization.png",
+                badge: "Image Maker",
+              },
+              {
+                title: "Seller Administration Dashboard",
+                subtitle: "Quotas, Templates & Team Roles",
+                desc: "Track active usage quotas, manage product template schemas, and collaborate with listing specialists using permission-controlled accounts.",
+                img: "/admin-analytics.png",
+                badge: "Workspace Analytics",
+              },
+            ].map((showcase, index) => (
+              <div
+                key={showcase.title}
+                className={`grid gap-12 lg:grid-cols-2 items-center ${
+                  index % 2 === 1 ? "lg:flex-row-reverse" : ""
+                }`}
+              >
+                <div className={index % 2 === 1 ? "lg:order-2" : ""}>
+                  <span className="rounded-full bg-neutral-100 border border-neutral-200 px-3 py-1 text-[10px] font-extrabold text-neutral-800 uppercase tracking-widest">
+                    {showcase.badge}
+                  </span>
+                  <h3 className="text-3xl font-extrabold text-neutral-900 mt-4">
+                    {showcase.title}
+                  </h3>
+                  <p className="text-sm font-bold text-neutral-500 mt-1 uppercase tracking-wide">
+                    {showcase.subtitle}
+                  </p>
+                  <p className="text-sm leading-relaxed text-neutral-600 mt-4">
+                    {showcase.desc}
+                  </p>
+                </div>
+                <div className={`relative rounded-2xl border border-neutral-200/80 bg-neutral-50 p-2 shadow-lg ${
+                  index % 2 === 1 ? "lg:order-1" : ""
+                }`}>
+                  <div className="relative overflow-hidden rounded-xl aspect-[16/10] bg-white">
+                    <Image
+                      src={showcase.img}
+                      alt={showcase.title}
+                      fill
+                      className="object-cover object-top hover:scale-[1.02] transition-transform duration-500"
+                    />
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>

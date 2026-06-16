@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import { PublicShell } from "@/components/public-shell";
 import { brand } from "@/lib/brand";
 
-export const metadata: Metadata = { title: "About | A+ Studio" };
+export const metadata: Metadata = {
+  title: "About A+ Studio by Iprix Media | Seller Automation Mission",
+  description: "Learn more about Iprix Media and A+ Studio's mission to streamline listing creation and inventory onboarding for Indian marketplace sellers.",
+  keywords: ["Iprix Media", "About A+ Studio", "Udaipur Rajasthan IT", "e-commerce seller automation team"],
+  alternates: { canonical: "/about" },
+};
 
 // Minimalist vector icons using currentColor (monochrome)
 const Icons = {

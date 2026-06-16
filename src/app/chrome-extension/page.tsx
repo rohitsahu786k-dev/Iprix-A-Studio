@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { PublicShell } from "@/components/public-shell";
 
-export const metadata: Metadata = { title: "Chrome Extension | A+ Studio" };
+export const metadata: Metadata = {
+  title: "Meesho, Flipkart & Amazon Listing Autofill Chrome Extension | A+ Studio",
+  description: "Download the A+ Studio Chrome Extension. Save templates and automatically autofill seller forms inside Meesho, Flipkart, and Amazon listing panels.",
+  keywords: ["Autofill Chrome Extension", "Meesho seller extension", "Flipkart automation tool", "Amazon seller assistant"],
+  alternates: { canonical: "/chrome-extension" },
+};
 
 // Minimalist vector icons using currentColor (monochrome)
 const Icons = {

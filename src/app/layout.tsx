@@ -46,6 +46,9 @@ export const metadata: Metadata = {
     description: "AI-powered listing automation for Indian marketplace sellers.",
     images: ["/seller-dashboard.png"],
   },
+  verification: {
+    google: "VlbcOEYvmtWDcrr1rWxsMvY6hUKC6HVdQzEs6CuEPf0",
+  },
 };
 
 export default function RootLayout({

@@ -1,0 +1,24 @@
+# A+ Studio by Iprix Media
+
+> A+ Studio is a premium, AI-powered seller automation platform and Chrome Extension designed specifically for Indian e-commerce sellers on Meesho, Flipkart, and Amazon. It helps sellers save templates, generate optimized listing copy, conduct keyword research, and autofill listing forms with a single click.
+
+## Core Navigation
+- [/](https://iprixmedia.com/): Homepage detailing A+ Studio's features, extension overlays, and interactive demo.
+- [/features](https://iprixmedia.com/features): Complete list of platform capabilities including AI Content Studio, Image Maker, and Label Analyser.
+- [/chrome-extension](https://iprixmedia.com/chrome-extension): Detailed overview of the Chrome Extension, shadow DOM floating bar, and installation guidelines.
+- [/pricing](https://iprixmedia.com/pricing): Subscription plan structure and global billing frequency toggles.
+- [/about](https://iprixmedia.com/about): About page detailing Iprix Media's mission and team values.
+- [/contact](https://iprixmedia.com/contact): Get in touch with our team for questions or dedicated support.
+
+## Key Features & Workflows
+- **Chrome Extension Overlay**: Automatically injects a floating shadow DOM action bar on Meesho, Flipkart, and Amazon listing pages.
+- **Form Autofill**: Matches saved seller templates to input fields, performing one-click form completion.
+- **AI Listing Generator**: Generates optimized product titles, descriptions, bullets, SKUs, and keywords.
+- **PDF Label Analyser**: Validates, parses, and splits shipping label PDFs.
+- **Keyword Research**: Creates comprehensive SEO reports based on target keywords and platforms.
+- **Workspace Dashboard**: A secure portal for sellers to manage templates, products, and quotas.
+
+## Contact & Support
+- **Support Email**: info@iprixmedia.com
+- **WhatsApp Support**: https://wa.me/916394423902
+- **Headquarters**: Udaipur, Rajasthan, India

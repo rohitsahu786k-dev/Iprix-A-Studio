@@ -3,7 +3,12 @@ import { ContactForm } from "@/components/contact-form";
 import { PublicShell } from "@/components/public-shell";
 import { brand } from "@/lib/brand";
 
-export const metadata: Metadata = { title: "Contact | A+ Studio" };
+export const metadata: Metadata = {
+  title: "Contact Iprix Media Support | A+ Studio",
+  description: "Get in touch with the A+ Studio support team. Send an inquiry, contact us on WhatsApp, or email info@iprixmedia.com for assistance.",
+  keywords: ["Contact A+ Studio", "Iprix Media support email", "WhatsApp e-commerce support", "Rajasthan e-commerce tool help"],
+  alternates: { canonical: "/contact" },
+};
 
 // Minimalist vector icons using currentColor (monochrome)
 const Icons = {
