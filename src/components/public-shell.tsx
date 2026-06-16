@@ -15,8 +15,8 @@ export async function PublicHeader() {
   const session = await getSession();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-neutral-150 bg-white/80 backdrop-blur-md transition-all duration-300">
-      <div className="container flex min-h-[80px] items-center justify-between gap-6">
+    <header className="sticky top-0 z-50 border-b border-neutral-100 bg-white/80 backdrop-blur-md transition-all duration-300">
+      <div className="container flex min-h-[80px] items-center justify-between gap-6 relative">
         {/* Brand Logo */}
         <div className="flex items-center">
           <BrandLogo priority />
@@ -36,9 +36,9 @@ export async function PublicHeader() {
         </nav>
 
         {/* CTA Buttons or User session details */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           {session ? (
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <Link 
                 className="text-sm font-semibold text-neutral-600 hover:text-neutral-950 transition-colors duration-200 inline-flex items-center gap-1 group" 
                 href="/dashboard"
@@ -47,9 +47,9 @@ export async function PublicHeader() {
                 <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
               
-              <div className="flex items-center gap-3 border-l border-neutral-200 pl-4">
+              <div className="flex items-center gap-2 border-l border-neutral-200 pl-3">
                 {/* Premium Stylized Indian Seller Avatar */}
-                <svg className="h-8 w-8 rounded-full border border-neutral-200 shrink-0" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg className="h-7 w-7 rounded-full border border-neutral-200 shrink-0" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="16" cy="16" r="16" fill="#F4F4F5" />
                   {/* Hair */}
                   <path d="M6 16C6 9 10 6 16 6C22 6 26 9 26 16V18H6V16Z" fill="#18181B" />
@@ -70,17 +70,10 @@ export async function PublicHeader() {
                   <path d="M14.5 20L16 22L17.5 20" stroke="#E4E4E7" strokeWidth="0.75" />
                 </svg>
                 <div className="hidden sm:flex flex-col text-left">
-                  <span className="text-xs font-bold text-neutral-900 leading-none">{session.name}</span>
-                  <span className="text-[9px] font-semibold text-neutral-400 mt-0.5 capitalize">{session.role} Workspace</span>
+                  <span className="text-[10px] font-bold text-neutral-900 leading-none">{session.name}</span>
+                  <span className="text-[8px] font-semibold text-neutral-400 mt-0.5 capitalize">{session.role}</span>
                 </div>
               </div>
-
-              <a 
-                className="inline-flex items-center gap-2 rounded-xl border border-neutral-200 bg-white px-4 py-2.5 text-xs font-bold text-neutral-700 hover:bg-neutral-50 transition-all duration-200" 
-                href="/api/auth/logout"
-              >
-                Sign out
-              </a>
             </div>
           ) : (
             <>
@@ -92,14 +85,41 @@ export async function PublicHeader() {
                 <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
               <Link 
-                className="inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-5 py-3 text-sm font-bold text-white shadow-sm hover:bg-neutral-850 hover:shadow-md active:scale-[0.98] transition-all duration-200 group" 
+                className="inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-4 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-neutral-850 active:scale-[0.98] transition-all duration-200 group" 
                 href="/signup"
               >
-                Get Started
-                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+                Sign up
               </Link>
             </>
           )}
+
+          {/* Mobile Navigation Dropdown Menu (Pure CSS Checkbox Toggle) */}
+          <div className="relative lg:hidden">
+            <input type="checkbox" id="mobile-menu-toggle" className="peer hidden" />
+            <label 
+              htmlFor="mobile-menu-toggle" 
+              className="peer-checked:bg-neutral-100 flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border border-neutral-200 bg-neutral-50 hover:bg-neutral-100 transition-all select-none"
+            >
+              <svg className="h-4.5 w-4.5 text-neutral-800" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </label>
+            
+            {/* Dropdown panel */}
+            <div className="absolute right-0 top-11 z-50 w-48 origin-top-right rounded-2xl border border-neutral-200 bg-white p-2 shadow-xl transition-all duration-300 transform scale-90 opacity-0 pointer-events-none peer-checked:scale-100 peer-checked:opacity-100 peer-checked:pointer-events-auto">
+              <div className="flex flex-col gap-0.5">
+                {publicLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="rounded-xl px-3.5 py-2 text-xs font-bold text-neutral-700 hover:bg-neutral-50 hover:text-neutral-950 transition-all"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </header>

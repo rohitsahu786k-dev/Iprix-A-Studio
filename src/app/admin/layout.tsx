@@ -12,6 +12,7 @@ import {
   Settings,
   Shield,
   Users,
+  Mail,
 } from "lucide-react";
 import { BrandLogo } from "@/components/brand-logo";
 import { requireUser } from "@/lib/auth";
@@ -36,8 +37,10 @@ const adminIcons = {
   Plans: CreditCard,
   Notifications: Bell,
   Settings,
+  "Email Logs": Mail,
   "Audit Logs": Shield,
 };
+
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const user = await requireUser("admin");

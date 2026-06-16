@@ -1,8 +1,11 @@
 import { planKeywordResearchLimits, planListingLimits, type PlanSlug } from "@/lib/plans";
 import { AIUsageLog, KeywordResearch, Listing, Notification, UsageLog } from "@/models";
+import { sendMailWithLog } from "@/lib/email/sender";
 
 type UserDoc = {
   _id: unknown;
+  email: string;
+  name: string;
   plan?: string;
   freeListingsLimit?: number;
   freeListingsUsed?: number;
@@ -18,6 +21,7 @@ type UserDoc = {
   set?: (value: Record<string, unknown>) => void;
   save?: () => Promise<unknown>;
 };
+
 
 export type ListingUsageSnapshot = {
   plan: PlanSlug;
@@ -259,6 +263,23 @@ export async function consumeListingUsage(
           ratio >= 1
             ? "Upgrade to continue generating, saving and autofilling AI listings."
             : "You have used most of your listing quota. Upgrade when you are ready to create more.",
+      });
+    }
+
+    // Trigger email alerts at exact milestones to prevent spamming
+    const isExact80 = after.used === Math.floor(after.limit * 0.8);
+    const isExact100 = after.used === after.limit;
+    if (isExact100) {
+      await sendMailWithLog(String(user._id), user.email, "quota_warning_100", {
+        name: user.name,
+        used: after.used,
+        limit: after.limit,
+      });
+    } else if (isExact80) {
+      await sendMailWithLog(String(user._id), user.email, "quota_warning_80", {
+        name: user.name,
+        used: after.used,
+        limit: after.limit,
       });
     }
   }

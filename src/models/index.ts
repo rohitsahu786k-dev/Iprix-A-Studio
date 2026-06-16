@@ -405,6 +405,18 @@ const schemas = {
   KeywordResearch: keywordResearchSchema,
   UsageLog: usageLogSchema,
   TemplateCaptureLog: templateCaptureLogSchema,
+  EmailLog: new Schema(
+    {
+      userId: { type: Schema.Types.ObjectId, ref: "User", index: true },
+      to: { type: String, required: true, index: true },
+      subject: { type: String, required: true },
+      trigger: { type: String, required: true, index: true },
+      status: { type: String, enum: ["sent", "failed"], default: "sent", index: true },
+      errorMessage: String,
+      metadata: Schema.Types.Mixed,
+    },
+    timestamps,
+  ),
 };
 
 function model(name: keyof typeof schemas) {
@@ -432,3 +444,5 @@ export const LabelJob = model("LabelJob");
 export const KeywordResearch = model("KeywordResearch");
 export const UsageLog = model("UsageLog");
 export const TemplateCaptureLog = model("TemplateCaptureLog");
+export const EmailLog = model("EmailLog");
+

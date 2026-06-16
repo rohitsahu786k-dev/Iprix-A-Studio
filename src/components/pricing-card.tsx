@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Check, ChevronDown, Clock3, ShieldCheck } from "lucide-react";
+import { ArrowRight, Check, Clock3, ShieldCheck } from "lucide-react";
 import { type PricingPlan } from "@/lib/plans";
 
 const badges: Record<string, string> = {
@@ -16,26 +16,39 @@ export function PricingCard({
   plan, 
   dark = false, 
   current = false,
+  billing: propBilling,
   onSubscribe
 }: { 
   plan: PricingPlan; 
   dark?: boolean; 
   current?: boolean;
+  billing?: "monthly" | "yearly";
   onSubscribe?: (planSlug: string, billing: "monthly" | "yearly") => void;
 }) {
-  const [billing, setBilling] = useState<"monthly" | "yearly" | string>("monthly");
+  const [internalBilling, setInternalBilling] = useState<"monthly" | "yearly">("monthly");
+  const billing = propBilling || internalBilling;
+  const setBilling = (b: "monthly" | "yearly") => {
+    if (!propBilling) {
+      setInternalBilling(b);
+    }
+  };
 
   const isFree = plan.monthlyPrice === 0;
-  const checkoutPath = `/dashboard/subscription?plan=${plan.slug}&billing=${billing}`;
-  const loginCheckoutPath = `/login?next=${encodeURIComponent(checkoutPath)}`;
 
-  // Let's compute price based on billing option
-  const rawPrice = plan.monthlyPrice;
+  // Dynamically calculate discount percentage based on yearly vs monthly values
+  const totalMonthlyCost = plan.monthlyPrice * 12;
+  const discountPercent = plan.monthlyPrice > 0 && plan.yearlyPrice > 0
+    ? Math.round(((totalMonthlyCost - plan.yearlyPrice) / totalMonthlyCost) * 100)
+    : 0;
+
   const currentPrice = isFree
     ? 0 
     : billing === "yearly"
-      ? Math.round(rawPrice * 0.8) // 20% discount
-      : rawPrice;
+      ? Math.round(plan.yearlyPrice / 12)
+      : plan.monthlyPrice;
+
+  const checkoutPath = `/dashboard/subscription?plan=${plan.slug}&billing=${billing}`;
+  const loginCheckoutPath = `/login?next=${encodeURIComponent(checkoutPath)}`;
 
   const text = dark ? "text-white" : "text-neutral-900";
   const muted = dark ? "text-neutral-300" : "text-neutral-500";
@@ -50,7 +63,7 @@ export function PricingCard({
   ];
 
   return (
-    <article className={`relative rounded-2xl border p-6 flex flex-col justify-between transition-all duration-200 group ${
+    <article className={`relative rounded-2xl border p-6 flex flex-col justify-between h-full transition-all duration-200 group ${
       dark 
         ? "border-neutral-200 bg-neutral-950 shadow-md text-white" 
         : current 
@@ -78,31 +91,9 @@ export function PricingCard({
           {isFree 
             ? "5 AI-powered listings | No card required" 
             : billing === "yearly"
-              ? `Billed ₹${currentPrice * 12} yearly | Save 20%`
+              ? `Billed ₹${plan.yearlyPrice} yearly | Save ${discountPercent}%`
               : "Billed monthly | Cancel anytime"}
         </p>
-
-        {!isFree ? (
-          <div className="relative mb-6">
-            <select 
-              value={billing} 
-              onChange={(e) => setBilling(e.target.value)}
-              className={`w-full appearance-none rounded-xl border px-3 py-2.5 text-xs font-bold outline-none cursor-pointer pr-10 transition-colors ${
-                dark 
-                  ? "border-neutral-200 bg-neutral-900 text-white focus:border-neutral-700" 
-                  : "border-neutral-200 bg-neutral-50 text-neutral-900 focus:border-neutral-300"
-              }`}
-            >
-              <option value="monthly">1 Month (Launch price)</option>
-              <option value="yearly">12 Months (20% Off)</option>
-            </select>
-            <div className={`pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 ${dark ? "text-neutral-400" : "text-neutral-500"}`}>
-              <ChevronDown className="h-4 w-4" />
-            </div>
-          </div>
-        ) : (
-          <div className="h-[42px] mb-6" /> // spacer to keep card heights equal
-        )}
 
         <div className={`border-t mb-6 ${dark ? "border-neutral-200" : "border-neutral-100"}`} />
         

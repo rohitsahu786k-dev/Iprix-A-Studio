@@ -30,10 +30,16 @@ async function sendToTab(message) {
 function renderUsage(usage, keywordUsage) {
   if (!usage) return;
   $("#plan").textContent = `${usage.plan} plan`;
-  $("#usageText").textContent = usage.label;
-  if (keywordUsage) $("#keywordUsageText").textContent = keywordUsage.label;
+  $("#usageText").textContent = `${usage.used} of ${usage.limit === -1 ? "∞" : usage.limit}`;
   const width = usage.limit === -1 ? 15 : Math.min(100, Math.round((usage.used / usage.limit) * 100));
   $("#usageBar").style.width = `${width}%`;
+
+  if (keywordUsage) {
+    $("#keywordUsageText").textContent = `${keywordUsage.used} of ${keywordUsage.limit === -1 ? "∞" : keywordUsage.limit}`;
+    const kwWidth = keywordUsage.limit === -1 ? 15 : Math.min(100, Math.round((keywordUsage.used / keywordUsage.limit) * 100));
+    const kwBar = $("#keywordUsageBar");
+    if (kwBar) kwBar.style.width = `${kwWidth}%`;
+  }
 }
 
 function showWorkspace(show) {
@@ -44,6 +50,15 @@ function showWorkspace(show) {
 function renderCapturedFields(fields) {
   const preview = $("#fieldPreview");
   preview.innerHTML = "";
+  if (!fields || fields.length === 0) {
+    preview.innerHTML = `
+      <div class="empty-state">
+        <p>No fields captured yet.</p>
+        <small>Go to "Autofill" tab and click "Scan Form" to fetch marketplace inputs.</small>
+      </div>
+    `;
+    return;
+  }
   fields.slice(0, 40).forEach((field, index) => {
     const label = document.createElement("label");
     label.textContent = field.label || field.key || `Field ${index + 1}`;
@@ -56,8 +71,7 @@ function renderCapturedFields(fields) {
     label.appendChild(input);
     preview.appendChild(label);
   });
-  $("#fieldCount").textContent = `We found ${fields.length} fields on this listing`;
-  $("#templatePanel").classList.remove("hidden");
+  $("#fieldCount").textContent = `Captured Fields (${fields.length})`;
 }
 
 async function detectPage() {
@@ -78,6 +92,7 @@ async function loadStatus() {
     renderUsage(data.usage, data.keywordUsage);
     showWorkspace(true);
     await detectPage();
+    await loadTemplates();
   } catch {
     $("#session").textContent = "Login required";
     showWorkspace(false);
@@ -85,19 +100,35 @@ async function loadStatus() {
 }
 
 async function loadTemplates() {
-  const data = await api("/api/extension/templates");
-  templates = data.items || [];
-  const select = $("#templateSelect");
-  select.innerHTML = "";
-  templates.forEach((template) => {
-    const option = document.createElement("option");
-    option.value = template._id;
-    option.textContent = `${template.name} (${template.platform || "meesho"})`;
-    select.appendChild(option);
-  });
-  $("#templateSelectWrap").classList.toggle("hidden", templates.length === 0);
-  return templates;
+  try {
+    const data = await api("/api/extension/templates");
+    templates = data.items || [];
+    const select = $("#templateSelect");
+    select.innerHTML = "";
+    templates.forEach((template) => {
+      const option = document.createElement("option");
+      option.value = template._id;
+      option.textContent = `${template.name} (${template.platform || "meesho"})`;
+      select.appendChild(option);
+    });
+    $("#templateSelectWrap").classList.toggle("hidden", templates.length === 0);
+    return templates;
+  } catch (err) {
+    console.error("Failed to load templates:", err);
+  }
 }
+
+// Tab Switching Listener
+document.querySelectorAll(".tab-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
+    document.querySelectorAll(".tab-content").forEach((c) => c.classList.add("hidden"));
+    
+    btn.classList.add("active");
+    const tabId = btn.dataset.tab;
+    $(`#${tabId}`).classList.remove("hidden");
+  });
+});
 
 $("#login").addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -125,11 +156,20 @@ $("#capture").addEventListener("click", async () => {
   }
   captured = data;
   renderCapturedFields(data.fields);
-  setStatus(`Preview ready. Edit values and click Save.`);
+  setStatus(`Form scanned successfully. Saved in templates tab.`);
+  
+  // Auto-switch to templates tab
+  const templatesTabBtn = document.querySelector('[data-tab="tab-templates"]');
+  if (templatesTabBtn) {
+    templatesTabBtn.click();
+  }
 });
 
 $("#saveTemplate").addEventListener("click", async () => {
-  if (!captured?.fields?.length) return;
+  if (!captured?.fields?.length) {
+    setStatus("No fields captured to save.", true);
+    return;
+  }
   setStatus("Saving template...");
   try {
     const data = await api("/api/extension/capture-template", {
@@ -145,6 +185,12 @@ $("#saveTemplate").addEventListener("click", async () => {
     });
     setStatus(`Template saved with ${data.fieldsSaved} fields.`);
     await loadTemplates();
+    
+    // Auto-switch back to Autofill tab
+    const autofillTabBtn = document.querySelector('[data-tab="tab-autofill"]');
+    if (autofillTabBtn) {
+      autofillTabBtn.click();
+    }
   } catch (error) {
     setStatus(error.data?.error || "Template save failed.", true);
   }
@@ -161,7 +207,7 @@ $("#autofill").addEventListener("click", async () => {
     });
     renderUsage(allowance.usage);
     if (!allowance.canAutofill) {
-      setStatus("Free listing limit reached. Upgrade to continue autofilling.", true);
+      setStatus("Free listing limit reached. Upgrade to continue.", true);
       return;
     }
     if (!templates.length) await loadTemplates();
@@ -187,7 +233,7 @@ $("#autofill").addEventListener("click", async () => {
       }),
     });
     renderUsage(saved.usage);
-    setStatus(`Autofilled ${result.filledCount} fields and usage was updated.`);
+    setStatus(`Autofilled ${result.filledCount} fields.`);
   } catch (error) {
     setStatus(error.data?.error || error.message || "Autofill failed.", true);
   }

@@ -105,51 +105,56 @@ const Icons = {
 
 export default function FeaturesPage() {
   const features = [
-    { title: "Reusable listing templates", icon: <Icons.FileText />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-    { title: "Product library", icon: <Icons.Box />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-    { title: "Smart listing bulk generator", icon: <Icons.Bolt />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-    { title: "AI content writer", icon: <Icons.Sparkles />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-    { title: "AI keyword research", icon: <Icons.Eye />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-    { title: "Label analyser", icon: <Icons.Tag />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-    { title: "Image maker", icon: <Icons.Image />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-    { title: "Marketplace compliance score", icon: <Icons.Shield />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-    { title: "SKU generator", icon: <Icons.Barcode />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-    { title: "Team collaboration", icon: <Icons.Users />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-    { title: "CSV import/export", icon: <Icons.Download />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-    { title: "Chrome extension autofill", icon: <Icons.Chrome />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
+    { title: "Reusable listing templates", icon: <Icons.FileText />, desc: "Design custom listing schemas for Meesho, Flipkart, and Amazon to capture and replicate winning setups." },
+    { title: "Product library", icon: <Icons.Box />, desc: "Organize catalog listings, track live stock statuses, and store high-resolution marketing assets in one central library." },
+    { title: "Smart listing bulk generator", icon: <Icons.Bolt />, desc: "Process thousands of SKU combinations simultaneously to launch seasonal product collections in bulk." },
+    { title: "AI content writer", icon: <Icons.Sparkles />, desc: "Generate optimized product titles, detailed feature bullet points, and highly persuasive descriptions in seconds." },
+    { title: "AI keyword research", icon: <Icons.Eye />, desc: "Extract top-performing search terms directly from customer search volumes and competitive marketplace analytics." },
+    { title: "Label analyser", icon: <Icons.Tag />, desc: "Perform intelligent validation checks to ensure listing labels adhere to strict legal and platform guidelines." },
+    { title: "Image maker", icon: <Icons.Image />, desc: "Create polished product banner visuals, clean backgrounds, and generate contextual lifestyle graphics automatically." },
+    { title: "Marketplace compliance score", icon: <Icons.Shield />, desc: "Audit product catalogs against marketplace ranking criteria to maximize visibility and reduce returns." },
+    { title: "SKU generator", icon: <Icons.Barcode />, desc: "Automatically generate unique, structured barcode IDs and SKUs matching your warehouse taxonomy." },
+    { title: "Team collaboration", icon: <Icons.Users />, desc: "Collaborate seamlessly with managers, content creators, and dispatch operators using robust role permissions." },
+    { title: "CSV import/export", icon: <Icons.Download />, desc: "Seamlessly sync your existing inventory sheets and upload bulk updates using standard CSV configurations." },
+    { title: "Chrome extension autofill", icon: <Icons.Chrome />, desc: "Inject generated titles, attributes, pricing, and images directly into active marketplace forms in 1-click." },
   ];
 
   return (
     <PublicShell>
-      <section className="container py-20 bg-white">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-neutral-200 bg-neutral-50 text-xs font-bold text-neutral-800 uppercase tracking-wider mb-5">
-            <Icons.Sparkles />
-            Platform Capabilities
+      <section className="relative overflow-hidden bg-white py-24 border-b border-neutral-100">
+        {/* Premium Grid Background */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#f5f5f5_1px,transparent_1px),linear-gradient(to_bottom,#f5f5f5_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-80 pointer-events-none" />
+        
+        <div className="container relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-neutral-200 bg-neutral-50 text-xs font-bold text-neutral-800 uppercase tracking-wider mb-5">
+              <Icons.Sparkles />
+              Platform Capabilities
+            </div>
+            <h1 className="text-5xl md:text-6xl font-extrabold text-neutral-900 tracking-tight mb-6 leading-tight">
+              Powerful features built for <span className="underline decoration-neutral-950 underline-offset-4 decoration-4">listing automation.</span>
+            </h1>
+            <p className="text-base lg:text-lg text-neutral-600 leading-relaxed max-w-2xl mx-auto">
+              Everything you need to create, optimize, automate and manage marketplace listings at scale.
+            </p>
           </div>
-          <h1 className="text-5xl md:text-6xl font-extrabold text-neutral-900 tracking-tight mb-4">
-            Powerful features built for <span className="underline decoration-neutral-950 underline-offset-4">listing automation.</span>
-          </h1>
-          <p className="text-base lg:text-lg text-neutral-600 leading-relaxed">
-            Everything you need to create, optimize, automate and manage marketplace listings at scale.
-          </p>
-        </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature, idx) => (
-            <article key={idx} className="flex gap-4 p-6 rounded-2xl border border-neutral-200 bg-white shadow-sm hover:shadow-md hover:border-neutral-450 transition-all group relative items-start">
-              <div className="w-10 h-10 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center flex-shrink-0">
-                {feature.icon}
-              </div>
-              <div className="flex-grow">
-                <h2 className="font-bold text-neutral-850 text-base leading-snug mb-1">{feature.title}</h2>
-                <p className="text-xs text-neutral-500 leading-relaxed pr-8">{feature.desc}</p>
-              </div>
-              <div className="absolute bottom-5 right-5 w-6 h-6 rounded-full border border-neutral-200 flex items-center justify-center bg-white group-hover:border-neutral-300 group-hover:bg-neutral-50 transition-colors">
-                <Icons.ArrowRight />
-              </div>
-            </article>
-          ))}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {features.map((feature, idx) => (
+              <article key={idx} className="flex gap-4 p-6 rounded-2xl border border-neutral-200/80 bg-white shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-neutral-400 transition-all duration-300 group relative items-start">
+                <div className="w-10 h-10 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center flex-shrink-0 transition-colors group-hover:bg-neutral-100">
+                  {feature.icon}
+                </div>
+                <div className="flex-grow">
+                  <h2 className="font-bold text-neutral-850 text-base leading-snug mb-1">{feature.title}</h2>
+                  <p className="text-xs text-neutral-500 leading-relaxed pr-8">{feature.desc}</p>
+                </div>
+                <div className="absolute bottom-5 right-5 w-6 h-6 rounded-full border border-neutral-200 flex items-center justify-center bg-white group-hover:border-neutral-300 group-hover:bg-neutral-50 transition-colors">
+                  <Icons.ArrowRight />
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
     </PublicShell>

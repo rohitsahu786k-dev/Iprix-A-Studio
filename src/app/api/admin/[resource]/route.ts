@@ -19,6 +19,7 @@ import {
   TemplateCaptureLog,
   User,
   UsageLog,
+  EmailLog,
 } from "@/models";
 
 const models: Record<string, typeof User> = {
@@ -40,7 +41,9 @@ const models: Record<string, typeof User> = {
   plans: SubscriptionPlan,
   notifications: Notification,
   "audit-logs": AuditLog,
+  "email-logs": EmailLog,
 };
+
 
 const patchSchema = z.record(z.string(), z.any());
 

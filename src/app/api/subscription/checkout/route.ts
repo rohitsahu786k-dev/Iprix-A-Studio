@@ -21,13 +21,9 @@ export async function POST(request: Request) {
   await connectDb();
 
   const isYearly = parsed.data.billing === "yearly";
-  const monthlyRate = plan.monthlyPrice === 0 
-    ? 0 
-    : isYearly 
-      ? Math.round(plan.monthlyPrice * 0.8) 
-      : plan.monthlyPrice;
-  const totalAmount = isYearly ? monthlyRate * 12 : monthlyRate;
+  const totalAmount = isYearly ? plan.yearlyPrice : plan.monthlyPrice;
   const amountInPaise = totalAmount * 100;
+
 
   if (!isConfigured("RAZORPAY_KEY_ID", "RAZORPAY_KEY_SECRET")) {
     const payment = await Payment.create({

@@ -5,6 +5,8 @@ import { connectDb } from "@/lib/db";
 import { hashPassword, setSession, toSessionUser } from "@/lib/auth";
 import { User, Notification } from "@/models";
 import { rateLimit } from "@/lib/rate-limit";
+import { sendMailWithLog } from "@/lib/email/sender";
+import { getServerEnv } from "@/lib/env";
 
 const schema = z.object({
   name: z.string().min(2).max(80),
@@ -37,6 +39,17 @@ export async function POST(request: Request) {
     message: "Your seller automation workspace is ready.",
     type: "success",
   });
+
+  // Trigger verification email
+  const env = getServerEnv();
+  const appUrl = env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com";
+  const verificationUrl = `${appUrl}/verify-email?token=${verifyToken}&email=${encodeURIComponent(email)}`;
+  await sendMailWithLog(user._id, email, "verification", {
+    name: user.name,
+    url: verificationUrl,
+  });
+
   await setSession(toSessionUser(user));
   return ok({ user: toSessionUser(user), verifyToken }, { status: 201 });
 }
+

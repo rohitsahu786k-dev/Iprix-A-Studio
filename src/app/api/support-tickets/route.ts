@@ -1,7 +1,8 @@
 import { z } from "zod";
 import { fail, ok, parseBody, requireApiUser, userFilter } from "@/lib/api";
 import { connectDb } from "@/lib/db";
-import { Notification, SupportTicket } from "@/models";
+import { Notification, SupportTicket, User } from "@/models";
+import { sendMailWithLog } from "@/lib/email/sender";
 
 const ticketSchema = z.object({
   subject: z.string().min(3).max(160),
@@ -42,6 +43,14 @@ export async function POST(request: Request) {
     title: "Support ticket created",
     message: "Our team will review your ticket and reply from the admin panel.",
   });
+
+  // Send support_ticket_created notification to the user
+  await sendMailWithLog(auth.session.id, auth.session.email, "support_ticket_created", {
+    name: auth.session.name,
+    ticketId: String(item._id),
+    subject: item.subject,
+  });
+
   return ok({ item }, { status: 201 });
 }
 
@@ -57,6 +66,8 @@ export async function PATCH(request: Request) {
   const ticket = await SupportTicket.findById(id);
   if (!ticket) return fail("Ticket not found", 404);
   if (auth.session.role !== "admin" && String(ticket.userId) !== auth.session.id) return fail("Forbidden", 403);
+  
+  const oldStatus = ticket.status;
   const update: Record<string, unknown> = {};
   if (parsed.data.status) update.status = parsed.data.status;
   if (parsed.data.adminNotes && auth.session.role === "admin") update.adminNotes = parsed.data.adminNotes;
@@ -76,5 +87,35 @@ export async function PATCH(request: Request) {
     title: "Support ticket updated",
     message: `Ticket "${ticket.subject}" is now ${ticket.status}.`,
   });
+
+  // If reply added by admin, send ticket_replied email to user
+  if (parsed.data.reply && auth.session.role === "admin") {
+    const user = await User.findById(ticket.userId);
+    if (user) {
+      await sendMailWithLog(String(user._id), user.email, "ticket_replied", {
+        name: user.name,
+        ticketId: String(ticket._id),
+        replyText: parsed.data.reply,
+      });
+    }
+  }
+
+  // If status changed to resolved or closed, send resolved notification
+  if (
+    (ticket.status === "resolved" || ticket.status === "closed") &&
+    oldStatus !== "resolved" &&
+    oldStatus !== "closed"
+  ) {
+    const user = await User.findById(ticket.userId);
+    if (user) {
+      await sendMailWithLog(String(user._id), user.email, "support_ticket_resolved", {
+        name: user.name,
+        ticketId: String(ticket._id),
+        subject: ticket.subject,
+      });
+    }
+  }
+
   return ok({ item: ticket });
 }
+

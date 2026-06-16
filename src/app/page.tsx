@@ -125,59 +125,95 @@ export default function Home() {
   return (
     <PublicShell>
       {/* ── HERO SECTION ── */}
-      <section className="relative overflow-hidden bg-white py-20 lg:py-28">
-        <div className="container grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center relative z-10">
+      <section className="relative overflow-hidden bg-white py-20 lg:py-32 border-b border-neutral-100">
+        {/* Premium Grid Blueprint Background */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#f5f5f5_1px,transparent_1px),linear-gradient(to_bottom,#f5f5f5_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-80 pointer-events-none" />
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-neutral-100/50 rounded-full blur-3xl -z-10 pointer-events-none" />
+        
+        <div className="container grid gap-16 lg:grid-cols-[1.15fr_0.85fr] lg:items-center relative z-10">
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-neutral-200 bg-neutral-50 text-xs font-semibold text-neutral-800 mb-6">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-neutral-200/80 bg-neutral-50 text-xs font-semibold text-neutral-800 mb-6">
               <Icons.Sparkles />
               AI Listing Studio for Indian Sellers
             </div>
-            <h1 className="text-5xl lg:text-6xl font-extrabold tracking-tight text-neutral-900 leading-[1.15] mb-6">
-              Create marketplace-ready <span className="underline decoration-neutral-900 underline-offset-4">listings in seconds.</span>
+            <h1 className="text-5xl lg:text-[64px] font-extrabold tracking-tight text-neutral-900 leading-[1.1] mb-6">
+              Create marketplace-ready <span className="underline decoration-neutral-950 underline-offset-4 decoration-4">listings in seconds.</span>
             </h1>
-            <p className="text-lg text-neutral-600 leading-relaxed mb-8 max-w-2xl">
+            <p className="text-lg lg:text-xl text-neutral-600 leading-relaxed mb-8 max-w-2xl">
               A+ Studio by Iprix Media helps Indian sellers create AI-powered product titles, descriptions, keywords,
               SKUs, images and autofill marketplace listing forms with a powerful Chrome extension.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link className="rounded-xl bg-neutral-900 px-6 py-3.5 text-sm font-semibold text-white shadow-md hover:bg-neutral-800 transition-all" href="/signup">
+              <Link className="rounded-xl bg-neutral-950 px-7 py-4 text-sm font-bold text-white shadow-md hover:bg-neutral-850 hover:shadow-lg transition-all active:scale-[0.98]" href="/signup">
                 Start Free Trial
               </Link>
-              <Link className="rounded-xl border border-neutral-200 bg-white px-6 py-3.5 text-sm font-semibold text-neutral-800 hover:bg-neutral-50 transition-all inline-flex items-center gap-2" href="#chrome-extension">
+              <Link className="rounded-xl border border-neutral-200 bg-white px-7 py-4 text-sm font-bold text-neutral-850 hover:bg-neutral-50 transition-all inline-flex items-center gap-2.5 active:scale-[0.98]" href="#chrome-extension">
                 <Image src="/icon/chrome.jpg" alt="Chrome Logo" width={18} height={18} className="object-contain rounded" />
-                Install Chrome Extension
+                Install Extension
               </Link>
-              <Link className="rounded-xl border border-neutral-200 bg-white px-6 py-3.5 text-sm font-semibold text-neutral-600 hover:bg-neutral-50 transition-all" href="/pricing">
+              <Link className="rounded-xl border border-neutral-200 bg-white px-7 py-4 text-sm font-bold text-neutral-500 hover:text-neutral-850 hover:bg-neutral-50 transition-all active:scale-[0.98]" href="/pricing">
                 View Plans
               </Link>
             </div>
           </div>
 
-          {/* Premium Preview Card */}
-          <div className="relative">
-            <div className="relative rounded-2xl border border-neutral-200 bg-white p-6 shadow-lg">
-              <div className="flex items-center justify-between border-b border-neutral-100 pb-4 mb-4">
-                <div className="flex items-center gap-2">
-                  <Image src="/icon/Meesho_logo.png" alt="Meesho" width={20} height={20} className="object-contain rounded" />
-                  <span className="font-bold text-neutral-800 text-sm">Meesho Listing Preview</span>
+          {/* Premium Preview Stack (Layered Showcase UI) */}
+          <div className="relative lg:ml-4">
+            {/* Glow effect */}
+            <div className="absolute -inset-4 bg-gradient-to-tr from-neutral-200/40 via-neutral-100/50 to-neutral-50/20 rounded-3xl blur-3xl opacity-80 -z-10" />
+            
+            {/* Main Browser Mockup (Dashboard) */}
+            <div className="relative rounded-2xl border border-neutral-200/80 bg-white p-2 shadow-xl hover:shadow-2xl transition-all duration-300">
+              <div className="bg-neutral-50 border-b border-neutral-150 px-4 py-2.5 flex items-center gap-1.5 rounded-t-xl select-none">
+                <span className="w-2.5 h-2.5 rounded-full bg-neutral-300" />
+                <span className="w-2.5 h-2.5 rounded-full bg-neutral-300" />
+                <span className="w-2.5 h-2.5 rounded-full bg-neutral-300" />
+                <div className="mx-auto bg-white border border-neutral-200 rounded px-4 py-0.5 text-[9px] text-neutral-400 font-mono w-1/2 text-center truncate">
+                  app.iprixmedia.com/dashboard
                 </div>
-                <span className="rounded-full bg-neutral-100 border border-neutral-200 px-2.5 py-1 text-xs font-bold text-neutral-800">92 Score</span>
               </div>
-              <div className="space-y-3">
-                {["Product Title", "Description", "Selling Price", "MRP", "SKU", "Keywords"].map((field) => (
-                  <div key={field} className="flex justify-between items-center rounded-xl border border-neutral-100 bg-neutral-50 px-4 py-3 text-xs">
+              <div className="relative overflow-hidden rounded-b-xl aspect-[16/10] bg-neutral-50">
+                <Image 
+                  src="/seller-dashboard.png" 
+                  alt="A+ Studio Seller Dashboard" 
+                  fill 
+                  className="object-cover object-top hover:scale-[1.02] transition-transform duration-500" 
+                  priority
+                />
+              </div>
+            </div>
+
+            {/* Floating Live Indicator Badge */}
+            <div className="absolute -right-4 -top-4 rounded-xl border border-neutral-200 bg-white px-3 py-1.5 shadow-lg flex items-center gap-2 z-20">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span className="text-[10px] font-bold text-neutral-800 uppercase tracking-wider">A+ AI Agent Active</span>
+            </div>
+
+            {/* Floating Meesho Listing Preview Card (Layered on top of the dashboard screenshot) */}
+            <div className="absolute -left-6 -bottom-6 w-72 rounded-2xl border border-neutral-200 bg-white p-5 shadow-2xl z-20 hidden md:block hover:-translate-y-1 transition-transform duration-300">
+              <div className="flex items-center justify-between border-b border-neutral-100 pb-3 mb-3">
+                <div className="flex items-center gap-2">
+                  <Image src="/icon/Meesho_logo.png" alt="Meesho" width={16} height={16} className="object-contain rounded" />
+                  <span className="font-bold text-neutral-800 text-xs">Meesho Listing Preview</span>
+                </div>
+                <span className="rounded-full bg-neutral-100 border border-neutral-200 px-2 py-0.5 text-[10px] font-bold text-neutral-800">92 Score</span>
+              </div>
+              <div className="space-y-2">
+                {["Product Title", "MRP & Selling Price", "SKU & Keywords"].map((field) => (
+                  <div key={field} className="flex justify-between items-center rounded-xl border border-neutral-50 bg-neutral-50/70 px-3 py-2 text-[10px]">
                     <span className="text-neutral-500 font-medium">{field}</span>
-                    <span className="text-neutral-900 font-semibold flex items-center gap-1">
-                      <Icons.Check />
+                    <span className="text-neutral-900 font-bold flex items-center gap-1">
+                      <svg className="w-3 h-3 text-neutral-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
                       Ready to Autofill
                     </span>
                   </div>
                 ))}
               </div>
-              <Link className="mt-5 flex w-full justify-center items-center gap-2 rounded-xl bg-neutral-950 px-4 py-3.5 text-sm font-bold text-white hover:bg-neutral-850 transition-all shadow-md" href="/chrome-extension">
-                Preview Autofill Live
-                <Icons.ArrowRight />
-              </Link>
             </div>
           </div>
         </div>
@@ -290,9 +326,16 @@ export default function Home() {
               { title: "Image optimization", image: "/image-optimization.png", desc: "Automatically enhance, background remove and optimize images for every marketplace.", icon: <Icons.Image /> },
               { title: "Admin analytics", image: "/admin-analytics.png", desc: "Advanced analytics, user management and usage insights to grow your business.", icon: <Icons.Chart /> },
             ].map((module, idx) => (
-              <article key={idx} className="flex flex-col justify-between rounded-3xl border border-neutral-200 bg-white shadow-sm hover:shadow-md hover:border-neutral-350 transition-all group overflow-hidden">
-                <div className="p-4 bg-neutral-50 border-b border-neutral-100 flex items-center justify-center relative aspect-[16/10]">
-                  <Image src={module.image} alt={module.title} fill className="object-cover rounded-xl p-2" />
+              <article key={idx} className="flex flex-col justify-between rounded-3xl border border-neutral-200/85 bg-white shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-neutral-400 transition-all duration-300 group overflow-hidden">
+                <div className="p-5 bg-gradient-to-br from-neutral-50 to-neutral-100/50 border-b border-neutral-100 flex items-center justify-center relative aspect-[16/10] overflow-hidden">
+                  <div className="relative w-full h-full rounded-xl overflow-hidden border border-neutral-200/65 shadow-sm bg-white">
+                    <Image 
+                      src={module.image} 
+                      alt={module.title} 
+                      fill 
+                      className="object-cover object-top p-1 group-hover:scale-[1.03] transition-transform duration-500" 
+                    />
+                  </div>
                 </div>
                 <div className="p-6 flex-grow flex flex-col justify-between">
                   <div>
@@ -411,68 +454,67 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Simulated Marketplace content layout */}
-                <div className="flex-grow p-4 bg-neutral-50/50 relative flex gap-4">
-                  <div className="w-2/3 space-y-3 opacity-30 select-none">
-                    <div className="h-6 bg-neutral-200 rounded w-1/2" />
-                    <div className="h-10 bg-neutral-200 rounded" />
-                    <div className="h-10 bg-neutral-200 rounded" />
-                    <div className="h-10 bg-neutral-200 rounded" />
-                  </div>
-
-                  {/* Floating Extension Popup UI inside browser */}
-                  <div className="absolute right-4 top-4 w-72 rounded-xl border border-neutral-200 bg-white shadow-2xl p-4 z-20 flex flex-col justify-between">
+                {/* Browser content rendering chrome-extension-preview */}
+                <div className="relative flex-grow bg-neutral-100 overflow-hidden">
+                  <Image 
+                    src="/chrome-extension-preview.png" 
+                    alt="A+ Studio Chrome Extension Preview" 
+                    fill 
+                    className="object-cover object-top hover:scale-[1.02] transition-transform duration-500"
+                  />
+                  {/* Floating Extension Popup UI simulation side-by-side or layered overlay */}
+                  <div className="absolute right-4 top-4 bottom-4 w-72 rounded-xl border border-neutral-200/90 bg-white/95 backdrop-blur-md shadow-2xl p-4.5 z-20 flex flex-col justify-between hidden md:flex">
                     <div>
                       {/* Extension Header */}
                       <div className="flex justify-between items-center pb-3 border-b border-neutral-100 mb-3">
-                        <div className="flex items-center gap-1.5">
-                          <div className="w-6 h-6 rounded-md bg-neutral-900 flex items-center justify-center text-white text-[10px] font-bold">A+</div>
-                          <span className="font-extrabold text-xs text-neutral-800">A+ Studio</span>
+                        <div className="flex items-center gap-2">
+                          <Image src="/icon/iprix-media-white-logo.webp" alt="Iprix Logo" width={16} height={16} className="object-contain invert" />
+                          <span className="font-bold text-xs text-neutral-900 tracking-tight">A+ Studio</span>
                         </div>
-                        <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-neutral-50 border border-neutral-200 text-[9px] font-bold text-neutral-800 uppercase">
-                          <span className="w-1.5 h-1.5 rounded-full bg-neutral-900" />
+                        <span className="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-neutral-100 border border-neutral-200/60 text-[9px] font-extrabold text-neutral-800 uppercase tracking-wide">
+                          <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 animate-pulse" />
                           Active
                         </span>
                       </div>
 
                       {/* Marketplace detected status */}
-                      <div className="bg-neutral-50 border border-neutral-150 rounded-lg p-2.5 mb-3 flex items-center justify-between">
+                      <div className="bg-neutral-50/70 border border-neutral-200/80 rounded-xl p-3 mb-4 flex items-center justify-between shadow-sm">
                         <div>
-                          <p className="text-[8px] text-neutral-500 font-semibold uppercase tracking-wider">Marketplace Detected</p>
-                          <p className="font-extrabold text-sm text-neutral-900">Meesho</p>
+                          <p className="text-[9px] text-neutral-400 font-bold uppercase tracking-wider">Detected Site</p>
+                          <p className="font-extrabold text-sm text-neutral-900">Meesho Seller Portal</p>
                         </div>
-                        <span className="bg-neutral-950 text-white font-bold text-[9px] px-2 py-0.5 rounded-md">Live</span>
+                        <span className="bg-neutral-900 text-white font-extrabold text-[9px] px-2 py-0.5 rounded">Live</span>
                       </div>
 
                       {/* Info details */}
-                      <div className="space-y-1 mb-4">
-                        <div className="flex justify-between text-[10px]">
-                          <span className="text-neutral-500">Plan:</span>
-                          <span className="font-bold text-neutral-800">Pro</span>
+                      <div className="space-y-2 mb-5">
+                        <div className="flex justify-between text-xs border-b border-neutral-50 pb-1.5">
+                          <span className="text-neutral-500 font-medium">Pricing Plan</span>
+                          <span className="font-bold text-neutral-800">Pro (Yearly)</span>
                         </div>
-                        <div className="flex justify-between text-[10px]">
-                          <span className="text-neutral-500">Renewal date:</span>
-                          <span className="font-bold text-neutral-800">24 Jun 2026</span>
+                        <div className="flex justify-between text-xs border-b border-neutral-50 pb-1.5">
+                          <span className="text-neutral-500 font-medium">Daily Limit</span>
+                          <span className="font-bold text-neutral-800">150 / 500 Credits</span>
                         </div>
                       </div>
 
                       {/* Action buttons */}
                       <div className="space-y-2 mb-2">
-                        <button className="w-full py-2 bg-neutral-950 text-white text-xs font-bold rounded-lg hover:bg-neutral-900 transition-colors">
-                          Capture Template
+                        <button className="w-full py-2.5 bg-neutral-950 text-white text-xs font-bold rounded-lg hover:bg-neutral-850 active:scale-[0.98] transition-all shadow-sm">
+                          Capture Listing Template
                         </button>
-                        <button className="w-full py-2 border border-neutral-250 text-neutral-700 text-xs font-bold rounded-lg bg-neutral-50 hover:bg-neutral-100 transition-colors">
-                          Autofill Preview
+                        <button className="w-full py-2.5 border border-neutral-200 text-neutral-700 text-xs font-bold rounded-lg bg-white hover:bg-neutral-50 active:scale-[0.98] transition-all">
+                          Autofill Form Now
                         </button>
                       </div>
                     </div>
 
                     {/* Bottom Nav inside extension */}
-                    <div className="flex justify-between border-t border-neutral-100 pt-2 mt-2 text-[8px] font-bold text-neutral-400">
-                      <div className="text-neutral-900 flex flex-col items-center"><span className="text-xs">🏠</span>Home</div>
-                      <div className="flex flex-col items-center"><span className="text-xs">📋</span>Templates</div>
-                      <div className="flex flex-col items-center"><span className="text-xs">📦</span>Products</div>
-                      <div className="flex flex-col items-center"><span className="text-xs">⚡</span>Activity</div>
+                    <div className="flex justify-between border-t border-neutral-100 pt-3 mt-3 text-[9px] font-bold text-neutral-400">
+                      <div className="text-neutral-900 flex flex-col items-center gap-1 cursor-pointer"><span className="text-xs">🏠</span>Home</div>
+                      <div className="flex flex-col items-center gap-1 cursor-pointer hover:text-neutral-800"><span className="text-xs">📋</span>Templates</div>
+                      <div className="flex flex-col items-center gap-1 cursor-pointer hover:text-neutral-800"><span className="text-xs">📦</span>Products</div>
+                      <div className="flex flex-col items-center gap-1 cursor-pointer hover:text-neutral-800"><span className="text-xs">⚡</span>Activity</div>
                     </div>
                   </div>
                 </div>

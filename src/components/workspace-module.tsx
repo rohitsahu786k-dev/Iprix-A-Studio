@@ -450,15 +450,16 @@ function LabelForm({ onDone }: { onDone: (message: string) => void }) {
 
 function SubscriptionForm({ onDone }: { onDone: (message: string) => void }) {
   const [busy, setBusy] = useState<string | null>(null);
+  const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
   const searchParams = useSearchParams();
 
-  const upgrade = useCallback(async (plan: string, billing: "monthly" | "yearly") => {
+  const upgrade = useCallback(async (plan: string, billingMode: "monthly" | "yearly") => {
     setBusy(plan);
     try {
       const response = await fetch("/api/subscription/checkout", { 
         method: "POST", 
         headers: { "Content-Type": "application/json" }, 
-        body: JSON.stringify({ plan, billing }) 
+        body: JSON.stringify({ plan, billing: billingMode }) 
       });
       const data = await response.json().catch(() => ({}));
       onDone(response.ok ? "Checkout order created. Continue in Razorpay when production billing is enabled." : data.error || "Checkout unavailable.");
@@ -471,25 +472,53 @@ function SubscriptionForm({ onDone }: { onDone: (message: string) => void }) {
 
   useEffect(() => {
     const plan = searchParams.get("plan");
-    const billing = searchParams.get("billing") === "yearly" ? "yearly" : "monthly";
+    const billingMode = searchParams.get("billing") === "yearly" ? "yearly" : "monthly";
     if (!plan || plan === "free") return;
     const timer = window.setTimeout(() => {
-      void upgrade(plan, billing);
+      void upgrade(plan, billingMode);
     }, 0);
     return () => window.clearTimeout(timer);
   }, [searchParams, upgrade]);
 
   return (
-    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5" aria-busy={busy ? "true" : "false"}>
-      {pricingPlans.map((plan) => (
-        <PricingCard 
-          key={plan.slug} 
-          plan={plan} 
-          dark={plan.slug === "pro"} 
-          current={plan.slug === "free"}
-          onSubscribe={upgrade}
-        />
-      ))}
+    <div className="space-y-6" aria-busy={busy ? "true" : "false"}>
+      {/* Billing toggle switch */}
+      <div className="flex items-center justify-center gap-3">
+        <span className={`text-xs font-bold uppercase tracking-wider transition-colors ${billing === "monthly" ? "text-neutral-900" : "text-neutral-400"}`}>
+          Monthly
+        </span>
+        <button 
+          type="button"
+          onClick={() => setBilling(billing === "monthly" ? "yearly" : "monthly")}
+          className="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-neutral-950 focus:ring-offset-2"
+          style={{ backgroundColor: billing === "yearly" ? "#0a0a0a" : "#e5e5e5" }}
+        >
+          <span 
+            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+              billing === "yearly" ? "translate-x-5" : "translate-x-0"
+            }`} 
+          />
+        </button>
+        <span className={`inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider transition-colors ${billing === "yearly" ? "text-neutral-900" : "text-neutral-400"}`}>
+          Yearly
+          <span className="rounded-full bg-neutral-950 px-2 py-0.5 text-[9px] font-extrabold text-white lowercase">
+            save up to 30%
+          </span>
+        </span>
+      </div>
+
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        {pricingPlans.map((plan) => (
+          <PricingCard 
+            key={plan.slug} 
+            plan={plan} 
+            dark={plan.slug === "pro"} 
+            current={plan.slug === "free"}
+            billing={billing}
+            onSubscribe={upgrade}
+          />
+        ))}
+      </div>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { fail, ok, parseBody } from "@/lib/api";
 import { connectDb } from "@/lib/db";
 import { hashPassword } from "@/lib/auth";
 import { User } from "@/models";
+import { sendMailWithLog } from "@/lib/email/sender";
 
 const schema = z.object({
   email: z.string().email(),
@@ -28,5 +29,12 @@ export async function POST(request: Request) {
     resetTokenExpiresAt: undefined,
   });
   await user.save();
+
+  // Send password changed notification
+  await sendMailWithLog(user._id, user.email, "password_changed", {
+    name: user.name,
+  });
+
   return ok({ message: "Password updated" });
 }
+

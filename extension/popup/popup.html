@@ -8,63 +8,129 @@
   </head>
   <body>
     <main>
+      <!-- Premium Header Frame -->
       <header class="brand">
-        <span class="logo-frame"><img src="../assets/iprix-media-white-logo.webp" alt="Iprix Media" /></span>
-        <span>
+        <div class="logo-wrapper">
+          <img src="../assets/iprix-media-white-logo.webp" alt="Iprix Media" />
+        </div>
+        <div class="brand-meta">
           <strong>A+ Studio</strong>
-          <small>AI-powered by Iprix Media</small>
-        </span>
+          <small>AI-Powered by Iprix Media</small>
+        </div>
       </header>
 
-      <section id="session" class="panel muted">Checking connection...</section>
+      <section id="session" class="session-badge">Checking connection...</section>
 
+      <!-- Clean Premium Login Panel -->
       <form id="login" class="panel login">
-        <label>Email<input name="email" type="email" placeholder="seller@example.com" required /></label>
-        <label>Password<input name="password" type="password" placeholder="Password" required /></label>
-        <button class="primary">Login to A+ Studio</button>
+        <div class="input-group">
+          <label>Email Address</label>
+          <input name="email" type="email" placeholder="seller@example.com" required />
+        </div>
+        <div class="input-group">
+          <label>Password</label>
+          <input name="password" type="password" placeholder="••••••••" required />
+        </div>
+        <button class="primary-btn">Login to A+ Studio</button>
       </form>
 
+      <!-- Main Workspace Section -->
       <section id="workspace" class="hidden">
-        <div class="usage">
-          <div>
-            <span id="plan">Free plan</span>
-            <strong id="usageText">0 of 5 free AI listings used</strong>
-            <small id="keywordUsageText">0 of 5 free keyword reports used</small>
+        <!-- Luxury Segmented Tab Controller -->
+        <nav class="tabs-nav">
+          <button type="button" class="tab-btn active" data-tab="tab-autofill">Autofill</button>
+          <button type="button" class="tab-btn" data-tab="tab-templates">Templates</button>
+          <button type="button" class="tab-btn" data-tab="tab-usage">Usage</button>
+        </nav>
+
+        <!-- Tab Content: Autofill -->
+        <div id="tab-autofill" class="tab-content">
+          <div class="info-card">
+            <span class="card-label">Current Marketplace</span>
+            <strong id="marketplace" class="card-value">Detecting...</strong>
           </div>
-          <button id="upgrade" class="ghost">Upgrade</button>
-        </div>
-        <div class="bar"><span id="usageBar"></span></div>
 
-        <div class="market">
-          <span>Marketplace</span>
-          <strong id="marketplace">Detecting...</strong>
-        </div>
-
-        <section class="actions">
-          <button id="capture" class="primary">Fill & Save Template</button>
-          <button id="autofill">Autofill from Template</button>
-          <button id="aiTitle">Generate AI Title</button>
-          <button id="aiDescription">Generate AI Description</button>
-          <button id="aiKeywords">Generate Keywords</button>
-          <button id="generate">Open AI Listing Studio</button>
-          <button id="dashboard">Open Dashboard</button>
-          <button id="support">Support</button>
-        </section>
-
-        <section id="templatePanel" class="panel hidden">
-          <div class="panel-head">
-            <strong id="fieldCount">Captured fields</strong>
-            <button id="saveTemplate" class="ghost">Save</button>
+          <div id="templateSelectWrap" class="panel template-fill-panel hidden">
+            <div class="input-group">
+              <label>Select Saved Template</label>
+              <select id="templateSelect"></select>
+            </div>
+            <button id="autofill" class="primary-btn">Autofill Marketplace Form</button>
           </div>
-          <div id="fieldPreview" class="field-preview"></div>
-        </section>
 
-        <section id="templateSelectWrap" class="panel hidden">
-          <label>Template<select id="templateSelect"></select></label>
-        </section>
+          <section class="actions">
+            <button id="capture" class="secondary-btn">Scan Form & Save Template</button>
+            
+            <div class="section-divider">
+              <span>AI Content Tools</span>
+            </div>
+            
+            <div class="ai-button-grid">
+              <button id="aiTitle" class="tool-btn">AI Title</button>
+              <button id="aiDescription" class="tool-btn">AI Description</button>
+              <button id="aiKeywords" class="tool-btn">Keywords</button>
+            </div>
+
+            <div class="navigation-buttons">
+              <button id="generate" class="outline-btn">Open AI Studio</button>
+              <button id="dashboard" class="outline-btn">Dashboard</button>
+            </div>
+          </section>
+        </div>
+
+        <!-- Tab Content: Templates -->
+        <div id="tab-templates" class="tab-content hidden">
+          <section id="templatePanel" class="panel template-panel">
+            <div class="panel-head">
+              <strong id="fieldCount">Captured Fields</strong>
+              <button id="saveTemplate" class="text-action-btn">Save As Template</button>
+            </div>
+            <div id="fieldPreview" class="field-preview">
+              <div class="empty-state">
+                <p>No fields captured yet.</p>
+                <small>Go to "Autofill" tab and click "Scan Form" to fetch marketplace inputs.</small>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Tab Content: Usage -->
+        <div id="tab-usage" class="tab-content hidden">
+          <div class="usage-container">
+            <div class="plan-badge-row">
+              <span id="plan" class="plan-label font-bold">Free plan</span>
+              <button id="upgrade" class="upgrade-action-btn">Upgrade Plan</button>
+            </div>
+            
+            <div class="usage-group">
+              <div class="usage-meta">
+                <span>AI Listings Used</span>
+                <strong id="usageText">0 of 5</strong>
+              </div>
+              <div class="progress-bar-container">
+                <span id="usageBar" class="progress-bar-fill"></span>
+              </div>
+            </div>
+
+            <div class="usage-group">
+              <div class="usage-meta">
+                <span>Keyword Reports Used</span>
+                <strong id="keywordUsageText">0 of 5</strong>
+              </div>
+              <div class="progress-bar-container">
+                <span id="keywordUsageBar" class="progress-bar-fill"></span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="support-action">
+            <button id="support" class="outline-btn w-full">Contact Support & Help</button>
+          </div>
+        </div>
       </section>
 
-      <section id="status" class="status"></section>
+      <!-- Feedback Status Bar -->
+      <section id="status" class="status-bar"></section>
     </main>
     <script src="../config.js"></script>
     <script src="popup.js"></script>

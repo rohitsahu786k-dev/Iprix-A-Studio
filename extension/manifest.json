@@ -24,5 +24,6 @@
     }
   ],
   "permissions": ["storage", "activeTab", "scripting"],
-  "host_permissions": ["http://localhost:3000/*", "https://iprixmedia.com/*", "https://*.meesho.com/*", "https://supplier.meesho.com/*", "https://*.flipkart.com/*", "https://*.amazon.in/*"]
+  "host_permissions": ["http://localhost:3000/*", "https://*.iprixmedia.com/*", "https://*.meesho.com/*", "https://supplier.meesho.com/*", "https://*.flipkart.com/*", "https://*.amazon.in/*"]
 }
+

@@ -59,5 +59,7 @@ export const adminNav = [
   ["Capture Logs", "/admin/template-capture-logs"],
   ["Notifications", "/admin/notifications"],
   ["Settings", "/admin/settings"],
+  ["Email Logs", "/admin/email-logs"],
   ["Audit Logs", "/admin/audit-logs"],
 ];
+

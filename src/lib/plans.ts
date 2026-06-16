@@ -4,6 +4,7 @@ export type PricingPlan = {
   name: string;
   slug: PlanSlug;
   monthlyPrice: number;
+  yearlyPrice: number;
   yearlyDiscount: string;
   listings: string;
   productLimit: string;
@@ -50,6 +51,7 @@ export const pricingPlans: PricingPlan[] = [
     name: "Free",
     slug: "free",
     monthlyPrice: 0,
+    yearlyPrice: 0,
     yearlyDiscount: "Start free with 5 AI listings",
     listings: "5 lifetime",
     productLimit: "5",
@@ -69,6 +71,7 @@ export const pricingPlans: PricingPlan[] = [
     name: "Seller",
     slug: "seller",
     monthlyPrice: 99,
+    yearlyPrice: 475,
     yearlyDiscount: "Save with yearly",
     listings: "100 / month",
     productLimit: "100",
@@ -87,6 +90,7 @@ export const pricingPlans: PricingPlan[] = [
     name: "Growth",
     slug: "growth",
     monthlyPrice: 199,
+    yearlyPrice: 955,
     yearlyDiscount: "Best for active sellers",
     listings: "500 / month",
     productLimit: "Unlimited",
@@ -106,6 +110,7 @@ export const pricingPlans: PricingPlan[] = [
     name: "Pro",
     slug: "pro",
     monthlyPrice: 299,
+    yearlyPrice: 1435,
     yearlyDiscount: "Advanced automation",
     listings: "1,500 / month",
     productLimit: "Unlimited",
@@ -126,6 +131,7 @@ export const pricingPlans: PricingPlan[] = [
     name: "Agency",
     slug: "agency",
     monthlyPrice: 799,
+    yearlyPrice: 3835,
     yearlyDiscount: "Client workspaces",
     listings: "10,000 / month",
     productLimit: "Unlimited",
@@ -141,6 +147,7 @@ export const pricingPlans: PricingPlan[] = [
     ],
   },
 ];
+
 
 export const featureModules = [
   "Reusable listing templates",

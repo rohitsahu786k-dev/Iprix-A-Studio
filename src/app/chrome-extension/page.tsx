@@ -44,19 +44,22 @@ const Icons = {
 export default function ChromeExtensionPage() {
   return (
     <PublicShell>
-      <section className="relative py-20 bg-white overflow-hidden">
+      <section className="relative py-24 bg-white overflow-hidden border-b border-neutral-100">
+        {/* Premium Grid Background */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#f5f5f5_1px,transparent_1px),linear-gradient(to_bottom,#f5f5f5_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-80 pointer-events-none" />
+        
         <div className="container relative z-10">
-          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center mb-16">
+          <div className="grid gap-16 lg:grid-cols-[1.15fr_0.85fr] lg:items-center mb-20">
             <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-neutral-200 bg-neutral-50 text-xs font-semibold text-neutral-800 mb-6">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-neutral-200/80 bg-neutral-50 text-xs font-semibold text-neutral-800 mb-6">
                 <Image src="/icon/chrome.jpg" alt="Chrome Logo" width={16} height={16} className="object-contain" />
                 A+ Studio Chrome Extension
               </div>
-              <h1 className="text-5xl lg:text-6xl font-extrabold tracking-tight text-neutral-900 mb-6 leading-tight">
-                Automate listings with the <span className="underline decoration-neutral-950 underline-offset-4">Chrome Extension</span>
+              <h1 className="text-5xl lg:text-[64px] font-extrabold tracking-tight text-neutral-900 mb-6 leading-[1.1]">
+                Automate listings with our <span className="underline decoration-neutral-950 underline-offset-4 decoration-4">Chrome Extension</span>
               </h1>
-              <p className="text-base lg:text-lg text-neutral-600 leading-relaxed mb-8">
-                Manifest V3 extension with login, plan status, templates, products, Meesho detection, template capture, autofill preview and activity logs.
+              <p className="text-lg lg:text-xl text-neutral-600 leading-relaxed mb-8 max-w-2xl">
+                Deploy the Manifest V3 extension to capture listing templates in 1-click, preview AI autofill attributes, and instantly populate listing forms on seller portals.
               </p>
               
               <div className="grid grid-cols-2 gap-3 max-w-md">
@@ -66,7 +69,7 @@ export default function ChromeExtensionPage() {
                   { label: "Fast & Lightweight", icon: <Icons.Bolt /> },
                   { label: "Auto-detect Marketplace", icon: <Icons.Check /> },
                 ].map((pill, idx) => (
-                  <div key={idx} className="flex items-center gap-2 px-3 py-2.5 rounded-xl border border-neutral-200 bg-white text-xs font-bold text-neutral-700">
+                  <div key={idx} className="flex items-center gap-2.5 px-4 py-3 rounded-xl border border-neutral-200 bg-white text-xs font-bold text-neutral-800 shadow-sm">
                     {pill.icon}
                     {pill.label}
                   </div>
@@ -77,7 +80,7 @@ export default function ChromeExtensionPage() {
             {/* Right: Chrome extension floating popup mockup inside marketplace bg */}
             <div className="relative">
               {/* Browser mockup box */}
-              <div className="relative rounded-2xl border border-neutral-200 bg-white shadow-xl overflow-hidden aspect-[4/3] flex flex-col">
+              <div className="relative rounded-2xl border border-neutral-200 bg-white shadow-xl overflow-hidden aspect-[4/3] flex flex-col hover:shadow-2xl transition-all duration-300">
                 {/* Browser top header */}
                 <div className="bg-neutral-50 border-b border-neutral-200 px-4 py-3 flex items-center justify-between">
                   <div className="flex gap-1.5">
@@ -93,68 +96,67 @@ export default function ChromeExtensionPage() {
                   </div>
                 </div>
 
-                {/* Simulated Marketplace content layout */}
-                <div className="flex-grow p-4 bg-neutral-50/50 relative flex gap-4">
-                  <div className="w-2/3 space-y-3 opacity-30 select-none">
-                    <div className="h-6 bg-neutral-200 rounded w-1/2" />
-                    <div className="h-10 bg-neutral-200 rounded" />
-                    <div className="h-10 bg-neutral-200 rounded" />
-                    <div className="h-10 bg-neutral-200 rounded" />
-                  </div>
-
-                  {/* Floating Extension Popup UI inside browser */}
-                  <div className="absolute right-4 top-4 w-72 rounded-xl border border-neutral-200 bg-white shadow-2xl p-4 z-20 flex flex-col justify-between">
+                {/* Browser content rendering chrome-extension-preview */}
+                <div className="relative flex-grow bg-neutral-100 overflow-hidden">
+                  <Image 
+                    src="/chrome-extension-preview.png" 
+                    alt="A+ Studio Chrome Extension Preview" 
+                    fill 
+                    className="object-cover object-top hover:scale-[1.02] transition-transform duration-500"
+                  />
+                  {/* Floating Extension Popup UI simulation */}
+                  <div className="absolute right-4 top-4 bottom-4 w-72 rounded-xl border border-neutral-200/90 bg-white/95 backdrop-blur-md shadow-2xl p-4.5 z-20 flex flex-col justify-between hidden md:flex">
                     <div>
                       {/* Extension Header */}
-                      <div className="flex justify-between items-center pb-3 border-b border-slate-100 mb-3">
-                        <div className="flex items-center gap-1.5">
-                          <div className="w-6 h-6 rounded-md bg-neutral-900 flex items-center justify-center text-white text-[10px] font-bold">A+</div>
-                          <span className="font-extrabold text-xs text-neutral-800">A+ Studio</span>
+                      <div className="flex justify-between items-center pb-3 border-b border-neutral-100 mb-3">
+                        <div className="flex items-center gap-2">
+                          <Image src="/icon/iprix-media-white-logo.webp" alt="Iprix Logo" width={16} height={16} className="object-contain invert" />
+                          <span className="font-bold text-xs text-neutral-900 tracking-tight">A+ Studio</span>
                         </div>
-                        <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-neutral-50 border border-neutral-200 text-[9px] font-bold text-neutral-800 uppercase">
-                          <span className="w-1.5 h-1.5 rounded-full bg-neutral-900" />
+                        <span className="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-neutral-100 border border-neutral-200/60 text-[9px] font-extrabold text-neutral-800 uppercase tracking-wide">
+                          <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 animate-pulse" />
                           Active
                         </span>
                       </div>
 
                       {/* Marketplace detected status */}
-                      <div className="bg-neutral-50 border border-neutral-150 rounded-lg p-2.5 mb-3 flex items-center justify-between">
+                      <div className="bg-neutral-50/70 border border-neutral-200/80 rounded-xl p-3 mb-4 flex items-center justify-between shadow-sm">
                         <div>
-                          <p className="text-[8px] text-neutral-500 font-semibold uppercase tracking-wider">Marketplace Detected</p>
-                          <p className="font-extrabold text-sm text-neutral-900">Meesho</p>
+                          <p className="text-[9px] text-neutral-400 font-bold uppercase tracking-wider">Detected Site</p>
+                          <p className="font-extrabold text-sm text-neutral-900">Meesho Seller Portal</p>
                         </div>
-                        <span className="bg-neutral-950 text-white font-bold text-[9px] px-2 py-0.5 rounded-md">Live</span>
+                        <span className="bg-neutral-900 text-white font-extrabold text-[9px] px-2 py-0.5 rounded">Live</span>
                       </div>
 
                       {/* Info details */}
-                      <div className="space-y-1 mb-4">
-                        <div className="flex justify-between text-[10px]">
-                          <span className="text-neutral-500">Plan:</span>
-                          <span className="font-bold text-neutral-800">Pro</span>
+                      <div className="space-y-2 mb-5">
+                        <div className="flex justify-between text-xs border-b border-neutral-50 pb-1.5">
+                          <span className="text-neutral-500 font-medium">Pricing Plan</span>
+                          <span className="font-bold text-neutral-800">Pro (Yearly)</span>
                         </div>
-                        <div className="flex justify-between text-[10px]">
-                          <span className="text-neutral-500">Renewal date:</span>
-                          <span className="font-bold text-neutral-800">24 Jun 2026</span>
+                        <div className="flex justify-between text-xs border-b border-neutral-50 pb-1.5">
+                          <span className="text-neutral-500 font-medium">Daily Limit</span>
+                          <span className="font-bold text-neutral-800">150 / 500 Credits</span>
                         </div>
                       </div>
 
                       {/* Action buttons */}
                       <div className="space-y-2 mb-2">
-                        <button className="w-full py-2 bg-neutral-950 text-white text-xs font-bold rounded-lg hover:bg-neutral-900 transition-colors">
-                          Capture Template
+                        <button className="w-full py-2.5 bg-neutral-950 text-white text-xs font-bold rounded-lg hover:bg-neutral-850 active:scale-[0.98] transition-all shadow-sm">
+                          Capture Listing Template
                         </button>
-                        <button className="w-full py-2 border border-neutral-250 text-neutral-700 text-xs font-bold rounded-lg bg-neutral-50 hover:bg-neutral-100 transition-colors">
-                          Autofill Preview
+                        <button className="w-full py-2.5 border border-neutral-200 text-neutral-700 text-xs font-bold rounded-lg bg-white hover:bg-neutral-50 active:scale-[0.98] transition-all">
+                          Autofill Form Now
                         </button>
                       </div>
                     </div>
 
                     {/* Bottom Nav inside extension */}
-                    <div className="flex justify-between border-t border-slate-100 pt-2 mt-2 text-[8px] font-bold text-neutral-400">
-                      <div className="text-neutral-900 flex flex-col items-center"><span className="text-xs">🏠</span>Home</div>
-                      <div className="flex flex-col items-center"><span className="text-xs">📋</span>Templates</div>
-                      <div className="flex flex-col items-center"><span className="text-xs">📦</span>Products</div>
-                      <div className="flex flex-col items-center"><span className="text-xs">⚡</span>Activity</div>
+                    <div className="flex justify-between border-t border-neutral-100 pt-3 mt-3 text-[9px] font-bold text-neutral-400">
+                      <div className="text-neutral-900 flex flex-col items-center gap-1 cursor-pointer"><span className="text-xs">🏠</span>Home</div>
+                      <div className="flex flex-col items-center gap-1 cursor-pointer hover:text-neutral-800"><span className="text-xs">📋</span>Templates</div>
+                      <div className="flex flex-col items-center gap-1 cursor-pointer hover:text-neutral-800"><span className="text-xs">📦</span>Products</div>
+                      <div className="flex flex-col items-center gap-1 cursor-pointer hover:text-neutral-800"><span className="text-xs">⚡</span>Activity</div>
                     </div>
                   </div>
                 </div>
@@ -165,7 +167,7 @@ export default function ChromeExtensionPage() {
           {/* Three large marketplace cards below */}
           <div className="grid gap-6 md:grid-cols-3 mb-16">
             {/* Card 1 */}
-            <article className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between relative overflow-hidden group">
+            <article className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-neutral-400 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group">
               <div>
                 <div className="flex items-center justify-between mb-6">
                   <div className="relative w-24 h-8">
@@ -173,9 +175,9 @@ export default function ChromeExtensionPage() {
                   </div>
                   <span className="px-2.5 py-0.5 rounded-full bg-neutral-50 border border-neutral-200 text-[10px] font-bold text-neutral-800">LIVE</span>
                 </div>
-                <h3 className="font-bold text-neutral-900 text-lg leading-tight mb-2">Meesho live</h3>
+                <h3 className="font-extrabold text-neutral-900 text-lg leading-tight mb-2">Meesho Integration</h3>
                 <p className="text-xs text-neutral-500 leading-relaxed mb-6">
-                  The extension never stores backend secrets and never auto-submits marketplace forms.
+                  Autofill single or bulk product catalog forms on Meesho Seller Panel instantly with captured templates.
                 </p>
               </div>
               <div className="flex justify-between items-center pt-4 border-t border-slate-50">
@@ -187,7 +189,7 @@ export default function ChromeExtensionPage() {
             </article>
 
             {/* Card 2 */}
-            <article className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between relative overflow-hidden group">
+            <article className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-neutral-400 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group">
               <div>
                 <div className="flex items-center justify-between mb-6">
                   <div className="relative w-24 h-8">
@@ -195,9 +197,9 @@ export default function ChromeExtensionPage() {
                   </div>
                   <span className="px-2.5 py-0.5 rounded-full bg-neutral-50 border border-neutral-200 text-[10px] font-bold text-neutral-800">BETA</span>
                 </div>
-                <h3 className="font-bold text-neutral-900 text-lg leading-tight mb-2">Flipkart beta</h3>
+                <h3 className="font-extrabold text-neutral-900 text-lg leading-tight mb-2">Flipkart Integration</h3>
                 <p className="text-xs text-neutral-500 leading-relaxed mb-6">
-                  The extension never stores backend secrets and never auto-submits marketplace forms.
+                  Beta integration supporting description enrichments, size variations, and automated pricing calculations.
                 </p>
               </div>
               <div className="flex justify-between items-center pt-4 border-t border-slate-50">
@@ -209,7 +211,7 @@ export default function ChromeExtensionPage() {
             </article>
 
             {/* Card 3 */}
-            <article className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between relative overflow-hidden group">
+            <article className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-neutral-400 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group">
               <div>
                 <div className="flex items-center justify-between mb-6">
                   <div className="relative w-24 h-8">
@@ -217,9 +219,9 @@ export default function ChromeExtensionPage() {
                   </div>
                   <span className="px-2.5 py-0.5 rounded-full bg-neutral-50 border border-neutral-200 text-[10px] font-bold text-neutral-800">COMING SOON</span>
                 </div>
-                <h3 className="font-bold text-neutral-900 text-lg leading-tight mb-2">Amazon Coming Soon</h3>
+                <h3 className="font-extrabold text-neutral-900 text-lg leading-tight mb-2">Amazon Integration</h3>
                 <p className="text-xs text-neutral-500 leading-relaxed mb-6">
-                  The extension never stores backend secrets and never auto-submits marketplace forms.
+                  Coming soon: Automate inventory template sheets, high-quality images, and bullet point generation directly.
                 </p>
               </div>
               <div className="flex justify-between items-center pt-4 border-t border-slate-50">
@@ -232,45 +234,45 @@ export default function ChromeExtensionPage() {
           </div>
 
           {/* Bottom Trust Strip */}
-          <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0 border border-neutral-200">
+          <div className="rounded-2xl border border-neutral-200 bg-white p-8 shadow-sm">
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-neutral-50 flex items-center justify-center flex-shrink-0 border border-neutral-100">
                   <Icons.Shield />
                 </div>
                 <div>
-                  <h4 className="font-bold text-neutral-800 text-xs">100% Secure</h4>
-                  <p className="text-[10px] text-neutral-500">No backend secrets stored in the extension</p>
+                  <h4 className="font-bold text-neutral-900 text-sm mb-1">100% Secure</h4>
+                  <p className="text-xs text-neutral-500 leading-relaxed">No backend secrets or API keys stored locally in the extension</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0 border border-neutral-200">
+              <div className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-neutral-50 flex items-center justify-center flex-shrink-0 border border-neutral-100">
                   <Icons.Lock />
                 </div>
                 <div>
-                  <h4 className="font-bold text-neutral-800 text-xs">Privacy First</h4>
-                  <p className="text-[10px] text-neutral-500">Your data is safe and always encrypted</p>
+                  <h4 className="font-bold text-neutral-900 text-sm mb-1">Privacy First</h4>
+                  <p className="text-xs text-neutral-500 leading-relaxed">Your data is safe, fully encrypted, and complies with MV3 policies</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0 border border-neutral-200">
+              <div className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-neutral-50 flex items-center justify-center flex-shrink-0 border border-neutral-100">
                   <Icons.Bolt />
                 </div>
                 <div>
-                  <h4 className="font-bold text-neutral-800 text-xs">High Performance</h4>
-                  <p className="text-[10px] text-slate-500">Lightweight extension with blazing fast speed</p>
+                  <h4 className="font-bold text-neutral-900 text-sm mb-1">High Performance</h4>
+                  <p className="text-xs text-slate-500 leading-relaxed">Lightweight background worker with sub-second form fill speed</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0 border border-neutral-200">
+              <div className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-neutral-50 flex items-center justify-center flex-shrink-0 border border-neutral-100">
                   <Icons.Clock />
                 </div>
                 <div>
-                  <h4 className="font-bold text-neutral-800 text-xs">Activity Logs</h4>
-                  <p className="text-[10px] text-neutral-500">Detailed logs for every action you take</p>
+                  <h4 className="font-bold text-neutral-900 text-sm mb-1">Activity Logs</h4>
+                  <p className="text-xs text-neutral-500 leading-relaxed">Audit trail of every template saved, populated, or modified</p>
                 </div>
               </div>
             </div>
