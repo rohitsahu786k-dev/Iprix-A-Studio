@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { PublicShell } from "@/components/public-shell";
-import { pricingPlans } from "@/lib/plans";
+import { PricingSection } from "@/components/pricing-section";
 
 export const metadata: Metadata = {
   title: "A+ Studio by Iprix Media - AI Listing Autofill Tool for Indian Sellers",
@@ -660,43 +660,7 @@ export default function Home() {
       </section>
 
       {/* ── PRICING PLANS ── */}
-      <section className="relative py-24 bg-white overflow-hidden">
-        <div className="container relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-4xl font-extrabold text-neutral-900 tracking-tight mb-4">Pricing plans for every seller</h2>
-            <p className="text-base text-neutral-600 leading-relaxed">
-              Start free, upgrade as you grow. Fully automated Meesho and Flipkart listings.
-            </p>
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-            {pricingPlans.map((plan) => (
-              <article key={plan.slug} className={`rounded-2xl border p-6 flex flex-col justify-between transition-all group ${
-                plan.featured ? "border border-neutral-200 shadow-md bg-white shadow-md" : "border-neutral-200 bg-white/70 shadow-sm"
-              }`}>
-                <div>
-                  <h3 className="text-lg font-bold text-neutral-900 mb-1">{plan.name}</h3>
-                  <p className="text-xs text-neutral-500 mb-4">{plan.yearlyDiscount}</p>
-                  <div className="flex items-baseline mb-6">
-                    <span className="text-3xl font-extrabold text-neutral-900">₹{plan.monthlyPrice}</span>
-                    <span className="text-neutral-400 text-xs ml-1">/mo</span>
-                  </div>
-                  <div className="border-t border-neutral-100 pt-4 space-y-2 mb-8">
-                    <div className="text-xs font-semibold text-neutral-700">AI Listings: {plan.listings}</div>
-                    <div className="text-xs font-semibold text-neutral-700">Products: {plan.productLimit}</div>
-                    <div className="text-xs font-semibold text-neutral-700">Team: {plan.team}</div>
-                  </div>
-                </div>
-                <Link className={`mt-auto flex w-full justify-center items-center py-2.5 rounded-xl text-xs font-bold transition-all ${
-                  plan.featured ? "bg-neutral-900 text-white hover:bg-neutral-800" : "bg-white text-neutral-900 border border-neutral-300 hover:bg-neutral-50"
-                }`} href="/signup">
-                  Choose Plan
-                </Link>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <PricingSection />
     </PublicShell>
   );
 }
