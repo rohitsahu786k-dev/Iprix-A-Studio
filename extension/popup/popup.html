@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>A+ Studio</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main>
+      <header class="brand">
+        <span class="logo-frame"><img src="../assets/iprix-media-white-logo.webp" alt="Iprix Media" /></span>
+        <span>
+          <strong>A+ Studio</strong>
+          <small>AI-powered by Iprix Media</small>
+        </span>
+      </header>
+
+      <section id="session" class="panel muted">Checking connection...</section>
+
+      <form id="login" class="panel login">
+        <label>Email<input name="email" type="email" placeholder="seller@example.com" required /></label>
+        <label>Password<input name="password" type="password" placeholder="Password" required /></label>
+        <button class="primary">Login to A+ Studio</button>
+      </form>
+
+      <section id="workspace" class="hidden">
+        <div class="usage">
+          <div>
+            <span id="plan">Free plan</span>
+            <strong id="usageText">0 of 5 free AI listings used</strong>
+            <small id="keywordUsageText">0 of 5 free keyword reports used</small>
+          </div>
+          <button id="upgrade" class="ghost">Upgrade</button>
+        </div>
+        <div class="bar"><span id="usageBar"></span></div>
+
+        <div class="market">
+          <span>Marketplace</span>
+          <strong id="marketplace">Detecting...</strong>
+        </div>
+
+        <section class="actions">
+          <button id="capture" class="primary">Fill & Save Template</button>
+          <button id="autofill">Autofill from Template</button>
+          <button id="aiTitle">Generate AI Title</button>
+          <button id="aiDescription">Generate AI Description</button>
+          <button id="aiKeywords">Generate Keywords</button>
+          <button id="generate">Open AI Listing Studio</button>
+          <button id="dashboard">Open Dashboard</button>
+          <button id="support">Support</button>
+        </section>
+
+        <section id="templatePanel" class="panel hidden">
+          <div class="panel-head">
+            <strong id="fieldCount">Captured fields</strong>
+            <button id="saveTemplate" class="ghost">Save</button>
+          </div>
+          <div id="fieldPreview" class="field-preview"></div>
+        </section>
+
+        <section id="templateSelectWrap" class="panel hidden">
+          <label>Template<select id="templateSelect"></select></label>
+        </section>
+      </section>
+
+      <section id="status" class="status"></section>
+    </main>
+    <script src="../config.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

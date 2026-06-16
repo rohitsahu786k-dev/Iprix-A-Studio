@@ -1,65 +1,639 @@
+import Link from "next/link";
 import Image from "next/image";
+import { PublicShell } from "@/components/public-shell";
+import { pricingPlans } from "@/lib/plans";
+
+// Minimalist vector icons using currentColor (monochrome)
+const Icons = {
+  Chrome: () => (
+    <svg className="w-5 h-5 text-neutral-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="4" />
+      <line x1="21.17" y1="8" x2="12" y2="8" />
+      <line x1="3.95" y1="6.06" x2="8.54" y2="14" />
+      <line x1="10.88" y1="21.94" x2="15.46" y2="14" />
+    </svg>
+  ),
+  Database: () => (
+    <svg className="w-5 h-5 text-neutral-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <ellipse cx="12" cy="5" rx="9" ry="3" />
+      <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+      <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3" />
+    </svg>
+  ),
+  Sparkles: () => (
+    <svg className="w-5 h-5 text-neutral-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 3l1.912 5.736L20 10.5l-6.088 1.764L12 18l-1.912-5.736L4 10.5l6.088-1.764L12 3z" />
+      <path d="M5 19l1 3 1-3 3-1-3-1-1-3-1 3-3 1 3 1z" />
+    </svg>
+  ),
+  Eye: () => (
+    <svg className="w-5 h-5 text-neutral-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  ),
+  Chart: () => (
+    <svg className="w-5 h-5 text-neutral-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="20" x2="18" y2="10" />
+      <line x1="12" y1="20" x2="12" y2="4" />
+      <line x1="6" y1="20" x2="6" y2="14" />
+    </svg>
+  ),
+  ArrowRight: () => (
+    <svg className="w-4 h-4 text-neutral-800 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12" />
+      <polyline points="12 5 19 12 12 19" />
+    </svg>
+  ),
+  Shield: () => (
+    <svg className="w-4 h-4 text-neutral-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </svg>
+  ),
+  Lock: () => (
+    <svg className="w-4 h-4 text-neutral-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+      <path d="M7 11V7a5 5 0 0110 0v4" />
+    </svg>
+  ),
+  Bolt: () => (
+    <svg className="w-4 h-4 text-neutral-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+    </svg>
+  ),
+  Check: () => (
+    <svg className="w-4 h-4 text-neutral-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  ),
+  FileText: () => (
+    <svg className="w-5 h-5 text-neutral-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+    </svg>
+  ),
+  Box: () => (
+    <svg className="w-5 h-5 text-neutral-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+      <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+      <line x1="12" y1="22.08" x2="12" y2="12" />
+    </svg>
+  ),
+  Tag: () => (
+    <svg className="w-5 h-5 text-neutral-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" />
+    </svg>
+  ),
+  Image: () => (
+    <svg className="w-5 h-5 text-neutral-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+      <circle cx="8.5" cy="8.5" r="1.5" />
+      <polyline points="21 15 16 10 5 21" />
+    </svg>
+  ),
+  Barcode: () => (
+    <svg className="w-5 h-5 text-neutral-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="4" height="18" />
+      <rect x="10" y="3" width="2" height="18" />
+      <rect x="15" y="3" width="1" height="18" />
+      <rect x="19" y="3" width="2" height="18" />
+    </svg>
+  ),
+  Users: () => (
+    <svg className="w-5 h-5 text-neutral-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+    </svg>
+  ),
+  Download: () => (
+    <svg className="w-5 h-5 text-neutral-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" y1="15" x2="12" y2="3" />
+    </svg>
+  ),
+  Clock: () => (
+    <svg className="w-5 h-5 text-neutral-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
+  ),
+};
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <PublicShell>
+      {/* ── HERO SECTION ── */}
+      <section className="relative overflow-hidden bg-white py-20 lg:py-28">
+        <div className="container grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center relative z-10">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-neutral-200 bg-neutral-50 text-xs font-semibold text-neutral-800 mb-6">
+              <Icons.Sparkles />
+              AI Listing Studio for Indian Sellers
+            </div>
+            <h1 className="text-5xl lg:text-6xl font-extrabold tracking-tight text-neutral-900 leading-[1.15] mb-6">
+              Create marketplace-ready <span className="underline decoration-neutral-900 underline-offset-4">listings in seconds.</span>
+            </h1>
+            <p className="text-lg text-neutral-600 leading-relaxed mb-8 max-w-2xl">
+              A+ Studio by Iprix Media helps Indian sellers create AI-powered product titles, descriptions, keywords,
+              SKUs, images and autofill marketplace listing forms with a powerful Chrome extension.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link className="rounded-xl bg-neutral-900 px-6 py-3.5 text-sm font-semibold text-white shadow-md hover:bg-neutral-800 transition-all" href="/signup">
+                Start Free Trial
+              </Link>
+              <Link className="rounded-xl border border-neutral-200 bg-white px-6 py-3.5 text-sm font-semibold text-neutral-800 hover:bg-neutral-50 transition-all inline-flex items-center gap-2" href="#chrome-extension">
+                <Image src="/icon/chrome.jpg" alt="Chrome Logo" width={18} height={18} className="object-contain rounded" />
+                Install Chrome Extension
+              </Link>
+              <Link className="rounded-xl border border-neutral-200 bg-white px-6 py-3.5 text-sm font-semibold text-neutral-600 hover:bg-neutral-50 transition-all" href="/pricing">
+                View Plans
+              </Link>
+            </div>
+          </div>
+
+          {/* Premium Preview Card */}
+          <div className="relative">
+            <div className="relative rounded-2xl border border-neutral-200 bg-white p-6 shadow-lg">
+              <div className="flex items-center justify-between border-b border-neutral-100 pb-4 mb-4">
+                <div className="flex items-center gap-2">
+                  <Image src="/icon/Meesho_logo.png" alt="Meesho" width={20} height={20} className="object-contain rounded" />
+                  <span className="font-bold text-neutral-800 text-sm">Meesho Listing Preview</span>
+                </div>
+                <span className="rounded-full bg-neutral-100 border border-neutral-200 px-2.5 py-1 text-xs font-bold text-neutral-800">92 Score</span>
+              </div>
+              <div className="space-y-3">
+                {["Product Title", "Description", "Selling Price", "MRP", "SKU", "Keywords"].map((field) => (
+                  <div key={field} className="flex justify-between items-center rounded-xl border border-neutral-100 bg-neutral-50 px-4 py-3 text-xs">
+                    <span className="text-neutral-500 font-medium">{field}</span>
+                    <span className="text-neutral-900 font-semibold flex items-center gap-1">
+                      <Icons.Check />
+                      Ready to Autofill
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <Link className="mt-5 flex w-full justify-center items-center gap-2 rounded-xl bg-neutral-950 px-4 py-3.5 text-sm font-bold text-white hover:bg-neutral-850 transition-all shadow-md" href="/chrome-extension">
+                Preview Autofill Live
+                <Icons.ArrowRight />
+              </Link>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* ── SECTION 1: WORKFLOW STEPS ── */}
+      <section className="relative py-24 bg-white border-t border-neutral-100">
+        <div className="container relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-neutral-200 bg-neutral-50 text-xs font-bold text-neutral-800 uppercase tracking-wider mb-5">
+              <Icons.Sparkles />
+              Seller Automation Workflow
+            </div>
+            <h2 className="text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight mb-4">
+              Built for the <span className="underline decoration-neutral-950 underline-offset-4">repetitive seller workflow.</span>
+            </h2>
+            <p className="text-base lg:text-lg text-neutral-600 leading-relaxed">
+              Save once, generate with AI, preview with confidence, and track every seller operation from one place.
+            </p>
+          </div>
+
+          <div className="relative grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Desktop Connecting Line */}
+            <div className="absolute top-[48px] left-[12%] right-[12%] h-0.5 bg-neutral-200 z-0 hidden lg:block" />
+
+            {/* Card 1 */}
+            <article className="relative z-10 flex flex-col justify-between rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:border-neutral-400 transition-all group">
+              <div>
+                <div className="flex justify-between items-start mb-6">
+                  <span className="text-xs font-bold text-neutral-900 bg-neutral-100 px-2.5 py-1 rounded-full uppercase tracking-wider">Step 1</span>
+                  <div className="w-10 h-10 rounded-xl bg-neutral-50 flex items-center justify-center border border-neutral-100">
+                    <Icons.Database />
+                  </div>
+                </div>
+                <h3 className="font-bold text-neutral-800 text-sm leading-snug mb-2">Save product data and marketplace selectors once.</h3>
+                <p className="text-xs text-neutral-500 leading-relaxed">Store reusable product details and selectors to speed up future listings.</p>
+              </div>
+            </article>
+
+            {/* Card 2 (Highlighted Monochrome) */}
+            <article className="relative z-10 flex flex-col justify-between rounded-2xl border border-neutral-200 shadow-md bg-white p-6 shadow-md hover:shadow-lg transition-all group">
+              <div className="relative z-10">
+                <div className="flex justify-between items-start mb-6">
+                  <span className="text-xs font-bold text-white bg-neutral-900 px-2.5 py-1 rounded-full uppercase tracking-wider">Step 2</span>
+                  <div className="w-10 h-10 rounded-xl bg-neutral-950 flex items-center justify-center text-white shadow-md">
+                    <Icons.Sparkles />
+                  </div>
+                </div>
+                <h3 className="font-bold text-neutral-900 text-sm leading-snug mb-2">Generate title, description, bullets, SKU and keywords with AI.</h3>
+                <p className="text-xs text-neutral-500 leading-relaxed mb-4">Create optimized marketplace-ready content in seconds.</p>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-neutral-900 text-[10px] font-bold text-white uppercase tracking-wider shadow-sm">
+                  AI Powered
+                </span>
+              </div>
+            </article>
+
+            {/* Card 3 */}
+            <article className="relative z-10 flex flex-col justify-between rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:border-neutral-400 transition-all group">
+              <div>
+                <div className="flex justify-between items-start mb-6">
+                  <span className="text-xs font-bold text-neutral-900 bg-neutral-100 px-2.5 py-1 rounded-full uppercase tracking-wider">Step 3</span>
+                  <div className="w-10 h-10 rounded-xl bg-neutral-50 flex items-center justify-center border border-neutral-100">
+                    <Icons.Eye />
+                  </div>
+                </div>
+                <h3 className="font-bold text-neutral-800 text-sm leading-snug mb-2">Preview every value inside the Chrome extension before autofill.</h3>
+                <p className="text-xs text-neutral-500 leading-relaxed">Review and confirm all values before pushing them live.</p>
+              </div>
+            </article>
+
+            {/* Card 4 */}
+            <article className="relative z-10 flex flex-col justify-between rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:border-neutral-400 transition-all group">
+              <div>
+                <div className="flex justify-between items-start mb-6">
+                  <span className="text-xs font-bold text-neutral-900 bg-neutral-100 px-2.5 py-1 rounded-full uppercase tracking-wider">Step 4</span>
+                  <div className="w-10 h-10 rounded-xl bg-neutral-50 flex items-center justify-center border border-neutral-100">
+                    <Icons.Chart />
+                  </div>
+                </div>
+                <h3 className="font-bold text-neutral-800 text-sm leading-snug mb-2">Track usage, credits, payments, team activity and admin logs.</h3>
+                <p className="text-xs text-slate-500 leading-relaxed">Centralize analytics, billing, team activity and admin visibility.</p>
+              </div>
+            </article>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* ── SECTION 2: COMPLETE SAAS MODULES ── */}
+      <section className="relative py-24 bg-neutral-50 border-y border-neutral-200">
+        <div className="container relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-neutral-200 bg-white text-xs font-bold text-neutral-800 uppercase tracking-wider mb-5">
+              <Icons.Database />
+              Core Platform Modules
+            </div>
+            <h2 className="text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight mb-4">
+              Complete <span className="underline decoration-neutral-950 underline-offset-4">SaaS modules</span>
+            </h2>
+            <p className="text-base lg:text-lg text-neutral-600 leading-relaxed">
+              Everything you need to create, optimize, automate and manage marketplace listings at scale.
+            </p>
+          </div>
+
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { title: "Product listing automation", image: "/listing-automation.png", desc: "Create, enrich and publish optimized listings across multiple marketplaces in minutes.", icon: <Icons.Database /> },
+              { title: "Chrome extension popup", image: "/chrome-extension-preview.png", desc: "Auto-detect, extract and autofill product data directly from any marketplace.", icon: <Icons.Chrome /> },
+              { title: "Seller dashboard", image: "/seller-dashboard.png", desc: "Monitor performance, manage listings and track profitability in one unified dashboard.", icon: <Icons.Chart /> },
+              { title: "AI content generation", image: "/ai-content.png", desc: "Use AI to write compelling titles, bullets and descriptions that convert.", icon: <Icons.Sparkles /> },
+              { title: "Image optimization", image: "/image-optimization.png", desc: "Automatically enhance, background remove and optimize images for every marketplace.", icon: <Icons.Image /> },
+              { title: "Admin analytics", image: "/admin-analytics.png", desc: "Advanced analytics, user management and usage insights to grow your business.", icon: <Icons.Chart /> },
+            ].map((module, idx) => (
+              <article key={idx} className="flex flex-col justify-between rounded-3xl border border-neutral-200 bg-white shadow-sm hover:shadow-md hover:border-neutral-350 transition-all group overflow-hidden">
+                <div className="p-4 bg-neutral-50 border-b border-neutral-100 flex items-center justify-center relative aspect-[16/10]">
+                  <Image src={module.image} alt={module.title} fill className="object-cover rounded-xl p-2" />
+                </div>
+                <div className="p-6 flex-grow flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-9 h-9 rounded-lg bg-neutral-100 flex items-center justify-center border border-neutral-200">
+                        {module.icon}
+                      </div>
+                      <h3 className="font-bold text-neutral-900 text-lg leading-tight">{module.title}</h3>
+                    </div>
+                    <p className="text-sm text-neutral-500 leading-relaxed">{module.desc}</p>
+                  </div>
+                  <div className="flex justify-end mt-6">
+                    <div className="w-8 h-8 rounded-full border border-neutral-200 flex items-center justify-center bg-white group-hover:border-neutral-300 group-hover:bg-neutral-50 transition-colors">
+                      <Icons.ArrowRight />
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── SECTION 3: CORE FEATURES (12 CARDS GRID) ── */}
+      <section className="relative py-24 bg-white overflow-hidden">
+        <div className="container relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-neutral-200 bg-neutral-50 text-xs font-bold text-neutral-800 uppercase tracking-wider mb-5">
+              <Icons.Sparkles />
+              Core Features
+            </div>
+            <h2 className="text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight mb-4">Features</h2>
+            <p className="text-base lg:text-lg text-neutral-600 leading-relaxed">
+              Everything you need to create, optimize, automate and manage marketplace listings at scale.
+            </p>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { title: "Reusable listing templates", icon: <Icons.FileText />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
+              { title: "Product library", icon: <Icons.Box />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
+              { title: "Smart listing bulk generator", icon: <Icons.Bolt />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
+              { title: "AI content writer", icon: <Icons.Sparkles />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
+              { title: "AI keyword research", icon: <Icons.Eye />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
+              { title: "Label analyser", icon: <Icons.Tag />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
+              { title: "Image maker", icon: <Icons.Image />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
+              { title: "Marketplace compliance score", icon: <Icons.Shield />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
+              { title: "SKU generator", icon: <Icons.Barcode />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
+              { title: "Team collaboration", icon: <Icons.Users />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
+              { title: "CSV import/export", icon: <Icons.Download />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
+              { title: "Chrome extension autofill", icon: <Icons.Chrome />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
+            ].map((feature, idx) => (
+              <article key={idx} className="flex gap-4 p-5 rounded-2xl border border-neutral-200 bg-white/70 shadow-sm hover:shadow-md hover:border-neutral-400 transition-all group relative items-start">
+                <div className="w-10 h-10 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center flex-shrink-0">
+                  {feature.icon}
+                </div>
+                <div className="flex-grow">
+                  <h3 className="font-bold text-neutral-850 text-sm leading-snug mb-1">{feature.title}</h3>
+                  <p className="text-xs text-neutral-500 leading-relaxed pr-8">{feature.desc}</p>
+                </div>
+                <div className="absolute bottom-5 right-5 w-6 h-6 rounded-full border border-neutral-200 flex items-center justify-center bg-white group-hover:border-neutral-300 group-hover:bg-neutral-50 transition-colors">
+                  <Icons.ArrowRight />
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── SECTION 4: CHROME EXTENSION ── */}
+      <section className="relative py-24 bg-neutral-50 border-t border-neutral-200 overflow-hidden" id="chrome-extension">
+        <div className="container relative z-10">
+          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center mb-16">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-neutral-200 bg-white text-xs font-semibold text-neutral-800 mb-6">
+                <Image src="/icon/chrome.jpg" alt="Chrome logo" width={16} height={16} className="object-contain" />
+                A+ Studio Chrome Extension
+              </div>
+              <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight text-neutral-900 mb-6">
+                A+ Studio <span className="underline decoration-neutral-950 underline-offset-4">Chrome Extension</span>
+              </h2>
+              <p className="text-base lg:text-lg text-neutral-600 leading-relaxed mb-8">
+                Manifest V3 extension with login, plan status, templates, products, Meesho detection, template capture, autofill preview and activity logs.
+              </p>
+              
+              <div className="grid grid-cols-2 gap-3 max-w-md">
+                {[
+                  { label: "Manifest V3", icon: <Icons.Shield /> },
+                  { label: "Secure & Private", icon: <Icons.Lock /> },
+                  { label: "Fast & Lightweight", icon: <Icons.Bolt /> },
+                  { label: "Auto-detect Marketplace", icon: <Icons.Check /> },
+                ].map((pill, idx) => (
+                  <div key={idx} className="flex items-center gap-2 px-3 py-2.5 rounded-xl border border-neutral-200 bg-white text-xs font-bold text-neutral-700">
+                    {pill.icon}
+                    {pill.label}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: Chrome extension floating popup mockup inside marketplace bg */}
+            <div className="relative">
+              <div className="relative rounded-2xl border border-neutral-200 bg-white shadow-xl overflow-hidden aspect-[4/3] flex flex-col">
+                {/* Browser top header */}
+                <div className="bg-neutral-50 border-b border-neutral-200 px-4 py-3 flex items-center justify-between">
+                  <div className="flex gap-1.5">
+                    <span className="w-3 h-3 rounded-full bg-neutral-300" />
+                    <span className="w-3 h-3 rounded-full bg-neutral-300" />
+                    <span className="w-3 h-3 rounded-full bg-neutral-300" />
+                  </div>
+                  <div className="bg-white border border-neutral-200 rounded-md px-3 py-0.5 text-[10px] text-neutral-400 w-1/2 text-center select-none truncate">
+                    seller.meesho.com
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Image src="/icon/chrome.jpg" alt="Chrome Logo" width={16} height={16} className="object-contain" />
+                  </div>
+                </div>
+
+                {/* Simulated Marketplace content layout */}
+                <div className="flex-grow p-4 bg-neutral-50/50 relative flex gap-4">
+                  <div className="w-2/3 space-y-3 opacity-30 select-none">
+                    <div className="h-6 bg-neutral-200 rounded w-1/2" />
+                    <div className="h-10 bg-neutral-200 rounded" />
+                    <div className="h-10 bg-neutral-200 rounded" />
+                    <div className="h-10 bg-neutral-200 rounded" />
+                  </div>
+
+                  {/* Floating Extension Popup UI inside browser */}
+                  <div className="absolute right-4 top-4 w-72 rounded-xl border border-neutral-200 bg-white shadow-2xl p-4 z-20 flex flex-col justify-between">
+                    <div>
+                      {/* Extension Header */}
+                      <div className="flex justify-between items-center pb-3 border-b border-neutral-100 mb-3">
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-6 h-6 rounded-md bg-neutral-900 flex items-center justify-center text-white text-[10px] font-bold">A+</div>
+                          <span className="font-extrabold text-xs text-neutral-800">A+ Studio</span>
+                        </div>
+                        <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-neutral-50 border border-neutral-200 text-[9px] font-bold text-neutral-800 uppercase">
+                          <span className="w-1.5 h-1.5 rounded-full bg-neutral-900" />
+                          Active
+                        </span>
+                      </div>
+
+                      {/* Marketplace detected status */}
+                      <div className="bg-neutral-50 border border-neutral-150 rounded-lg p-2.5 mb-3 flex items-center justify-between">
+                        <div>
+                          <p className="text-[8px] text-neutral-500 font-semibold uppercase tracking-wider">Marketplace Detected</p>
+                          <p className="font-extrabold text-sm text-neutral-900">Meesho</p>
+                        </div>
+                        <span className="bg-neutral-950 text-white font-bold text-[9px] px-2 py-0.5 rounded-md">Live</span>
+                      </div>
+
+                      {/* Info details */}
+                      <div className="space-y-1 mb-4">
+                        <div className="flex justify-between text-[10px]">
+                          <span className="text-neutral-500">Plan:</span>
+                          <span className="font-bold text-neutral-800">Pro</span>
+                        </div>
+                        <div className="flex justify-between text-[10px]">
+                          <span className="text-neutral-500">Renewal date:</span>
+                          <span className="font-bold text-neutral-800">24 Jun 2026</span>
+                        </div>
+                      </div>
+
+                      {/* Action buttons */}
+                      <div className="space-y-2 mb-2">
+                        <button className="w-full py-2 bg-neutral-950 text-white text-xs font-bold rounded-lg hover:bg-neutral-900 transition-colors">
+                          Capture Template
+                        </button>
+                        <button className="w-full py-2 border border-neutral-250 text-neutral-700 text-xs font-bold rounded-lg bg-neutral-50 hover:bg-neutral-100 transition-colors">
+                          Autofill Preview
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Bottom Nav inside extension */}
+                    <div className="flex justify-between border-t border-neutral-100 pt-2 mt-2 text-[8px] font-bold text-neutral-400">
+                      <div className="text-neutral-900 flex flex-col items-center"><span className="text-xs">🏠</span>Home</div>
+                      <div className="flex flex-col items-center"><span className="text-xs">📋</span>Templates</div>
+                      <div className="flex flex-col items-center"><span className="text-xs">📦</span>Products</div>
+                      <div className="flex flex-col items-center"><span className="text-xs">⚡</span>Activity</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Three large marketplace cards below */}
+          <div className="grid gap-6 md:grid-cols-3 mb-16">
+            {/* Card 1 */}
+            <article className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between relative overflow-hidden group">
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <div className="relative w-24 h-8">
+                    <Image src="/icon/Meesho_logo.png" alt="Meesho" fill className="object-contain" />
+                  </div>
+                  <span className="px-2.5 py-0.5 rounded-full bg-neutral-50 border border-neutral-200 text-[10px] font-bold text-neutral-800">LIVE</span>
+                </div>
+                <h3 className="font-bold text-neutral-900 text-lg leading-tight mb-2">Meesho live</h3>
+                <p className="text-xs text-neutral-500 leading-relaxed mb-6">
+                  The extension never stores backend secrets and never auto-submits marketplace forms.
+                </p>
+              </div>
+              <div className="flex justify-between items-center pt-4 border-t border-neutral-50">
+                <span className="w-12 h-[3px] bg-neutral-900 rounded-full" />
+                <div className="w-7 h-7 rounded-full border border-neutral-200 flex items-center justify-center bg-white group-hover:border-neutral-300 group-hover:bg-neutral-50 transition-colors">
+                  <Icons.ArrowRight />
+                </div>
+              </div>
+            </article>
+
+            {/* Card 2 */}
+            <article className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between relative overflow-hidden group">
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <div className="relative w-24 h-8">
+                    <Image src="/icon/flipkart-icon.png" alt="Flipkart" fill className="object-contain" />
+                  </div>
+                  <span className="px-2.5 py-0.5 rounded-full bg-neutral-50 border border-neutral-200 text-[10px] font-bold text-neutral-800">BETA</span>
+                </div>
+                <h3 className="font-bold text-neutral-900 text-lg leading-tight mb-2">Flipkart beta</h3>
+                <p className="text-xs text-neutral-500 leading-relaxed mb-6">
+                  The extension never stores backend secrets and never auto-submits marketplace forms.
+                </p>
+              </div>
+              <div className="flex justify-between items-center pt-4 border-t border-neutral-50">
+                <span className="w-12 h-[3px] bg-neutral-400 rounded-full" />
+                <div className="w-7 h-7 rounded-full border border-neutral-200 flex items-center justify-center bg-white group-hover:border-neutral-300 group-hover:bg-neutral-50 transition-colors">
+                  <Icons.ArrowRight />
+                </div>
+              </div>
+            </article>
+
+            {/* Card 3 */}
+            <article className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between relative overflow-hidden group">
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <div className="relative w-24 h-8">
+                    <Image src="/icon/amazon.jpg" alt="Amazon" fill className="object-contain" />
+                  </div>
+                  <span className="px-2.5 py-0.5 rounded-full bg-neutral-50 border border-neutral-200 text-[10px] font-bold text-neutral-800">COMING SOON</span>
+                </div>
+                <h3 className="font-bold text-neutral-900 text-lg leading-tight mb-2">Amazon Coming Soon</h3>
+                <p className="text-xs text-neutral-500 leading-relaxed mb-6">
+                  The extension never stores backend secrets and never auto-submits marketplace forms.
+                </p>
+              </div>
+              <div className="flex justify-between items-center pt-4 border-t border-neutral-50">
+                <span className="w-12 h-[3px] bg-neutral-200 rounded-full" />
+                <div className="w-7 h-7 rounded-full border border-neutral-200 flex items-center justify-center bg-white group-hover:border-neutral-300 group-hover:bg-neutral-50 transition-colors">
+                  <Icons.ArrowRight />
+                </div>
+              </div>
+            </article>
+          </div>
+
+          {/* Bottom Trust Strip */}
+          <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0 border border-neutral-200">
+                  <Icons.Shield />
+                </div>
+                <div>
+                  <h4 className="font-bold text-neutral-800 text-xs">100% Secure</h4>
+                  <p className="text-[10px] text-neutral-500">No backend secrets stored in the extension</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0 border border-neutral-200">
+                  <Icons.Lock />
+                </div>
+                <div>
+                  <h4 className="font-bold text-neutral-800 text-xs">Privacy First</h4>
+                  <p className="text-[10px] text-neutral-500">Your data is safe and always encrypted</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0 border border-neutral-200">
+                  <Icons.Bolt />
+                </div>
+                <div>
+                  <h4 className="font-bold text-neutral-800 text-xs">High Performance</h4>
+                  <p className="text-[10px] text-slate-500">Lightweight extension with blazing fast speed</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0 border border-neutral-200">
+                  <Icons.Clock />
+                </div>
+                <div>
+                  <h4 className="font-bold text-neutral-800 text-xs">Activity Logs</h4>
+                  <p className="text-[10px] text-neutral-500">Detailed logs for every action you take</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── PRICING PLANS ── */}
+      <section className="relative py-24 bg-white overflow-hidden">
+        <div className="container relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-4xl font-extrabold text-neutral-900 tracking-tight mb-4">Pricing plans for every seller</h2>
+            <p className="text-base text-neutral-600 leading-relaxed">
+              Start free, upgrade as you grow. Fully automated Meesho and Flipkart listings.
+            </p>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+            {pricingPlans.map((plan) => (
+              <article key={plan.slug} className={`rounded-2xl border p-6 flex flex-col justify-between transition-all group ${
+                plan.featured ? "border border-neutral-200 shadow-md bg-white shadow-md" : "border-neutral-200 bg-white/70 shadow-sm"
+              }`}>
+                <div>
+                  <h3 className="text-lg font-bold text-neutral-900 mb-1">{plan.name}</h3>
+                  <p className="text-xs text-neutral-500 mb-4">{plan.yearlyDiscount}</p>
+                  <div className="flex items-baseline mb-6">
+                    <span className="text-3xl font-extrabold text-neutral-900">₹{plan.monthlyPrice}</span>
+                    <span className="text-neutral-400 text-xs ml-1">/mo</span>
+                  </div>
+                  <div className="border-t border-neutral-100 pt-4 space-y-2 mb-8">
+                    <div className="text-xs font-semibold text-neutral-700">AI Listings: {plan.listings}</div>
+                    <div className="text-xs font-semibold text-neutral-700">Products: {plan.productLimit}</div>
+                    <div className="text-xs font-semibold text-neutral-700">Team: {plan.team}</div>
+                  </div>
+                </div>
+                <Link className={`mt-auto flex w-full justify-center items-center py-2.5 rounded-xl text-xs font-bold transition-all ${
+                  plan.featured ? "bg-neutral-900 text-white hover:bg-neutral-800" : "bg-white text-neutral-900 border border-neutral-300 hover:bg-neutral-50"
+                }`} href="/signup">
+                  Choose Plan
+                </Link>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </PublicShell>
   );
 }

@@ -1,0 +1,63 @@
+export const brand = {
+  appName: "A+ Studio",
+  company: "Iprix Media",
+  website: "https://iprixmedia.com",
+  supportEmail: "info@iprixmedia.com",
+  whatsappDisplay: "+91 6394423902",
+  whatsappUrl: "https://wa.me/916394423902",
+  address: "Udaipur, Rajasthan 313001",
+  founders: "Rohit Sahu and Palash Jain",
+  experience: "10 years of business experience",
+  logo: "/iprix-media-white-logo.webp",
+};
+
+export const publicLinks = [
+  { href: "/", label: "Home" },
+  { href: "/features", label: "Features" },
+  { href: "/chrome-extension", label: "Extension" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+];
+
+export const dashboardNav = [
+  ["Overview", "/dashboard"],
+  ["Listings", "/dashboard/listings"],
+  ["Templates", "/dashboard/templates"],
+  ["Products", "/dashboard/products"],
+  ["Smart Listings", "/dashboard/smart-listings"],
+  ["Image Maker", "/dashboard/image-maker"],
+  ["Label Analyser", "/dashboard/label-analyser"],
+  ["Keyword Research", "/dashboard/keyword-research"],
+  ["AI Content Studio", "/dashboard/ai-content-studio"],
+  ["Bulk CSV Upload", "/dashboard/bulk-csv-upload"],
+  ["Subscription", "/dashboard/subscription"],
+  ["Tutorial", "/dashboard/tutorial"],
+  ["Notifications", "/dashboard/notifications"],
+  ["Support", "/dashboard/support"],
+  ["Settings", "/dashboard/settings"],
+  ["Team", "/dashboard/team"],
+];
+
+export const adminNav = [
+  ["Overview", "/admin"],
+  ["Users", "/admin/users"],
+  ["Plans", "/admin/plans"],
+  ["Subscriptions", "/admin/subscriptions"],
+  ["Payments", "/admin/payments"],
+  ["AI Listings", "/admin/listings"],
+  ["AI Usage", "/admin/ai-usage"],
+  ["Keyword Reports", "/admin/keyword-reports"],
+  ["Products", "/admin/products"],
+  ["Templates", "/admin/templates"],
+  ["Extension Logs", "/admin/extension-logs"],
+  ["Contact Inquiries", "/admin/contact-inquiries"],
+  ["Support Tickets", "/admin/support-tickets"],
+  ["Feature Flags", "/admin/feature-flags"],
+  ["Security Logs", "/admin/security-logs"],
+  ["Listing Usage", "/admin/usage-logs"],
+  ["Capture Logs", "/admin/template-capture-logs"],
+  ["Notifications", "/admin/notifications"],
+  ["Settings", "/admin/settings"],
+  ["Audit Logs", "/admin/audit-logs"],
+];

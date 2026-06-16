@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "A+ Studio",
+  "version": "1.0.0",
+  "description": "AI-powered listing capture, template saving and safe autofill for Indian marketplace sellers.",
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "A+ Studio"
+  },
+  "icons": {
+    "16": "assets/icon-16.png",
+    "32": "assets/icon-32.png",
+    "48": "assets/icon-48.png",
+    "128": "assets/icon-128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.meesho.com/*", "https://supplier.meesho.com/*", "https://*.flipkart.com/*", "https://*.amazon.in/*"],
+      "js": ["content-script.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["http://localhost:3000/*", "https://iprixmedia.com/*", "https://*.meesho.com/*", "https://supplier.meesho.com/*", "https://*.flipkart.com/*", "https://*.amazon.in/*"]
+}
