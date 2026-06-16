@@ -7,6 +7,20 @@ export const metadata: Metadata = {
   description: "Download the A+ Studio Chrome Extension. Save templates and automatically autofill seller forms inside Meesho, Flipkart, and Amazon listing panels.",
   keywords: ["Autofill Chrome Extension", "Meesho seller extension", "Flipkart automation tool", "Amazon seller assistant"],
   alternates: { canonical: "/chrome-extension" },
+  openGraph: {
+    title: "Meesho, Flipkart & Amazon Listing Autofill Chrome Extension | A+ Studio",
+    description: "Download the A+ Studio Chrome Extension. Save templates and automatically autofill seller forms inside Meesho, Flipkart, and Amazon listing panels.",
+    url: "https://iprixmedia.com/chrome-extension",
+    siteName: "A+ Studio",
+    type: "website",
+    images: [{ url: "https://iprixmedia.com/chrome-extension-preview.png", width: 1200, height: 630, alt: "Chrome Extension Preview" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Meesho, Flipkart & Amazon Listing Autofill Chrome Extension | A+ Studio",
+    description: "Download the A+ Studio Chrome Extension. Save templates and automatically autofill seller forms inside Meesho, Flipkart, and Amazon listing panels.",
+    images: ["https://iprixmedia.com/chrome-extension-preview.png"],
+  },
 };
 
 // Minimalist vector icons using currentColor (monochrome)

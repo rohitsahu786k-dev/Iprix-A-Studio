@@ -7,6 +7,20 @@ export const metadata: Metadata = {
   description: "Explore AI Content Studio, bulk product uploads, PDF label analyser, and Chrome extension autofill features for Meesho, Flipkart, and Amazon sellers.",
   keywords: ["A+ Studio features", "AI Content Studio", "PDF Label Analyser", "bulk listing upload", "marketplace listing tools"],
   alternates: { canonical: "/features" },
+  openGraph: {
+    title: "Seller Automation & AI Listing Features | A+ Studio",
+    description: "Explore AI Content Studio, bulk product uploads, PDF label analyser, and Chrome extension autofill features for Meesho, Flipkart, and Amazon sellers.",
+    url: "https://iprixmedia.com/features",
+    siteName: "A+ Studio",
+    type: "website",
+    images: [{ url: "https://iprixmedia.com/ai-content.png", width: 1200, height: 630, alt: "AI Content Studio Features" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Seller Automation & AI Listing Features | A+ Studio",
+    description: "Explore AI Content Studio, bulk product uploads, PDF label analyser, and Chrome extension autofill features for Meesho, Flipkart, and Amazon sellers.",
+    images: ["https://iprixmedia.com/ai-content.png"],
+  },
 };
 
 // Minimalist vector icons using currentColor (monochrome)

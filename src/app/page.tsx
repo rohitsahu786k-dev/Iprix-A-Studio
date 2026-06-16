@@ -1,7 +1,28 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { PublicShell } from "@/components/public-shell";
 import { pricingPlans } from "@/lib/plans";
+
+export const metadata: Metadata = {
+  title: "A+ Studio by Iprix Media - AI Listing Autofill Tool for Indian Sellers",
+  description: "Create marketplace-ready product listings, AI titles, descriptions, keywords, SKUs and images for Meesho, Flipkart and Amazon sellers.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "A+ Studio by Iprix Media - AI Listing Autofill Tool for Indian Sellers",
+    description: "Create marketplace-ready product listings, AI titles, descriptions, keywords, SKUs and images for Meesho, Flipkart and Amazon sellers.",
+    url: "https://iprixmedia.com",
+    siteName: "A+ Studio",
+    type: "website",
+    images: [{ url: "https://iprixmedia.com/seller-dashboard.png", width: 1200, height: 630, alt: "A+ Studio Seller Dashboard" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "A+ Studio by Iprix Media - AI Listing Autofill Tool for Indian Sellers",
+    description: "Create marketplace-ready product listings, AI titles, descriptions, keywords, SKUs and images for Meesho, Flipkart and Amazon sellers.",
+    images: ["https://iprixmedia.com/seller-dashboard.png"],
+  },
+};
 
 // Minimalist vector icons using currentColor (monochrome)
 const Icons = {

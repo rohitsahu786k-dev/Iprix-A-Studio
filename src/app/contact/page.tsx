@@ -8,6 +8,20 @@ export const metadata: Metadata = {
   description: "Get in touch with the A+ Studio support team. Send an inquiry, contact us on WhatsApp, or email info@iprixmedia.com for assistance.",
   keywords: ["Contact A+ Studio", "Iprix Media support email", "WhatsApp e-commerce support", "Rajasthan e-commerce tool help"],
   alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact Iprix Media Support | A+ Studio",
+    description: "Get in touch with the A+ Studio support team. Send an inquiry, contact us on WhatsApp, or email info@iprixmedia.com for assistance.",
+    url: "https://iprixmedia.com/contact",
+    siteName: "A+ Studio",
+    type: "website",
+    images: [{ url: "https://iprixmedia.com/seller-dashboard.png", width: 1200, height: 630, alt: "Contact A+ Studio" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Iprix Media Support | A+ Studio",
+    description: "Get in touch with the A+ Studio support team. Send an inquiry, contact us on WhatsApp, or email info@iprixmedia.com for assistance.",
+    images: ["https://iprixmedia.com/seller-dashboard.png"],
+  },
 };
 
 // Minimalist vector icons using currentColor (monochrome)

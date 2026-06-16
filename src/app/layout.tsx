@@ -38,13 +38,13 @@ export const metadata: Metadata = {
     url: "https://iprixmedia.com",
     siteName: "A+ Studio",
     type: "website",
-    images: [{ url: "/seller-dashboard.png", width: 1200, height: 630, alt: "A+ Studio seller dashboard" }],
+    images: [{ url: "https://iprixmedia.com/seller-dashboard.png", width: 1200, height: 630, alt: "A+ Studio seller dashboard" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "A+ Studio by Iprix Media",
     description: "AI-powered listing automation for Indian marketplace sellers.",
-    images: ["/seller-dashboard.png"],
+    images: ["https://iprixmedia.com/seller-dashboard.png"],
   },
   verification: {
     google: "VlbcOEYvmtWDcrr1rWxsMvY6hUKC6HVdQzEs6CuEPf0",

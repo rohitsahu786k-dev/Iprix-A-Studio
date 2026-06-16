@@ -7,6 +7,20 @@ export const metadata: Metadata = {
   description: "Learn more about Iprix Media and A+ Studio's mission to streamline listing creation and inventory onboarding for Indian marketplace sellers.",
   keywords: ["Iprix Media", "About A+ Studio", "Udaipur Rajasthan IT", "e-commerce seller automation team"],
   alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About A+ Studio by Iprix Media | Seller Automation Mission",
+    description: "Learn more about Iprix Media and A+ Studio's mission to streamline listing creation and inventory onboarding for Indian marketplace sellers.",
+    url: "https://iprixmedia.com/about",
+    siteName: "A+ Studio",
+    type: "website",
+    images: [{ url: "https://iprixmedia.com/seller-dashboard.png", width: 1200, height: 630, alt: "About A+ Studio" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About A+ Studio by Iprix Media | Seller Automation Mission",
+    description: "Learn more about Iprix Media and A+ Studio's mission to streamline listing creation and inventory onboarding for Indian marketplace sellers.",
+    images: ["https://iprixmedia.com/seller-dashboard.png"],
+  },
 };
 
 // Minimalist vector icons using currentColor (monochrome)
