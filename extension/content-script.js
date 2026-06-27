@@ -4827,7 +4827,7 @@
       // Only show the FAB toolbar if on the /add form page
       const toolbar = document.getElementById("__listify_toolbar__");
       if (toolbar) {
-        if (window.location.href.endsWith("/add")) {
+        if (/\/catalogs\/single\/add/.test(window.location.href)) {
           toolbar.style.setProperty("display", "flex", "important");
         } else {
           toolbar.style.setProperty("display", "none", "important");
@@ -5780,7 +5780,7 @@
 
       const toolbar = document.createElement("div");
       toolbar.id = "__listify_toolbar__";
-      const onAdd = window.location.href.endsWith("/add");
+      const onAdd = /\/catalogs\/single\/add/.test(window.location.href);
       console.log(
         `[LISTIFY TOOLBAR] Injecting toolbar. URL: "${window.location.href}" onAdd=${onAdd}`,
       );
