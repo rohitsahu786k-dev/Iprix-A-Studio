@@ -100,7 +100,8 @@
       position: "fixed",
       top: "0",
       right: "0",
-      width: "100vw",
+      width: "420px",
+      maxWidth: "100vw",
       height: "100%",
       zIndex: "2147483646",
       transform: "translateX(100%)",
@@ -141,7 +142,24 @@
     sidebar.style.transform = open ? "translateX(0%)" : "translateX(100%)";
     if (backdrop) {
       backdrop.style.opacity = open ? "1" : "0";
-      backdrop.style.pointerEvents = open ? "auto" : "none";
+      backdrop.style.pointerEvents = "none";
+    }
+  }
+
+  let lastAutoOpenedUrl = "";
+  function checkAutoOpenMeeshoSidebar() {
+    if (!chrome.runtime?.id) return;
+    const href = window.location.href;
+    if (href.includes("meesho.com") && href.includes("/catalogs/single/")) {
+      if (lastAutoOpenedUrl !== href) {
+        lastAutoOpenedUrl = href;
+        chrome.storage.local.get(["listify_token"], (result) => {
+          if (result.listify_token) {
+            console.log("[LISTIFY] Auto-opening sidebar for Meesho listing page:", href);
+            toggleSidebar(true);
+          }
+        });
+      }
     }
   }
 
@@ -782,7 +800,7 @@
       success: "#1a9e5a",
       error: "#dc2626",
       warning: "#d97706",
-      info: "#ff4f1f",
+      info: "#09090b",
       off: "#6b7280",
     };
 
@@ -1368,7 +1386,7 @@
       s.setProperty("left", "24px", "important");
       s.setProperty("z-index", "2147483640", "important");
       s.setProperty("padding", "11px 20px", "important");
-      s.setProperty("background", "#ff4f1f", "important");
+      s.setProperty("background", "#09090b", "important");
       s.setProperty("color", "#fff", "important");
       s.setProperty("border", "none", "important");
       s.setProperty("border-radius", "50px", "important");
@@ -1379,7 +1397,7 @@
       s.setProperty("align-items", "center", "important");
       s.setProperty("gap", "7px", "important");
       s.setProperty("font-family", "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif", "important");
-      s.setProperty("box-shadow", "0 4px 20px rgba(255,79,31,0.45)", "important");
+      s.setProperty("box-shadow", "0 4px 20px rgba(0,0,0,0.18)", "important");
       s.setProperty("white-space", "nowrap", "important");
       s.setProperty("transition", "opacity 0.15s, transform 0.15s", "important");
       btn.addEventListener("mouseover", () => { s.setProperty("opacity", "0.88", "important"); s.setProperty("transform", "scale(1.04)", "important"); });
@@ -1443,7 +1461,7 @@
       // Content
       const content = document.createElement("div");
       Object.assign(content.style, { flex: "1", overflowY: "auto", padding: "16px" });
-      content.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;padding:60px 0;"><div style="width:32px;height:32px;border:3px solid #e5e7eb;border-top-color:#ff4f1f;border-radius:50%;animation:__listify_lib_spin__ 0.8s linear infinite;"></div></div>`;
+      content.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;padding:60px 0;"><div style="width:32px;height:32px;border:3px solid #e5e7eb;border-top-color:#09090b;border-radius:50%;animation:__listify_lib_spin__ 0.8s linear infinite;"></div></div>`;
 
       modal.appendChild(hdr);
       modal.appendChild(content);
@@ -1458,7 +1476,7 @@
           content.innerHTML = `<div style="text-align:center;padding:40px;color:#6b7280;font-size:14px;line-height:1.6;">
             Could not load images.<br><br>
             <strong style="color:#111;">To fix this:</strong><br>
-            1. Open <a href="https://aplusstudio.iprixmedia.com" target="_blank" style="color:#ff4f1f;">aplusstudio.iprixmedia.com</a> in a new tab and sign in<br>
+            1. Open <a href="https://aplusstudio.iprixmedia.com" target="_blank" style="color:#09090b;text-decoration:underline;">aplusstudio.iprixmedia.com</a> in a new tab and sign in<br>
             2. Come back here and click <strong>A+ Studio Library</strong> again
           </div>`;
           return;
@@ -1558,7 +1576,7 @@
           const barWrap = document.createElement("div");
           Object.assign(barWrap.style, { height: "4px", background: "#f3f4f6", borderRadius: "2px", overflow: "hidden", marginBottom: "14px" });
           const barFill = document.createElement("div");
-          Object.assign(barFill.style, { height: "100%", background: "#ff4f1f", borderRadius: "2px", width: "0%", transition: "width 0.4s" });
+          Object.assign(barFill.style, { height: "100%", background: "#09090b", borderRadius: "2px", width: "0%", transition: "width 0.4s" });
           barWrap.appendChild(barFill);
 
           const logList = document.createElement("div");
@@ -1664,7 +1682,7 @@
           titleEl.textContent = `Best image found!`;
           subEl.textContent = `Image ${best.idx} — ₹${best.shipping} shipping${savings > 0 ? ` (saves ₹${savings})` : ""}`;
           thumbEl.src = best.url;
-          thumbEl.style.borderColor = "#ff4f1f";
+          thumbEl.style.borderColor = "#09090b";
           barFill.style.width = "90%";
 
           // Upload winner
@@ -1762,7 +1780,7 @@
         useBtn.textContent = "Use This Image";
         useBtn.disabled = true;
         Object.assign(useBtn.style, {
-          flex: "2", padding: "9px 16px", background: "#ff4f1f",
+          flex: "2", padding: "9px 16px", background: "#09090b",
           color: "#fff", border: "none", borderRadius: "8px",
           fontSize: "13px", fontWeight: "700", cursor: "not-allowed",
           opacity: "0.4", transition: "opacity 0.15s",
@@ -1796,8 +1814,8 @@
               transition: "border-color 0.15s, box-shadow 0.15s, transform 0.1s",
             });
             card.addEventListener("mouseover", () => {
-              card.style.borderColor = "#ff4f1f";
-              card.style.boxShadow = "0 4px 14px rgba(255,79,31,0.13)";
+              card.style.borderColor = "#09090b";
+              card.style.boxShadow = "0 4px 14px rgba(0,0,0,0.08)";
               card.style.transform = "translateY(-2px)";
             });
             card.addEventListener("mouseout", () => {
@@ -1850,7 +1868,7 @@
               Object.assign(testedBadge.style, {
                 position: "absolute", top: "6px", left: "6px",
                 fontSize: "9px", fontWeight: "700", color: "#fff",
-                background: "#ff4f1f", borderRadius: "4px", padding: "2px 7px",
+                background: "#09090b", borderRadius: "4px", padding: "2px 7px",
                 letterSpacing: "0.02em", zIndex: "1",
               });
               thumbWrap.appendChild(testedBadge);
@@ -1900,7 +1918,7 @@
           backBtn.innerHTML = `&#8592; All Folders`;
           Object.assign(backBtn.style, {
             background: "none", border: "none", fontSize: "12px",
-            color: "#ff4f1f", cursor: "pointer", fontWeight: "600",
+            color: "#09090b", cursor: "pointer", fontWeight: "600",
             padding: "0", flexShrink: "0", whiteSpace: "nowrap",
           });
           backBtn.addEventListener("click", renderFolders);
@@ -1963,8 +1981,8 @@
                 c.style.borderColor = "#e5e7eb";
                 c.style.boxShadow = "none";
               });
-              card.style.borderColor = "#ff4f1f";
-              card.style.boxShadow = "0 0 0 3px rgba(255,79,31,0.15)";
+              card.style.borderColor = "#09090b";
+              card.style.boxShadow = "0 0 0 3px rgba(0,0,0,0.12)";
               selectedUrl = url;
               useBtn.disabled = false;
               useBtn.style.opacity = "1";
@@ -4552,6 +4570,8 @@
       const isOnForm = newUrl.includes("/add");
       _lastUrl = newUrl;
 
+      checkAutoOpenMeeshoSidebar();
+
       // Fix 1: clear category FIRST, then call watchDefaultCategory
       // so it always runs with a clean sessionStorage
       if (wasOnForm && !isOnForm) {
@@ -4767,12 +4787,12 @@
     applyStyles(fab, {
       padding: "7px 14px",
       "border-radius": "8px",
-      background: "#ff4f1f",
+      background: "#09090b",
       color: "#fff",
       border: "none",
       cursor: "pointer",
       outline: "none",
-      "box-shadow": "0 2px 8px rgba(255,79,31,0.3)",
+      "box-shadow": "0 2px 8px rgba(0,0,0,0.15)",
       display: "flex",
       "align-items": "center",
       "justify-content": "center",
@@ -4785,10 +4805,10 @@
       "line-height": "1",
     });
     fab.addEventListener("mouseenter", () =>
-      sp(fab, "box-shadow", "0 6px 22px rgba(255,79,31,0.55)"),
+      sp(fab, "box-shadow", "0 6px 22px rgba(0,0,0,0.25)"),
     );
     fab.addEventListener("mouseleave", () =>
-      sp(fab, "box-shadow", "0 4px 18px rgba(255,79,31,0.4)"),
+      sp(fab, "box-shadow", "0 4px 18px rgba(0,0,0,0.18)"),
     );
     fab.addEventListener("mousedown", () => sp(fab, "opacity", "0.85"));
     fab.addEventListener("mouseup", () => sp(fab, "opacity", "1"));
@@ -4951,7 +4971,7 @@
     head.appendChild(
       makeEl(
         "span",
-        { "font-size": "12px", "font-weight": "600", color: "#ff4f1f" },
+        { "font-size": "12px", "font-weight": "600", color: "#09090b" },
         "A+ Studio",
       ),
     );
@@ -4989,7 +5009,7 @@
       inp.type = "text";
       inp.placeholder = placeholder;
       inp.addEventListener("focus", () =>
-        sp(inp, "border", "1.5px solid #ff4f1f"),
+        sp(inp, "border", "1.5px solid #09090b"),
       );
       inp.addEventListener("blur", () =>
         sp(inp, "border", "1.5px solid #e5e7eb"),
@@ -5023,7 +5043,7 @@
       {
         flex: "1",
         padding: "10px",
-        background: "#ff4f1f",
+        background: "#09090b",
         color: "#fff",
         border: "none",
         "border-radius": "8px",
@@ -5800,7 +5820,9 @@
     injectToolbar();
     injectAiDescButton();
     injectAiTitleButton();
+    checkAutoOpenMeeshoSidebar();
     const _toolbarObserver = new MutationObserver(() => {
+      checkAutoOpenMeeshoSidebar();
       if (!document.getElementById("__listify_toolbar__")) injectToolbar();
       if (!document.getElementById("__listify_ai_desc_btn__"))
         injectAiDescButton();

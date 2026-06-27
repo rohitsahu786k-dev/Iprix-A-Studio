@@ -27,6 +27,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // User's currently selected platform in the dropdown.
   let _selectedPlatform = "meesho";
 
+  // If we are in an iframe (sidebar mode), show and wire the close button
+  if (window.self !== window.top) {
+    const closeBtn = document.getElementById("closeSidebarBtn");
+    if (closeBtn) {
+      closeBtn.style.display = "inline-flex";
+      closeBtn.addEventListener("click", () => {
+        chrome.runtime.sendMessage({ action: "CLOSE_SIDEBAR" });
+      });
+    }
+  }
+
   function detectPlatformFromUrl(url) {
     if (!url) return "";
     if (url.includes("seller.flipkart.com")) return "flipkart";

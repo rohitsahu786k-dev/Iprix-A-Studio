@@ -923,6 +923,15 @@ chrome.tabs.onActivated.addListener(async ({ tabId }) => {
 // Handle save_template and trigger_autofill from content scripts.
 // Doing fetches here (in the background) bypasses any CSP on the host page.
 chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+  if (msg.action === "CLOSE_SIDEBAR") {
+    const tabId = _sender?.tab?.id;
+    if (tabId) {
+      chrome.tabs.sendMessage(tabId, { action: "TOGGLE_SIDEBAR", forceOpen: false }).catch(() => {});
+    }
+    sendResponse({ ok: true });
+    return true;
+  }
+
   if (msg.action === "trigger_autofill") {
     (async () => {
       try {

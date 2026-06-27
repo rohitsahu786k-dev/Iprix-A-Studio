@@ -25,9 +25,10 @@
       --text: #111110;
       --soft: #444442;
       --muted: #888885;
-      --accent: #ff4f1f;
-      --accent-soft: rgba(255, 79, 31, 0.08);
-      --accent-border: rgba(255, 79, 31, 0.18);
+      --accent: #09090b;
+      --btn-text: #ffffff;
+      --accent-soft: rgba(9, 9, 11, 0.05);
+      --accent-border: rgba(9, 9, 11, 0.15);
       --green: #1a9e5a;
       --red: #dc2626;
       --gold: #b8890a;
@@ -47,9 +48,10 @@
       --text: #eeeae3;
       --soft: #9995a4;
       --muted: #666370;
-      --accent: #ff4f1f;
-      --accent-soft: rgba(255, 79, 31, 0.1);
-      --accent-border: rgba(255, 79, 31, 0.25);
+      --accent: #ffffff;
+      --btn-text: #09090b;
+      --accent-soft: rgba(255, 255, 255, 0.07);
+      --accent-border: rgba(255, 255, 255, 0.25);
       --green: #30d980;
       --red: #ff4f4f;
       --gold: #f5c842;
@@ -129,7 +131,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 8px rgba(255, 79, 31, 0.25);
+      box-shadow: 0 2px 8px var(--accent-border);
     }
 
     .brand-icon img {
@@ -382,7 +384,7 @@
       width: 100%;
       padding: 10px;
       background: var(--accent);
-      color: white;
+      color: var(--btn-text);
       border: none;
       border-radius: 8px;
       font-size: 13px;
@@ -531,7 +533,7 @@
 
     .btn-primary {
       background: var(--accent);
-      color: white;
+      color: var(--btn-text);
     }
 
     .btn-secondary {
@@ -634,13 +636,15 @@
       font-size: 12px;
       font-weight: 600;
       white-space: nowrap;
-      transition: background 0.15s;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       height: 26px;
       letter-spacing: -0.005em;
     }
 
     .btn-fill:hover {
-      background: rgba(255, 79, 31, 0.16);
+      background: var(--accent);
+      color: var(--btn-text);
+      border-color: var(--accent);
     }
 
     .btn-delete {
@@ -954,6 +958,12 @@
         <svg id="themeIconMoon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+      </button>
+      <!-- Close button (only visible when in iframe sidebar) -->
+      <button class="icon-btn" id="closeSidebarBtn" title="Close sidebar" style="display:none; margin-left: 4px;">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </div>
