@@ -1458,7 +1458,7 @@
           content.innerHTML = `<div style="text-align:center;padding:40px;color:#6b7280;font-size:14px;line-height:1.6;">
             Could not load images.<br><br>
             <strong style="color:#111;">To fix this:</strong><br>
-            1. Open <a href="https://iprixmedia.com" target="_blank" style="color:#ff4f1f;">iprixmedia.com</a> in a new tab and sign in<br>
+            1. Open <a href="https://aplusstudio.iprixmedia.com" target="_blank" style="color:#ff4f1f;">aplusstudio.iprixmedia.com</a> in a new tab and sign in<br>
             2. Come back here and click <strong>A+ Studio Library</strong> again
           </div>`;
           return;
@@ -4734,7 +4734,7 @@
           }, 2000);
         } else if (result && result.error === "fill_limit_exceeded") {
           showToast(
-            `You've used all ${result.fillLimit} free form fills this month. Upgrade to continue — iprixmedia.com/dashboard/subscription`,
+            `You've used all ${result.fillLimit} free form fills this month. Upgrade to continue — aplusstudio.iprixmedia.com/dashboard/subscription`,
             "warning",
           );
           autofillBtn.innerHTML = _autofillOrigHTML;
@@ -4883,7 +4883,7 @@
               showToast(fillMsg, missed > 0 ? "warning" : "success");
             } else if (result && result.error === "fill_limit_exceeded") {
               showToast(
-                `You've used all ${result.fillLimit} free form fills this month. Upgrade at iprixmedia.com/dashboard/subscription`,
+                `You've used all ${result.fillLimit} free form fills this month. Upgrade at aplusstudio.iprixmedia.com/dashboard/subscription`,
                 "warning",
               );
             } else if (result && result.error === "no_category_match") {

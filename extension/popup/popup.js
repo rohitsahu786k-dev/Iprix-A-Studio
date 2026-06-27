@@ -1425,8 +1425,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!_canAutoFill) {
       const msg =
         _planName === "free"
-          ? "Buy a subscription to use Autofill — iprixmedia.com/dashboard/subscription"
-          : "Auto-fill is not included in your plan. Upgrade to Pro — iprixmedia.com/dashboard/subscription";
+          ? "Buy a subscription to use Autofill — aplusstudio.iprixmedia.com/dashboard/subscription"
+          : "Auto-fill is not included in your plan. Upgrade to Pro — aplusstudio.iprixmedia.com/dashboard/subscription";
       chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
         if (!tab || !tab.id || tab.url?.startsWith("chrome://")) return;
         chrome.tabs
@@ -2356,8 +2356,8 @@ document.addEventListener("DOMContentLoaded", () => {
               e.stopPropagation();
               const msg =
                 _planName === "free"
-                  ? "Buy a subscription to use Autofill — iprixmedia.com/dashboard/subscription"
-                  : "Auto-fill is not included in your plan. Upgrade to Pro — iprixmedia.com/dashboard/subscription";
+                  ? "Buy a subscription to use Autofill — aplusstudio.iprixmedia.com/dashboard/subscription"
+                  : "Auto-fill is not included in your plan. Upgrade to Pro — aplusstudio.iprixmedia.com/dashboard/subscription";
               chrome.tabs.query(
                 { active: true, currentWindow: true },
                 ([tab]) => {

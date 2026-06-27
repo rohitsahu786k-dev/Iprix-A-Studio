@@ -45,7 +45,7 @@
       } ]
    },
    "description": "AI listing autofill studio for Indian sellers by Iprix Media.",
-   "host_permissions": [ "https://iprixmedia.com/*", "http://localhost:3000/*", "*://seller.flipkart.com/*", "https://sellercentral.amazon.in/*", "*://supplier.meesho.com/*", "*://*.meesho.com/*", "https://messho-images.picckie.com/*" ],
+   "host_permissions": [ "https://aplusstudio.iprixmedia.com/*", "https://iprixmedia.com/*", "http://localhost:3000/*", "*://seller.flipkart.com/*", "https://sellercentral.amazon.in/*", "*://supplier.meesho.com/*", "*://*.meesho.com/*", "https://messho-images.picckie.com/*" ],
    "icons": {
       "128": "lisstify-mini-logo.png",
       "16": "lisstify-mini-logo.png",
