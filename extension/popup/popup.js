@@ -1583,8 +1583,22 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!result.listify_user) redirectToLogin();
           });
       } else {
-        // Try to pick up token from the frontend if user is already logged in there
-        const frontendToken = await _tryGetFrontendToken();
+        // Try to pick up token from the cookies or frontend
+        let frontendToken = null;
+        try {
+          const cookie = await chrome.cookies.get({
+            url: FRONTEND_URL,
+            name: "aps_session",
+          });
+          if (cookie && cookie.value) {
+            frontendToken = cookie.value;
+          }
+        } catch (_) {}
+
+        if (!frontendToken) {
+          frontendToken = await _tryGetFrontendToken();
+        }
+
         if (frontendToken) {
           try {
             const res = await fetch(`${AUTH_URL}/me`, {

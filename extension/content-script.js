@@ -5809,3 +5809,5 @@
     });
     _toolbarObserver.observe(document.body, { childList: true, subtree: true });
   })();
+})();
+

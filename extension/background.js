@@ -7,6 +7,22 @@ chrome.action.onClicked.addListener(async (tab) => {
     const storage = await chrome.storage.local.get(["listify_token"]);
     let token = storage.listify_token;
 
+    // 1b. Check cookies of FRONTEND_URL
+    if (!token) {
+      try {
+        const cookie = await chrome.cookies.get({
+          url: FRONTEND_URL,
+          name: "aps_session"
+        });
+        if (cookie && cookie.value) {
+          token = cookie.value;
+          await chrome.storage.local.set({ listify_token: token });
+        }
+      } catch (e) {
+        console.warn("[LISTIFY BG] Failed to read token from cookies:", e);
+      }
+    }
+
     // 2. If no token, check open website tabs to pull the token from localStorage
     if (!token) {
       const websiteTabs = await chrome.tabs.query({
@@ -37,6 +53,14 @@ chrome.action.onClicked.addListener(async (tab) => {
 
     // 3. If we have a token, toggle sidebar on the current tab
     if (token) {
+      try {
+        await chrome.scripting.executeScript({
+          target: { tabId: tab.id, allFrames: true },
+          files: ["content-script.js"],
+        });
+      } catch (err) {
+        console.warn("[LISTIFY BG] Content script injection failed or already exists:", err);
+      }
       chrome.tabs.sendMessage(tab.id, { action: "TOGGLE_SIDEBAR" }, { frameId: 0 })
         .catch(() => {});
     } else {
@@ -66,6 +90,15 @@ chrome.storage.onChanged.addListener(async (changes, areaName) => {
       await chrome.storage.local.remove(["pending_activation_tab_id", "auth_opened_tab_id"]);
       // Focus the original tab
       chrome.tabs.update(pendingTabId, { active: true }).catch(() => {});
+      // Ensure content script is injected first
+      try {
+        await chrome.scripting.executeScript({
+          target: { tabId: pendingTabId, allFrames: true },
+          files: ["content-script.js"],
+        });
+      } catch (err) {
+        console.warn("[LISTIFY BG] Content script injection failed or already exists on pending tab:", err);
+      }
       // Open sidebar in the original tab
       chrome.tabs.sendMessage(pendingTabId, { action: "TOGGLE_SIDEBAR", forceOpen: true }, { frameId: 0 })
         .catch(() => {});
