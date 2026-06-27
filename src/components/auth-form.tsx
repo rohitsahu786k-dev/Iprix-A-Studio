@@ -50,6 +50,10 @@ export function AuthForm({ mode, redirectTo = "/dashboard" }: { mode: Mode; redi
     if (response.ok) {
       setStatus(data.message || "Success");
       if (mode === "login" || mode === "signup") {
+        // Save JWT token to localStorage so the extension bridge can pick it up
+        if (data.token) {
+          localStorage.setItem("listify_token", data.token);
+        }
         router.push(redirectTo);
       }
     } else {

@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getServerEnv } from "@/lib/env";
 import { User } from "@/models";
@@ -75,8 +75,23 @@ export async function clearSession() {
 }
 
 export async function getSession() {
+  // 1. Try cookie-based session (website dashboard)
   const store = await cookies();
-  return readToken(store.get(COOKIE_NAME)?.value);
+  const cookieSession = readToken(store.get(COOKIE_NAME)?.value);
+  if (cookieSession) return cookieSession;
+
+  // 2. Fall back to Bearer token from Authorization header (extension)
+  try {
+    const hdrs = await headers();
+    const authHeader = hdrs.get("authorization");
+    if (authHeader?.startsWith("Bearer ")) {
+      return readToken(authHeader.slice(7));
+    }
+  } catch (_) {
+    // headers() may throw in some contexts (e.g. generateStaticParams)
+  }
+
+  return null;
 }
 
 export async function requireUser(role?: "admin") {
@@ -84,6 +99,26 @@ export async function requireUser(role?: "admin") {
   if (!session) redirect("/login");
   if (role && session.role !== role) redirect("/dashboard");
   return session;
+}
+
+/**
+ * Read the session from a Request object.
+ * Tries cookie-based session first (website), then falls back to
+ * Bearer token in the Authorization header (extension).
+ */
+export async function getSessionFromRequest(request: Request): Promise<SessionUser | null> {
+  // 1. Try cookie-based session (normal website auth)
+  const cookieSession = await getSession();
+  if (cookieSession) return cookieSession;
+
+  // 2. Try Bearer token from Authorization header (extension auth)
+  const authHeader = request.headers.get("authorization");
+  if (authHeader?.startsWith("Bearer ")) {
+    const token = authHeader.slice(7);
+    return readToken(token);
+  }
+
+  return null;
 }
 
 export async function hashPassword(password: string) {

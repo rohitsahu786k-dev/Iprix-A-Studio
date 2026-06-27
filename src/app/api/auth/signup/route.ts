@@ -2,7 +2,7 @@ import crypto from "crypto";
 import { z } from "zod";
 import { ok, fail, parseBody } from "@/lib/api";
 import { connectDb } from "@/lib/db";
-import { hashPassword, setSession, toSessionUser } from "@/lib/auth";
+import { createToken, hashPassword, setSession, toSessionUser } from "@/lib/auth";
 import { User, Notification } from "@/models";
 import { rateLimit } from "@/lib/rate-limit";
 import { sendMailWithLog } from "@/lib/email/sender";
@@ -50,6 +50,7 @@ export async function POST(request: Request) {
   });
 
   await setSession(toSessionUser(user));
-  return ok({ user: toSessionUser(user), verifyToken }, { status: 201 });
+  const token = createToken(toSessionUser(user));
+  return ok({ user: toSessionUser(user), token, verifyToken }, { status: 201 });
 }
 

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { ok, fail, parseBody } from "@/lib/api";
-import { findUserByEmail, setSession, toSessionUser, verifyPassword } from "@/lib/auth";
+import { createToken, findUserByEmail, setSession, toSessionUser, verifyPassword } from "@/lib/auth";
 import { rateLimit } from "@/lib/rate-limit";
 
 const schema = z.object({
@@ -19,5 +19,7 @@ export async function POST(request: Request) {
   if (!valid) return fail("Invalid credentials", 401);
   const sessionUser = toSessionUser(user);
   await setSession(sessionUser);
-  return ok({ user: sessionUser });
+  // Return JWT token so the extension can store it in chrome.storage.local
+  const token = createToken(sessionUser);
+  return ok({ user: sessionUser, token });
 }

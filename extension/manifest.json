@@ -1,29 +1,65 @@
 {
-  "manifest_version": 3,
-  "name": "A+ Studio",
-  "version": "1.0.0",
-  "description": "AI-powered listing capture, template saving and safe autofill for Indian marketplace sellers.",
-  "action": {
-    "default_popup": "popup/popup.html",
-    "default_title": "A+ Studio"
-  },
-  "icons": {
-    "16": "assets/icon-16.png",
-    "32": "assets/icon-32.png",
-    "48": "assets/icon-48.png",
-    "128": "assets/icon-128.png"
-  },
-  "background": {
-    "service_worker": "background.js"
-  },
-  "content_scripts": [
-    {
-      "matches": ["https://*.meesho.com/*", "https://supplier.meesho.com/*", "https://*.flipkart.com/*", "https://*.amazon.in/*"],
-      "js": ["content-script.js"],
-      "run_at": "document_idle"
-    }
-  ],
-  "permissions": ["storage", "activeTab", "scripting"],
-  "host_permissions": ["http://localhost:3000/*", "https://*.iprixmedia.com/*", "https://*.meesho.com/*", "https://supplier.meesho.com/*", "https://*.flipkart.com/*", "https://*.amazon.in/*"]
+   "action": {
+      "default_icon": {
+         "128": "lisstify-mini-logo.png",
+         "16": "lisstify-mini-logo.png",
+         "32": "lisstify-mini-logo.png",
+         "48": "lisstify-mini-logo.png"
+      },
+      "default_title": "A+ Studio"
+   },
+   "background": {
+      "service_worker": "background.js"
+   },
+   "content_scripts": [ {
+      "all_frames": true,
+      "js": [ "logger.js" ],
+      "matches": [ "\u003Call_urls>" ],
+      "run_at": "document_start"
+   }, {
+      "all_frames": true,
+      "js": [ "content-script.js" ],
+      "matches": [ "\u003Call_urls>" ]
+   }, {
+      "all_frames": false,
+      "js": [ "platforms/flipkart/fk-category.js" ],
+      "matches": [ "*://seller.flipkart.com/*" ]
+   }, {
+      "all_frames": true,
+      "js": [ "platforms/flipkart/fk-fill.js" ],
+      "matches": [ "*://seller.flipkart.com/*" ]
+   }, {
+      "all_frames": false,
+      "js": [ "platforms/flipkart/fk-autofill.js" ],
+      "matches": [ "*://seller.flipkart.com/*" ]
+   }, {
+      "all_frames": false,
+      "js": [ "platforms/flipkart/fk-buttons.js" ],
+      "matches": [ "*://seller.flipkart.com/*" ]
+   } ],
+   "declarative_net_request": {
+      "rule_resources": [ {
+         "enabled": true,
+         "id": "fix_image_origin",
+         "path": "rules.json"
+      } ]
+   },
+   "description": "AI listing autofill studio for Indian sellers by Iprix Media.",
+   "host_permissions": [ "https://iprixmedia.com/*", "http://localhost:3000/*", "*://seller.flipkart.com/*", "https://sellercentral.amazon.in/*", "*://supplier.meesho.com/*", "*://*.meesho.com/*", "https://messho-images.picckie.com/*" ],
+   "icons": {
+      "128": "lisstify-mini-logo.png",
+      "16": "lisstify-mini-logo.png",
+      "32": "lisstify-mini-logo.png",
+      "48": "lisstify-mini-logo.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1vGWKNMWNmSrzkDz4pEqw4NoYl3KbJ2Y6f3fOSG8WxE+FBCf9a0XuRxoxML2+GtMNHrBTt+NLPlFBvSmIASuWTKrZ8Gcoj/VNdl6iKb0/3dTTx8N451GxO1w8etvkuIphbG08ioM1fCx/ZTmETl9SdFnkd/uAmXK9DqTNEnuTas+pVryJwU/uEv4+2DRdPEdR+1Usiedz1Ui/wt8CDSIh1NC1p/KwUc87nI4VakC8JTK7lcPapopgsX7xC414s3xjvsp+sSDSfWgi9Lo5WbnOcvwRzATfGhDrYlX8pTQHs3ZvkSWK5PYVQr5OBQ3QO5BqNpSYzsZBBZYR6BBU/hQoQIDAQAB",
+   "manifest_version": 3,
+   "name": "A+ Studio",
+   "permissions": [ "activeTab", "scripting", "storage", "unlimitedStorage", "tabs", "windows", "declarativeNetRequest" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.3.5",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "popup/popup.html", "popup/popup.js", "popup/xlsx.mini.min.js", "popup/flipkart/fk-tab.js", "config.js", "fonts/inter-latin.woff2", "lisstify-mini-logo.png" ]
+   } ]
 }
-
