@@ -1,17 +1,80 @@
 importScripts("logger.js", "config.js");
 
-// Toggle overlay sidebar when extension icon is clicked
 // Toggle overlay sidebar when extension icon is clicked, or redirect to login if unauthenticated
-chrome.action.onClicked.addListener((tab) => {
-  chrome.storage.local.get(["listify_token"], (result) => {
-    if (result.listify_token) {
-      chrome.tabs
-        .sendMessage(tab.id, { action: "TOGGLE_SIDEBAR" }, { frameId: 0 })
+chrome.action.onClicked.addListener(async (tab) => {
+  try {
+    // 1. Check local storage first
+    const storage = await chrome.storage.local.get(["listify_token"]);
+    let token = storage.listify_token;
+
+    // 2. If no token, check open website tabs to pull the token from localStorage
+    if (!token) {
+      const websiteTabs = await chrome.tabs.query({
+        url: [
+          "https://aplusstudio.iprixmedia.com/*",
+          "https://iprixmedia.com/*",
+          "http://localhost:3000/*"
+        ]
+      });
+      for (const wTab of websiteTabs) {
+        if (!wTab.id) continue;
+        try {
+          const results = await chrome.scripting.executeScript({
+            target: { tabId: wTab.id },
+            func: () => localStorage.getItem("listify_token"),
+          });
+          const foundToken = results?.[0]?.result;
+          if (foundToken) {
+            token = foundToken;
+            await chrome.storage.local.set({ listify_token: foundToken });
+            break;
+          }
+        } catch (e) {
+          console.warn("[LISTIFY BG] Failed to read token from open tab:", e);
+        }
+      }
+    }
+
+    // 3. If we have a token, toggle sidebar on the current tab
+    if (token) {
+      chrome.tabs.sendMessage(tab.id, { action: "TOGGLE_SIDEBAR" }, { frameId: 0 })
         .catch(() => {});
     } else {
-      chrome.tabs.create({ url: `${FRONTEND_URL}/login?from=extension` });
+      // 4. If still no token, store original tab ID and redirect to login page
+      await chrome.storage.local.set({
+        pending_activation_tab_id: tab.id,
+        auth_opened_tab_id: null
+      });
+      const newTab = await chrome.tabs.create({ url: `${FRONTEND_URL}/login?from=extension` });
+      await chrome.storage.local.set({ auth_opened_tab_id: newTab.id });
     }
-  });
+  } catch (err) {
+    console.error("[LISTIFY BG] Click handler error:", err);
+  }
+});
+
+// Sync token listener to automatically activate the tab where the user clicked the extension
+chrome.storage.onChanged.addListener(async (changes, areaName) => {
+  if (areaName === "local" && changes.listify_token && changes.listify_token.newValue) {
+    const data = await chrome.storage.local.get(["pending_activation_tab_id", "auth_opened_tab_id"]);
+    const pendingTabId = data.pending_activation_tab_id;
+    const authTabId = data.auth_opened_tab_id;
+
+    if (pendingTabId) {
+      console.log(`[LISTIFY BG] Token synced! Restoring tab ${pendingTabId}`);
+      // Clear pending state
+      await chrome.storage.local.remove(["pending_activation_tab_id", "auth_opened_tab_id"]);
+      // Focus the original tab
+      chrome.tabs.update(pendingTabId, { active: true }).catch(() => {});
+      // Open sidebar in the original tab
+      chrome.tabs.sendMessage(pendingTabId, { action: "TOGGLE_SIDEBAR", forceOpen: true }, { frameId: 0 })
+        .catch(() => {});
+      // Close the login tab we opened
+      if (authTabId) {
+        chrome.tabs.remove(authTabId).catch(() => {});
+      }
+    }
+  }
 });
 
 // Track which tabs have already been auto-filled (reset on new page load)

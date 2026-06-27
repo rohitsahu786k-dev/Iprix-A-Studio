@@ -170,7 +170,7 @@
     (async () => {
       try {
         if (request.action === "TOGGLE_SIDEBAR") {
-          toggleSidebar();
+          toggleSidebar(request.forceOpen);
           sendResponse({ success: true });
         } else if (request.action === "scan_form") {
           const data = await scanForms();
