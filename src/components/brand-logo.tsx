@@ -33,8 +33,8 @@ export function BrandLogo({
         />
       </span>
       <span className="flex flex-col text-left">
-        <span className="text-sm font-extrabold tracking-tight text-neutral-900 leading-none">A+ Studio</span>
-        <span className="text-[9px] font-medium text-neutral-400 mt-0.5 leading-none">Iprix Media</span>
+        <span className="text-sm font-extrabold tracking-tight text-zinc-100 leading-none">A+ Studio</span>
+        <span className="text-[9px] font-medium text-zinc-400 mt-0.5 leading-none">Iprix Media</span>
       </span>
     </span>
   );
