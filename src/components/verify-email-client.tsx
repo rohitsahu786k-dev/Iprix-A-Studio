@@ -48,31 +48,31 @@ function VerifyEmailInner() {
   }, [token, email, missingVerificationParams, router]);
 
   return (
-    <div className="mx-auto max-w-md w-full border border-neutral-200 bg-white rounded-2xl p-8 shadow-sm text-center">
+    <div className="mx-auto max-w-md w-full border border-zinc-800 bg-zinc-900/50 backdrop-blur-md rounded-2xl p-8 shadow-sm text-center">
       {status === "loading" && (
         <div className="flex flex-col items-center justify-center space-y-4">
-          <Loader2 className="h-10 w-10 text-neutral-900 animate-spin" />
-          <h2 className="text-xl font-bold text-neutral-900">Verifying Email</h2>
-          <p className="text-sm text-neutral-500 font-semibold">{message}</p>
+          <Loader2 className="h-10 w-10 text-white animate-spin" />
+          <h2 className="text-xl font-bold text-white">Verifying Email</h2>
+          <p className="text-sm text-zinc-400 font-semibold">{message}</p>
         </div>
       )}
 
       {status === "success" && (
         <div className="flex flex-col items-center justify-center space-y-4">
-          <CheckCircle2 className="h-12 w-12 text-neutral-900" />
-          <h2 className="text-xl font-bold text-neutral-900">Account Verified!</h2>
-          <p className="text-sm text-neutral-500 font-semibold">{message}</p>
+          <CheckCircle2 className="h-12 w-12 text-white" />
+          <h2 className="text-xl font-bold text-white">Account Verified!</h2>
+          <p className="text-sm text-zinc-400 font-semibold">{message}</p>
         </div>
       )}
 
       {status === "error" && (
         <div className="flex flex-col items-center justify-center space-y-4">
-          <XCircle className="h-12 w-12 text-neutral-900" />
-          <h2 className="text-xl font-bold text-neutral-900">Verification Failed</h2>
-          <p className="text-sm text-neutral-500 font-semibold mb-4">{message}</p>
+          <XCircle className="h-12 w-12 text-white" />
+          <h2 className="text-xl font-bold text-white">Verification Failed</h2>
+          <p className="text-sm text-zinc-400 font-semibold mb-4">{message}</p>
           <button
             onClick={() => router.push("/login")}
-            className="w-full rounded-xl bg-neutral-950 px-4 py-3 text-xs font-bold text-white hover:bg-neutral-850 transition-all cursor-pointer"
+            className="w-full rounded-xl bg-indigo-600 px-4 py-3 text-xs font-bold text-white hover:bg-indigo-500 transition-all cursor-pointer"
           >
             Go to Login
           </button>
@@ -85,10 +85,10 @@ function VerifyEmailInner() {
 export function VerifyEmailClient() {
   return (
     <Suspense fallback={
-      <div className="mx-auto max-w-md w-full border border-neutral-200 bg-white rounded-2xl p-8 shadow-sm text-center flex flex-col items-center justify-center space-y-4">
-        <Loader2 className="h-10 w-10 text-neutral-900 animate-spin" />
-        <h2 className="text-xl font-bold text-neutral-900">Loading</h2>
-        <p className="text-sm text-neutral-500 font-semibold">Preparing verification environment...</p>
+      <div className="mx-auto max-w-md w-full border border-zinc-800 bg-zinc-900/50 backdrop-blur-md rounded-2xl p-8 shadow-sm text-center flex flex-col items-center justify-center space-y-4">
+        <Loader2 className="h-10 w-10 text-white animate-spin" />
+        <h2 className="text-xl font-bold text-white">Loading</h2>
+        <p className="text-sm text-zinc-400 font-semibold">Preparing verification environment...</p>
       </div>
     }>
       <VerifyEmailInner />

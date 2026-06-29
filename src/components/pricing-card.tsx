@@ -56,46 +56,44 @@ export function PricingCard({
   ];
 
   return (
-    <article className={`relative rounded-2xl border p-6 flex flex-col justify-between h-full transition-all duration-200 group ${
+    <article className={`relative rounded-3xl border p-6 flex flex-col justify-between h-full transition-all duration-300 group hover:-translate-y-1 ${
       dark 
-        ? "border-neutral-200 bg-neutral-950 shadow-md text-white" 
+        ? "border-indigo-500/30 bg-gradient-to-b from-zinc-900 to-zinc-950 shadow-xl shadow-indigo-500/5 text-white hover:border-indigo-500/60" 
         : current 
-          ? "border-2 border-neutral-200 bg-white shadow-sm" 
-          : "border-neutral-200 bg-white shadow-sm hover:border-neutral-300"
+          ? "border-zinc-700 bg-zinc-900/90 shadow-md text-white hover:border-zinc-600" 
+          : "border-zinc-850 bg-zinc-900/40 text-white hover:border-zinc-700 hover:bg-zinc-900/60"
     }`}>
       {badges[plan.slug] || current ? (
-        <span className={`absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-3.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wider ${
-          dark ? "bg-white text-neutral-950" : "bg-neutral-950 text-white"
+        <span className={`absolute -top-3 left-1/2 -translate-y-0.5 -translate-x-1/2 rounded-full px-3.5 py-1 text-[9px] font-extrabold uppercase tracking-widest shadow-sm ${
+          dark ? "bg-gradient-to-r from-indigo-550 to-violet-550 text-white" : "bg-zinc-800 text-zinc-100"
         }`}>
           {current ? "Current plan" : badges[plan.slug]}
         </span>
       ) : null}
       
       <div>
-        <p className={`text-xs font-bold uppercase tracking-wider ${muted} mb-2`}>{plan.name}</p>
-        <div className={`flex items-end gap-1 ${text} mb-1`}>
-          <span className="text-4xl font-extrabold">
+        <p className="text-[10px] font-extrabold uppercase tracking-widest text-zinc-500 mb-2">{plan.name}</p>
+        <div className="flex items-end gap-1 text-white mb-1">
+          <span className="text-4xl font-extrabold tracking-tight">
             {isFree ? "Free" : `₹${currentPrice}`}
           </span>
-          {!isFree ? <span className={`pb-1.5 text-xs ${muted}`}>/mo</span> : null}
+          {!isFree ? <span className="pb-1.5 text-xs text-zinc-400">/mo</span> : null}
         </div>
         
-        <p className={`text-[10px] font-semibold ${muted} mb-6`}>
+        <p className="text-[10px] font-semibold text-zinc-400 mb-6 leading-relaxed">
           {isFree 
-            ? "5 AI-powered listings | No card required" 
+            ? `${plan.listings} AI-powered listings | No card required` 
             : billing === "yearly"
               ? `Billed ₹${plan.yearlyPrice} yearly | Save ${discountPercent}%`
               : "Billed monthly | Cancel anytime"}
         </p>
 
-        <div className={`border-t mb-6 ${dark ? "border-neutral-200" : "border-neutral-100"}`} />
+        <div className={`border-t mb-6 ${dark ? "border-zinc-800" : "border-zinc-800/60"}`} />
         
         <ul className="space-y-3">
           {features.map((feature) => (
-            <li className={`flex items-start gap-2.5 text-xs leading-relaxed ${featureText}`} key={feature}>
-              <span className={`mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full ${
-                dark ? "bg-neutral-900 text-white" : "bg-neutral-100 text-neutral-900"
-              }`}>
+            <li className="flex items-start gap-2.5 text-xs leading-relaxed text-zinc-300" key={feature}>
+              <span className={`mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full bg-zinc-800 text-zinc-300 group-hover:bg-indigo-950 group-hover:text-indigo-400 transition-colors duration-200`}>
                 <Check className="h-3 w-3" />
               </span>
               {feature}
@@ -108,12 +106,12 @@ export function PricingCard({
         {onSubscribe ? (
           <button
             onClick={() => onSubscribe(plan.slug, billing as "monthly" | "yearly")}
-            className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-xs font-bold transition-all cursor-pointer ${
+            className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-2xl py-3.5 text-xs font-bold transition-all duration-200 active:scale-[0.98] cursor-pointer ${
               dark 
-                ? "bg-white text-neutral-950 hover:bg-neutral-100" 
+                ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:from-indigo-500 hover:to-violet-500 shadow-md shadow-indigo-550/20" 
                 : current 
-                  ? "border-2 border-neutral-200 text-neutral-900 hover:bg-neutral-50" 
-                  : "bg-neutral-950 text-white hover:bg-neutral-850"
+                  ? "border border-zinc-800 text-zinc-300 hover:bg-zinc-800" 
+                  : "bg-zinc-800 text-white hover:bg-zinc-700"
             }`}
           >
             {current ? "Current Plan" : "Upgrade Plan"}
@@ -121,12 +119,12 @@ export function PricingCard({
           </button>
         ) : (
           <Link
-            className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-xs font-bold transition-all ${
+            className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-2xl py-3.5 text-xs font-bold transition-all duration-200 active:scale-[0.98] ${
               dark 
-                ? "bg-white text-neutral-950 hover:bg-neutral-100" 
+                ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:from-indigo-500 hover:to-violet-500 shadow-md shadow-indigo-550/20" 
                 : current 
-                  ? "border-2 border-neutral-200 text-neutral-900 hover:bg-neutral-50" 
-                  : "bg-neutral-950 text-white hover:bg-neutral-850"
+                  ? "border border-zinc-800 text-zinc-300 hover:bg-zinc-800" 
+                  : "bg-zinc-800 text-white hover:bg-zinc-700"
             }`}
             href={current || isFree ? "/dashboard" : loginCheckoutPath}
           >
@@ -134,9 +132,8 @@ export function PricingCard({
             <ArrowRight className="h-4 w-4" />
           </Link>
         )}
-        
-        <div className={`mt-4 flex items-center gap-2 text-[10px] font-semibold ${muted}`}>
-          {plan.slug === "free" ? <Clock3 className="h-4 w-4" /> : <ShieldCheck className="h-4 w-4" />}
+        <div className="mt-4 flex items-center gap-2 text-[10px] font-semibold text-zinc-500">
+          {plan.slug === "free" ? <Clock3 className="h-4 w-4 text-zinc-500" /> : <ShieldCheck className="h-4 w-4 text-zinc-500" />}
           {plan.yearlyDiscount}
         </div>
       </div>

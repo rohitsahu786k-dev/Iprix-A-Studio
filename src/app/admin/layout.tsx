@@ -1,83 +1,61 @@
 import Link from "next/link";
 import {
-  Activity,
-  Bell,
-  CreditCard,
-  FileText,
-  Gauge,
-  Layers3,
-  ListChecks,
-  Package,
-  Receipt,
-  Settings,
   Shield,
-  Users,
-  Mail,
 } from "lucide-react";
 import { BrandLogo } from "@/components/brand-logo";
 import { requireUser } from "@/lib/auth";
 import { adminNav } from "@/lib/brand";
-
-const adminIcons = {
-  Overview: Gauge,
-  Users,
-  Products: Package,
-  Templates: Layers3,
-  Listings: ListChecks,
-  Subscriptions: CreditCard,
-  Payments: Receipt,
-  "Contact Inquiries": FileText,
-  "AI Usage": Activity,
-  "AI Listings": ListChecks,
-  "Keyword Reports": Activity,
-  "Extension Logs": Activity,
-  "Support Tickets": FileText,
-  "Feature Flags": Settings,
-  "Security Logs": Shield,
-  Plans: CreditCard,
-  Notifications: Bell,
-  Settings,
-  "Email Logs": Mail,
-  "Audit Logs": Shield,
-};
-
+import { AdminNav } from "@/components/admin-nav";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const user = await requireUser("admin");
   return (
-    <main className="min-h-screen bg-neutral-50 text-neutral-900">
+    <main className="min-h-screen bg-zinc-950 text-zinc-100">
       <div className="grid min-h-screen lg:grid-cols-[280px_1fr]">
-        <aside className="flex border-b border-neutral-200 bg-white p-4 shadow-sm lg:min-h-screen lg:flex-col lg:border-b-0 lg:border-r">
-          <div className="mb-0 mr-4 rounded-lg border border-neutral-100 bg-white p-2 shadow-sm lg:mb-6 lg:mr-0 lg:p-3">
+        
+        {/* Sidebar */}
+        <aside className="flex border-b border-zinc-900 bg-zinc-900/40 backdrop-blur-xl p-4 shadow-sm lg:min-h-screen lg:flex-col lg:border-b-0 lg:border-r lg:border-zinc-900 lg:p-6 lg:pb-8">
+          <div className="mb-0 mr-4 flex shrink-0 justify-start pl-0 lg:mb-8 lg:mr-0 lg:pl-1">
             <BrandLogo href="/admin" size="md" priority />
           </div>
-          <nav className="flex min-w-0 flex-1 gap-1 overflow-x-auto lg:grid lg:overflow-visible">
-            {adminNav.map(([label, href]) => {
-              const Icon = adminIcons[label as keyof typeof adminIcons] || Gauge;
-              return (
-                <Link key={href} href={href} className="flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-xs font-bold text-neutral-600 transition-all hover:bg-neutral-50 hover:text-neutral-950 lg:text-sm">
-                  <Icon className="h-4 w-4 text-neutral-400" />
-                  <span className="whitespace-nowrap">{label}</span>
-                </Link>
-              );
-            })}
-          </nav>
-          <div className="mt-auto hidden rounded-xl border border-neutral-200 bg-neutral-50 p-3 text-sm text-neutral-600 lg:block">
-            <p className="font-bold text-neutral-900">Admin</p>
-            <p className="mt-1 truncate text-xs font-semibold">{user.email}</p>
+          
+          <div className="flex-1 overflow-y-auto -mx-2 px-2 scrollbar-thin">
+            <AdminNav links={adminNav as [string, string][]} />
+          </div>
+          
+          <div className="mt-auto hidden border-t border-zinc-900 pt-6 lg:block">
+            {/* User Profile Info Card */}
+            <div className="flex items-center gap-3.5 rounded-2xl border border-zinc-850 bg-zinc-900/80 p-4 mb-4 shadow-md text-white">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gradient-to-tr from-rose-550 to-amber-550 text-xs font-extrabold text-white shadow-inner">
+                {user.name.slice(0, 1).toUpperCase()}
+              </span>
+              <span className="min-w-0">
+                <span className="block truncate text-xs font-extrabold text-white">{user.name}</span>
+                <span className="block truncate text-[10px] font-semibold text-slate-400 mt-0.5">{user.email}</span>
+              </span>
+            </div>
+            
+            <div className="flex items-center justify-between rounded-2xl border border-rose-950 bg-rose-950/30 px-4 py-3 text-[10px] font-extrabold uppercase tracking-wider text-rose-455">
+              <span>Security Level</span>
+              <span className="rounded-full bg-rose-950/55 px-2.5 py-1 text-[9px] font-extrabold text-rose-350 tracking-normal normal-case shadow-sm">
+                Super Admin
+              </span>
+            </div>
           </div>
         </aside>
-        <section className="min-w-0">
-          <header className="sticky top-0 z-20 flex min-h-[74px] items-center justify-between gap-3 border-b border-neutral-200 bg-white/90 px-4 shadow-sm backdrop-blur sm:px-5">
-            <span className="inline-flex items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs font-bold text-neutral-700 sm:text-sm">
-              <Shield className="h-4 w-4" />
-              Admin access
+
+        {/* Workspace Main Area */}
+        <section className="min-w-0 flex flex-col bg-zinc-950">
+          <header className="sticky top-0 z-20 flex min-h-[74px] items-center justify-between gap-3 border-b border-zinc-900 bg-zinc-950/80 px-4 shadow-sm backdrop-blur-md sm:px-6">
+            <span className="inline-flex items-center gap-2 rounded-2xl border border-rose-950 bg-rose-950/40 px-4 py-2.5 text-xs font-bold text-rose-400 shadow-sm">
+              <Shield className="h-4 w-4 text-rose-500" />
+              Secure Admin Console
             </span>
-            <Link href="/dashboard" className="rounded-lg bg-neutral-950 px-3 py-2 text-xs font-bold text-white sm:text-sm">
-              User dashboard
+            <Link href="/dashboard" className="rounded-2xl bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 px-4.5 py-2.5 text-xs font-bold text-white shadow-sm transition-all duration-200 active:scale-[0.98] cursor-pointer">
+              User Dashboard
             </Link>
           </header>
-          <div className="p-4 sm:p-5 lg:p-8">{children}</div>
+          <div className="mx-auto w-full max-w-7xl flex-grow p-4 sm:p-6 lg:p-8">{children}</div>
         </section>
       </div>
     </main>

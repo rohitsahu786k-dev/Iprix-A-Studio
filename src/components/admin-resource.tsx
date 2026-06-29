@@ -40,42 +40,42 @@ export function AdminResource({ resource }: { resource: string }) {
     <div>
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
         <div>
-          <p className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400">Admin dashboard</p>
-          <h1 className="mt-2 text-3xl font-extrabold capitalize tracking-tight text-neutral-900 sm:text-4xl">{resource.replaceAll("-", " ")}</h1>
+          <p className="text-[10px] font-extrabold uppercase tracking-widest text-zinc-500">Admin dashboard</p>
+          <h1 className="mt-2 text-3xl font-extrabold capitalize tracking-tight text-white sm:text-4xl">{resource.replaceAll("-", " ")}</h1>
         </div>
-        <span className="rounded-xl border border-neutral-200 bg-white px-3 py-2 text-xs font-bold text-neutral-600 shadow-sm">{items.length} records</span>
+        <span className="rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md px-3 py-2 text-xs font-bold text-zinc-400 shadow-sm">{items.length} records</span>
       </div>
-      {status ? <p className="mt-5 rounded-xl border border-neutral-200 bg-white p-3 text-xs font-bold text-neutral-700 shadow-sm">{status}</p> : null}
-      <section className="mt-8 rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm sm:p-5">
+      {status ? <p className="mt-5 rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-3 text-xs font-bold text-zinc-300 shadow-sm">{status}</p> : null}
+      <section className="mt-8 rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-4 shadow-sm sm:p-5">
         <div className="grid gap-3">
           {items.length ? (
             items.map((item, index) => (
-              <div className="rounded-xl border border-neutral-200 bg-neutral-50/60 p-3" key={String(item._id || index)}>
+              <div className="rounded-xl border border-zinc-800 bg-zinc-950/50/60 p-3" key={String(item._id || index)}>
                 <div className="grid gap-2 text-xs sm:grid-cols-2 lg:grid-cols-4">
                   {Object.entries(item).slice(0, 8).map(([key, value]) => (
-                    <div className="min-w-0 rounded-lg border border-neutral-100 bg-white p-3" key={key}>
-                      <p className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-400">{key}</p>
-                      <p className="mt-1 break-words font-semibold text-neutral-800">{formatValue(value)}</p>
+                    <div className="min-w-0 rounded-lg border border-zinc-900 bg-zinc-900/50 backdrop-blur-md p-3" key={key}>
+                      <p className="text-[10px] font-extrabold uppercase tracking-wider text-zinc-500">{key}</p>
+                      <p className="mt-1 break-words font-semibold text-zinc-200">{formatValue(value)}</p>
                     </div>
                   ))}
                 </div>
                 <div className="mt-3 flex flex-wrap gap-2">
-                  <button className="rounded-lg bg-neutral-950 px-3 py-2 text-xs font-bold text-white" onClick={() => quickAction(item._id, "activate")}>Activate</button>
-                  <button className="rounded-lg border border-neutral-200 bg-white px-3 py-2 text-xs font-bold text-neutral-700" onClick={() => quickAction(item._id, "suspend")}>Suspend</button>
-                  <button className="rounded-lg border border-neutral-200 bg-white px-3 py-2 text-xs font-bold text-neutral-700" onClick={() => quickAction(item._id, "resolve")}>Resolve</button>
+                  <button className="rounded-lg bg-indigo-600 px-3 py-2 text-xs font-bold text-white" onClick={() => quickAction(item._id, "activate")}>Activate</button>
+                  <button className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-md px-3 py-2 text-xs font-bold text-zinc-300" onClick={() => quickAction(item._id, "suspend")}>Suspend</button>
+                  <button className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-md px-3 py-2 text-xs font-bold text-zinc-300" onClick={() => quickAction(item._id, "resolve")}>Resolve</button>
                   {resource === "users" ? (
                     <>
-                      <button className="rounded-lg border border-neutral-200 bg-white px-3 py-2 text-xs font-bold text-neutral-700" onClick={() => quickAction(item._id, "reset-listings")}>Reset Listings</button>
-                      <button className="rounded-lg border border-neutral-200 bg-white px-3 py-2 text-xs font-bold text-neutral-700" onClick={() => quickAction(item._id, "reset-keywords")}>Reset Keywords</button>
-                      <button className="rounded-lg border border-neutral-200 bg-white px-3 py-2 text-xs font-bold text-neutral-700" onClick={() => quickAction(item._id, "plan-free")}>Set Free</button>
-                      <button className="rounded-lg border border-neutral-200 bg-white px-3 py-2 text-xs font-bold text-neutral-700" onClick={() => quickAction(item._id, "plan-seller")}>Set Seller</button>
+                      <button className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-md px-3 py-2 text-xs font-bold text-zinc-300" onClick={() => quickAction(item._id, "reset-listings")}>Reset Listings</button>
+                      <button className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-md px-3 py-2 text-xs font-bold text-zinc-300" onClick={() => quickAction(item._id, "reset-keywords")}>Reset Keywords</button>
+                      <button className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-md px-3 py-2 text-xs font-bold text-zinc-300" onClick={() => quickAction(item._id, "plan-free")}>Set Free</button>
+                      <button className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-md px-3 py-2 text-xs font-bold text-zinc-300" onClick={() => quickAction(item._id, "plan-seller")}>Set Seller</button>
                     </>
                   ) : null}
                 </div>
               </div>
             ))
           ) : (
-            <p className="rounded-xl border border-dashed border-neutral-200 bg-neutral-50 p-8 text-center text-sm font-semibold text-neutral-500">No records yet.</p>
+            <p className="rounded-xl border border-dashed border-zinc-800 bg-zinc-950/50 p-8 text-center text-sm font-semibold text-zinc-400">No records yet.</p>
           )}
         </div>
       </section>

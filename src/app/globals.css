@@ -1,11 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
-  --muted: #525252;
-  --border: #e5e5e5;
-  --soft: #fafafa;
+  --background: #09090b;
+  --foreground: #f4f4f5;
+  --muted: #a1a1aa;
+  --border: #27272a;
+  --soft: #18181b;
+  --accent: #6366f1;
+  --accent-glow: rgba(99, 102, 241, 0.15);
 }
 
 @theme inline {
@@ -20,6 +22,7 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--background);
 }
 
 body {
@@ -27,6 +30,8 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-be-vietnam), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -38,6 +43,7 @@ input,
 select,
 textarea {
   font: inherit;
+  color: inherit;
 }
 
 h1,
@@ -47,29 +53,39 @@ h4,
 h5,
 h6,
 .heading {
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
+  color: #ffffff;
 }
 
 input,
 select,
 textarea {
-  border-color: #e5e5e5;
+  border-color: var(--border);
+  background-color: var(--soft);
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-  border-color: #d4d4d4 !important;
-  box-shadow: 0 0 0 3px rgba(245, 245, 245, 0.95);
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--accent-glow) !important;
 }
 
-.container {
-  width: min(1180px, calc(100% - 32px));
-  margin-inline: auto;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-.surface {
-  border: 1px solid var(--border);
-  background: #fff;
-  border-radius: 8px;
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
 }

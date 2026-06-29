@@ -94,17 +94,17 @@ export function WorkspaceModule({ module }: { module: string }) {
     <div>
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end mb-8">
         <div>
-          <p className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400">Seller Workspace</p>
-          <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-neutral-900">{title}</h1>
+          <p className="text-[10px] font-extrabold uppercase tracking-widest text-zinc-500">Seller Workspace</p>
+          <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-white">{title}</h1>
         </div>
-        <span className="inline-flex items-center gap-2 rounded-xl border border-neutral-200 bg-white px-3.5 py-2 text-xs font-bold text-neutral-700 shadow-sm">
-          <Sparkles className="h-3.5 w-3.5 text-neutral-900" />
+        <span className="inline-flex items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md px-3.5 py-2 text-xs font-bold text-zinc-300 shadow-sm">
+          <Sparkles className="h-3.5 w-3.5 text-white" />
           Meesho live | Flipkart/Amazon beta
         </span>
       </div>
       
       {status ? (
-        <div className="mt-5 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-xs font-bold text-neutral-850 shadow-sm transition-all">
+        <div className="mt-5 rounded-xl border border-zinc-800 bg-zinc-950/50 px-4 py-3 text-xs font-bold text-zinc-200 shadow-sm transition-all">
           {status}
         </div>
       ) : null}
@@ -154,12 +154,12 @@ function Overview() {
       {/* Stats Grid */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map(([label, value, Icon]) => (
-          <article className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm flex items-center justify-between hover:border-neutral-300 transition-all group" key={label}>
+          <article className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-5 shadow-sm flex items-center justify-between hover:border-zinc-700 transition-all group" key={label}>
             <div className="min-w-0 pr-3">
-              <p className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-400">{label}</p>
-              <p className={`mt-2 break-words font-extrabold tracking-tight text-neutral-900 ${String(label).includes("quota") ? "text-sm leading-5" : "text-3xl font-mono"}`}>{value}</p>
+              <p className="text-[10px] font-extrabold uppercase tracking-wider text-zinc-500">{label}</p>
+              <p className={`mt-2 break-words font-extrabold tracking-tight text-white ${String(label).includes("quota") ? "text-sm leading-5" : "text-3xl font-mono"}`}>{value}</p>
             </div>
-            <div className="grid h-10 w-10 place-items-center rounded-xl border border-neutral-150 bg-neutral-50 text-neutral-800 group-hover:bg-neutral-900 group-hover:text-white transition-all">
+            <div className="grid h-10 w-10 place-items-center rounded-xl border border-zinc-850 bg-zinc-950/50 text-zinc-200 group-hover:bg-neutral-900 group-hover:text-white transition-all">
               <Icon className="h-5 w-5" />
             </div>
           </article>
@@ -168,8 +168,8 @@ function Overview() {
 
       <div className="grid gap-6 md:grid-cols-2">
         {/* Quick Actions */}
-        <article className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
-          <h2 className="text-sm font-extrabold uppercase tracking-wider text-neutral-900 mb-5">Quick Actions</h2>
+        <article className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6 shadow-sm">
+          <h2 className="text-sm font-extrabold uppercase tracking-wider text-white mb-5">Quick Actions</h2>
           <div className="grid gap-3">
             {[
               ["Create product", Package, "/dashboard/products"],
@@ -178,23 +178,23 @@ function Overview() {
               ["Research keywords", Search, "/dashboard/keyword-research"],
             ].map(([item, Icon, href]) => (
               <a 
-                className="flex items-center justify-between rounded-xl border border-neutral-200 px-4 py-3.5 text-xs font-bold text-neutral-700 hover:bg-neutral-50 hover:text-neutral-950 transition-all group" 
+                className="flex items-center justify-between rounded-xl border border-zinc-800 px-4 py-3.5 text-xs font-bold text-zinc-300 hover:bg-zinc-950/50 hover:text-indigo-400 transition-all group" 
                 href={String(href)} 
                 key={String(item)}
               >
                 <span className="flex items-center gap-3">
-                  <Icon className="h-4 w-4 text-neutral-500 group-hover:text-neutral-950 transition-colors" />
+                  <Icon className="h-4 w-4 text-zinc-400 group-hover:text-indigo-400 transition-colors" />
                   {String(item)}
                 </span>
-                <ArrowRight className="h-4 w-4 text-neutral-400 group-hover:text-neutral-950 group-hover:translate-x-1 transition-all" />
+                <ArrowRight className="h-4 w-4 text-zinc-500 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
               </a>
             ))}
           </div>
         </article>
 
         {/* Onboarding Checklist */}
-        <article className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
-          <h2 className="text-sm font-extrabold uppercase tracking-wider text-neutral-900 mb-5">Workspace Checklist</h2>
+        <article className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6 shadow-sm">
+          <h2 className="text-sm font-extrabold uppercase tracking-wider text-white mb-5">Workspace Checklist</h2>
           <div className="space-y-4">
             {[
               { title: "Add product data", desc: "Save product name, brand, category, price and features." },
@@ -203,15 +203,15 @@ function Overview() {
               { title: "Connect Chrome extension", desc: "Use saved templates and autofill after checking quota." },
             ].map((step, idx) => (
               <div className="flex gap-4 items-start" key={idx}>
-                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-neutral-950 text-white font-mono text-[10px] font-bold shrink-0 mt-0.5">
+                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-600 text-white font-mono text-[10px] font-bold shrink-0 mt-0.5">
                   0{idx + 1}
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-neutral-900 flex items-center gap-2">
+                  <h4 className="text-xs font-bold text-white flex items-center gap-2">
                     {step.title}
-                    <Check className="h-3.5 w-3.5 text-neutral-400" />
+                    <Check className="h-3.5 w-3.5 text-zinc-500" />
                   </h4>
-                  <p className="text-[10px] text-neutral-500 leading-normal mt-0.5">{step.desc}</p>
+                  <p className="text-[10px] text-zinc-400 leading-normal mt-0.5">{step.desc}</p>
                 </div>
               </div>
             ))}
@@ -247,12 +247,12 @@ function SupportForm({ onDone }: { onDone: (message: string) => void }) {
         button="Create support ticket"
         onDone={onDone}
       />
-      <article className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
-        <h2 className="text-sm font-medium uppercase tracking-wider text-neutral-900">Support promise</h2>
-        <p className="mt-3 text-sm leading-6 text-neutral-600">
+      <article className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6 shadow-sm">
+        <h2 className="text-sm font-medium uppercase tracking-wider text-white">Support promise</h2>
+        <p className="mt-3 text-sm leading-6 text-zinc-400">
           Share the issue, marketplace page, screenshot link and what you expected. Admin can track status, reply, and keep your full ticket history here.
         </p>
-        <a className="mt-5 inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-4 py-3 text-xs font-medium text-white" href="https://wa.me/916394423902">
+        <a className="mt-5 inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-xs font-medium text-white" href="https://wa.me/916394423902">
           WhatsApp support
           <ArrowRight className="h-4 w-4" />
         </a>
@@ -303,19 +303,19 @@ function JsonForm({ endpoint, fields, button = "Save", onDone }: { endpoint: str
   }
 
   return (
-    <form onSubmit={submit} className="grid gap-5 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm md:grid-cols-2">
+    <form onSubmit={submit} className="grid gap-5 rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6 shadow-sm md:grid-cols-2">
       {fields.map((field) => (
-        <label className="grid gap-1.5 text-xs font-bold text-neutral-700" key={field}>
+        <label className="grid gap-1.5 text-xs font-bold text-zinc-300" key={field}>
           <span>{label(field)}</span>
           <input 
-            className="rounded-xl border border-neutral-250 px-4 py-3 outline-none text-neutral-900 font-semibold focus:border-neutral-300 focus:ring-2 focus:ring-neutral-100 transition-colors bg-white placeholder:text-neutral-450" 
+            className="rounded-xl border border-zinc-800 px-4 py-3 outline-none text-white font-semibold focus:border-zinc-700 focus:ring-2 focus:ring-neutral-100 transition-colors bg-zinc-900/50 backdrop-blur-md placeholder:text-zinc-500" 
             name={field} 
             required={field === "title" || field === "name" || field === "email"} 
           />
         </label>
       ))}
       <button 
-        className="inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-950 px-4 py-3.5 text-xs font-bold text-white hover:bg-neutral-850 disabled:opacity-60 transition-all cursor-pointer md:col-span-2 shadow-sm"
+        className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3.5 text-xs font-bold text-white hover:bg-indigo-500 disabled:opacity-60 transition-all cursor-pointer md:col-span-2 shadow-sm"
         disabled={busy}
       >
         <Check className="h-4 w-4" />
@@ -401,21 +401,21 @@ function AIJsonForm({
   }
 
   return (
-    <form onSubmit={submit} className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+    <form onSubmit={submit} className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6 shadow-sm">
       <div className="grid gap-4 md:grid-cols-2">
         {fields.map(([name, fieldLabel]) => (
-          <label className={name === "inputFeatures" || name === "competitorTitle" ? "grid gap-1.5 text-xs font-bold text-neutral-700 md:col-span-2" : "grid gap-1.5 text-xs font-bold text-neutral-700"} key={name}>
+          <label className={name === "inputFeatures" || name === "competitorTitle" ? "grid gap-1.5 text-xs font-bold text-zinc-300 md:col-span-2" : "grid gap-1.5 text-xs font-bold text-zinc-300"} key={name}>
             <span>{fieldLabel}</span>
             {name === "inputFeatures" || name === "competitorTitle" ? (
-              <textarea className="min-h-24 rounded-xl border border-neutral-250 px-4 py-3 text-xs font-semibold outline-none focus:border-neutral-300 focus:ring-2 focus:ring-neutral-100" name={name} required={["inputFeatures"].includes(name)} />
+              <textarea className="min-h-24 rounded-xl border border-zinc-800 px-4 py-3 text-xs font-semibold outline-none focus:border-zinc-700 focus:ring-2 focus:ring-neutral-100" name={name} required={["inputFeatures"].includes(name)} />
             ) : (
-              <input className="rounded-xl border border-neutral-250 px-4 py-3 text-xs font-semibold outline-none focus:border-neutral-300 focus:ring-2 focus:ring-neutral-100" name={name} required={["productName", "brand", "seedKeyword"].includes(name)} defaultValue={name === "platform" ? "meesho" : ""} />
+              <input className="rounded-xl border border-zinc-800 px-4 py-3 text-xs font-semibold outline-none focus:border-zinc-700 focus:ring-2 focus:ring-neutral-100" name={name} required={["productName", "brand", "seedKeyword"].includes(name)} defaultValue={name === "platform" ? "meesho" : ""} />
             )}
           </label>
         ))}
       </div>
       <button
-        className="mt-4 inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-5 py-3.5 text-xs font-bold text-white hover:bg-neutral-850 transition-all disabled:opacity-60 cursor-pointer"
+        className="mt-4 inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3.5 text-xs font-bold text-white hover:bg-indigo-500 transition-all disabled:opacity-60 cursor-pointer"
         disabled={busy}
       >
         <Sparkles className="h-4 w-4" />
@@ -423,8 +423,8 @@ function AIJsonForm({
       </button>
       {output && (
         <div className="mt-6">
-          <p className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 mb-2">Final AI Output</p>
-          <pre className="max-h-96 overflow-auto whitespace-pre-wrap break-words rounded-xl border border-neutral-150 bg-neutral-50 p-4 text-xs font-semibold leading-relaxed text-neutral-850">
+          <p className="text-[10px] font-extrabold uppercase tracking-widest text-zinc-500 mb-2">Final AI Output</p>
+          <pre className="max-h-96 overflow-auto whitespace-pre-wrap break-words rounded-xl border border-zinc-850 bg-zinc-950/50 p-4 text-xs font-semibold leading-relaxed text-zinc-200">
             {output}
           </pre>
         </div>
@@ -473,34 +473,34 @@ function ImageForm({ onDone }: { onDone: (message: string) => void }) {
   }
 
   return (
-    <form onSubmit={submit} className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm space-y-5">
-      <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-neutral-900">
-        <ImageIcon className="h-4.5 w-4.5 text-neutral-850" />
+    <form onSubmit={submit} className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6 shadow-sm space-y-5">
+      <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-white">
+        <ImageIcon className="h-4.5 w-4.5 text-zinc-200" />
         Product image processing
       </div>
       <div className="grid gap-4 md:grid-cols-[1fr_0.7fr]">
-        <label className="grid gap-1.5 text-xs font-bold text-neutral-700">
+        <label className="grid gap-1.5 text-xs font-bold text-zinc-300">
           <span>Image file</span>
-          <input className="rounded-xl border border-neutral-250 px-4 py-3 text-xs font-semibold" type="file" accept="image/*" onChange={selectFile} required />
+          <input className="rounded-xl border border-zinc-800 px-4 py-3 text-xs font-semibold" type="file" accept="image/*" onChange={selectFile} required />
         </label>
-        <label className="grid gap-1.5 text-xs font-bold text-neutral-700">
+        <label className="grid gap-1.5 text-xs font-bold text-zinc-300">
           <span>Output name</span>
-          <input className="rounded-xl border border-neutral-250 px-4 py-3 text-xs font-semibold" value={filename} onChange={(event) => setFilename(event.target.value)} />
+          <input className="rounded-xl border border-zinc-800 px-4 py-3 text-xs font-semibold" value={filename} onChange={(event) => setFilename(event.target.value)} />
         </label>
       </div>
       {image ? (
         // Data URL preview for a local file selected before upload.
         // eslint-disable-next-line @next/next/no-img-element
-        <img alt="" className="max-h-64 rounded-xl border border-neutral-150 object-contain" src={image} />
+        <img alt="" className="max-h-64 rounded-xl border border-zinc-850 object-contain" src={image} />
       ) : null}
-      <button className="inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-5 py-3.5 text-xs font-bold text-white disabled:opacity-60" disabled={busy}>
+      <button className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3.5 text-xs font-bold text-white disabled:opacity-60" disabled={busy}>
         <Upload className="h-4 w-4" />
         {busy ? "Processing..." : "Upload and resize 1000x1000"}
       </button>
       {result?.url ? (
-        <div className="grid gap-3 rounded-xl border border-neutral-150 bg-neutral-50 p-4 text-xs font-semibold text-neutral-700">
-          <a className="font-bold text-neutral-950 underline" href={result.url} target="_blank" rel="noreferrer">Open processed image</a>
-          <span className="font-mono text-[10px] text-neutral-500">{result.publicId}</span>
+        <div className="grid gap-3 rounded-xl border border-zinc-850 bg-zinc-950/50 p-4 text-xs font-semibold text-zinc-300">
+          <a className="font-bold text-indigo-400 underline" href={result.url} target="_blank" rel="noreferrer">Open processed image</a>
+          <span className="font-mono text-[10px] text-zinc-400">{result.publicId}</span>
         </div>
       ) : null}
     </form>
@@ -538,27 +538,27 @@ function LabelForm({ onDone }: { onDone: (message: string) => void }) {
   }
 
   return (
-    <form onSubmit={submit} className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm space-y-5">
-      <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-neutral-900">
-        <FileText className="h-4.5 w-4.5 text-neutral-850" />
+    <form onSubmit={submit} className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6 shadow-sm space-y-5">
+      <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-white">
+        <FileText className="h-4.5 w-4.5 text-zinc-200" />
         PDF label analyser
       </div>
       <div className="grid gap-4 md:grid-cols-[1fr_180px]">
-        <label className="grid gap-1.5 text-xs font-bold text-neutral-700">
+        <label className="grid gap-1.5 text-xs font-bold text-zinc-300">
           <span>PDF label</span>
-          <input className="rounded-xl border border-neutral-250 px-4 py-3 text-xs font-semibold" type="file" accept="application/pdf,.pdf" onChange={(event) => setFile(event.target.files?.[0] || null)} required />
+          <input className="rounded-xl border border-zinc-800 px-4 py-3 text-xs font-semibold" type="file" accept="application/pdf,.pdf" onChange={(event) => setFile(event.target.files?.[0] || null)} required />
         </label>
-        <label className="grid gap-1.5 text-xs font-bold text-neutral-700">
+        <label className="grid gap-1.5 text-xs font-bold text-zinc-300">
           <span>Pages</span>
-          <input className="rounded-xl border border-neutral-250 px-4 py-3 text-xs font-semibold" type="number" min={1} value={pages} onChange={(event) => setPages(Number(event.target.value) || 1)} />
+          <input className="rounded-xl border border-zinc-800 px-4 py-3 text-xs font-semibold" type="number" min={1} value={pages} onChange={(event) => setPages(Number(event.target.value) || 1)} />
         </label>
       </div>
-      <button className="inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-5 py-3.5 text-xs font-bold text-white disabled:opacity-60" disabled={busy}>
+      <button className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3.5 text-xs font-bold text-white disabled:opacity-60" disabled={busy}>
         <FileText className="h-4 w-4" />
         {busy ? "Analysing..." : "Analyse label"}
       </button>
       {analysis ? (
-        <pre className="max-h-72 overflow-auto whitespace-pre-wrap break-words rounded-xl border border-neutral-150 bg-neutral-50 p-4 text-xs font-semibold leading-relaxed text-neutral-850">
+        <pre className="max-h-72 overflow-auto whitespace-pre-wrap break-words rounded-xl border border-zinc-850 bg-zinc-950/50 p-4 text-xs font-semibold leading-relaxed text-zinc-200">
           {JSON.stringify(analysis, null, 2)}
         </pre>
       ) : null}
@@ -689,41 +689,41 @@ function BulkCsvForm({ onDone }: { onDone: (message: string) => void }) {
   }
 
   return (
-    <form onSubmit={submit} className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm space-y-5">
+    <form onSubmit={submit} className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6 shadow-sm space-y-5">
       <div className="grid gap-4 md:grid-cols-[1fr_180px]">
-        <label className="grid gap-1.5 text-xs font-bold text-neutral-700">
+        <label className="grid gap-1.5 text-xs font-bold text-zinc-300">
           <span>CSV file</span>
-          <input className="rounded-xl border border-neutral-250 px-4 py-3 text-xs font-semibold" type="file" accept=".csv,text/csv" onChange={selectFile} />
+          <input className="rounded-xl border border-zinc-800 px-4 py-3 text-xs font-semibold" type="file" accept=".csv,text/csv" onChange={selectFile} />
         </label>
-        <label className="grid gap-1.5 text-xs font-bold text-neutral-700">
+        <label className="grid gap-1.5 text-xs font-bold text-zinc-300">
           <span>Platform</span>
-          <select className="rounded-xl border border-neutral-250 px-4 py-3 text-xs font-semibold" value={platform} onChange={(event) => setPlatform(event.target.value)}>
+          <select className="rounded-xl border border-zinc-800 px-4 py-3 text-xs font-semibold" value={platform} onChange={(event) => setPlatform(event.target.value)}>
             <option value="meesho">Meesho</option>
             <option value="flipkart">Flipkart</option>
             <option value="amazon">Amazon</option>
           </select>
         </label>
       </div>
-      <label className="grid gap-1.5 text-xs font-bold text-neutral-700">
+      <label className="grid gap-1.5 text-xs font-bold text-zinc-300">
         <span>CSV rows</span>
-        <textarea className="min-h-56 rounded-xl border border-neutral-250 px-4 py-3 font-mono text-xs outline-none focus:border-neutral-300 focus:ring-2 focus:ring-neutral-100" value={csvText} onChange={(event) => loadRows(event.target.value)} />
+        <textarea className="min-h-56 rounded-xl border border-zinc-800 px-4 py-3 font-mono text-xs outline-none focus:border-zinc-700 focus:ring-2 focus:ring-neutral-100" value={csvText} onChange={(event) => loadRows(event.target.value)} />
       </label>
       <div className="flex flex-wrap items-center gap-3">
-        <button className="inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-5 py-3.5 text-xs font-bold text-white disabled:opacity-60" disabled={busy}>
+        <button className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3.5 text-xs font-bold text-white disabled:opacity-60" disabled={busy}>
           <Upload className="h-4 w-4" />
           {busy ? "Importing..." : "Import CSV listings"}
         </button>
-        <span className="text-xs font-bold text-neutral-500">{rows.length} rows ready</span>
+        <span className="text-xs font-bold text-zinc-400">{rows.length} rows ready</span>
       </div>
       {rows.length ? (
-        <div className="overflow-x-auto rounded-xl border border-neutral-150">
+        <div className="overflow-x-auto rounded-xl border border-zinc-850">
           <table className="w-full text-left text-xs">
-            <thead className="bg-neutral-50 text-[10px] uppercase tracking-wider text-neutral-400">
+            <thead className="bg-zinc-950/50 text-[10px] uppercase tracking-wider text-zinc-500">
               <tr>
                 {Object.keys(rows[0]).slice(0, 6).map((key) => <th className="px-4 py-3" key={key}>{key}</th>)}
               </tr>
             </thead>
-            <tbody className="divide-y divide-neutral-100 font-semibold text-neutral-700">
+            <tbody className="divide-y divide-zinc-900 font-semibold text-zinc-300">
               {rows.slice(0, 5).map((row, index) => (
                 <tr key={index}>
                   {Object.keys(rows[0]).slice(0, 6).map((key) => <td className="px-4 py-3" key={key}>{row[key]}</td>)}
@@ -816,7 +816,7 @@ function SubscriptionForm({ onDone }: { onDone: (message: string) => void }) {
     <div className="space-y-6" aria-busy={busy ? "true" : "false"}>
       {/* Billing toggle switch */}
       <div className="flex items-center justify-center gap-3">
-        <span className={`text-xs font-bold uppercase tracking-wider transition-colors ${billing === "monthly" ? "text-neutral-900" : "text-neutral-400"}`}>
+        <span className={`text-xs font-bold uppercase tracking-wider transition-colors ${billing === "monthly" ? "text-white" : "text-zinc-500"}`}>
           Monthly
         </span>
         <button 
@@ -826,14 +826,14 @@ function SubscriptionForm({ onDone }: { onDone: (message: string) => void }) {
           style={{ backgroundColor: billing === "yearly" ? "#0a0a0a" : "#e5e5e5" }}
         >
           <span 
-            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-zinc-900/50 backdrop-blur-md shadow ring-0 transition duration-200 ease-in-out ${
               billing === "yearly" ? "translate-x-5" : "translate-x-0"
             }`} 
           />
         </button>
-        <span className={`inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider transition-colors ${billing === "yearly" ? "text-neutral-900" : "text-neutral-400"}`}>
+        <span className={`inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider transition-colors ${billing === "yearly" ? "text-white" : "text-zinc-500"}`}>
           Yearly
-          <span className="rounded-full bg-neutral-950 px-2 py-0.5 text-[9px] font-extrabold text-white lowercase">
+          <span className="rounded-full bg-indigo-600 px-2 py-0.5 text-[9px] font-extrabold text-white lowercase">
             save up to 30%
           </span>
         </span>
@@ -859,20 +859,20 @@ function Tutorial() {
   return (
     <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
       {["Install extension", "Login with A+ Studio", "Save Meesho template", "Autofill with preview", "Use AI content", "Optimize images"].map((step, idx) => (
-        <article className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:border-neutral-300 transition-all flex flex-col justify-between" key={step}>
+        <article className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6 shadow-sm hover:border-zinc-700 transition-all flex flex-col justify-between" key={step}>
           <div>
-            <span className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest">Step 0{idx + 1}</span>
-            <h2 className="flex items-center gap-2 text-sm font-extrabold text-neutral-900 mt-2">
-              <FileText className="h-4 w-4 text-neutral-600" />
+            <span className="text-[10px] font-extrabold text-zinc-500 uppercase tracking-widest">Step 0{idx + 1}</span>
+            <h2 className="flex items-center gap-2 text-sm font-extrabold text-white mt-2">
+              <FileText className="h-4 w-4 text-zinc-400" />
               {step}
             </h2>
-            <p className="mt-2.5 text-xs font-semibold leading-relaxed text-neutral-500">
+            <p className="mt-2.5 text-xs font-semibold leading-relaxed text-zinc-400">
               Follow this step in your seller workflow. Embedded tutorial video preview is Coming Soon.
             </p>
           </div>
-          <div className="mt-6 border-t border-neutral-100 pt-4 flex items-center justify-between">
-            <span className="w-8 h-[2px] bg-neutral-950 rounded-full" />
-            <span className="text-[10px] font-bold text-neutral-400">Documentation</span>
+          <div className="mt-6 border-t border-zinc-900 pt-4 flex items-center justify-between">
+            <span className="w-8 h-[2px] bg-indigo-600 rounded-full" />
+            <span className="text-[10px] font-bold text-zinc-500">Documentation</span>
           </div>
         </article>
       ))}
@@ -883,12 +883,12 @@ function Tutorial() {
 function Records({ items, resource }: { items: Array<Record<string, unknown>>; resource: string }) {
   if (!items || items.length === 0) {
     return (
-      <section className="mt-8 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
-        <h2 className="flex items-center gap-2 text-sm font-extrabold uppercase tracking-wider text-neutral-900">
-          <Bell className="h-4 w-4 text-neutral-800" />
+      <section className="mt-8 rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6 shadow-sm">
+        <h2 className="flex items-center gap-2 text-sm font-extrabold uppercase tracking-wider text-white">
+          <Bell className="h-4 w-4 text-zinc-200" />
           Recent {resource || "records"}
         </h2>
-        <div className="mt-6 rounded-xl border border-dashed border-neutral-250 bg-neutral-50/50 p-8 text-center text-xs font-semibold text-neutral-400">
+        <div className="mt-6 rounded-xl border border-dashed border-zinc-800 bg-zinc-950/50/50 p-8 text-center text-xs font-semibold text-zinc-500">
           No records found in this workspace yet.
         </div>
       </section>
@@ -896,17 +896,17 @@ function Records({ items, resource }: { items: Array<Record<string, unknown>>; r
   }
 
   return (
-    <section className="mt-8 rounded-2xl border border-neutral-200 bg-white overflow-hidden shadow-sm">
-      <div className="p-6 border-b border-neutral-100 flex items-center justify-between">
-        <h2 className="flex items-center gap-2 text-sm font-extrabold uppercase tracking-wider text-neutral-900">
-          <Bell className="h-4 w-4 text-neutral-850" />
+    <section className="mt-8 rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md overflow-hidden shadow-sm">
+      <div className="p-6 border-b border-zinc-900 flex items-center justify-between">
+        <h2 className="flex items-center gap-2 text-sm font-extrabold uppercase tracking-wider text-white">
+          <Bell className="h-4 w-4 text-zinc-200" />
           Workspace {resource || "records"} ({items.length})
         </h2>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-left text-xs">
           <thead>
-            <tr className="border-b border-neutral-150 bg-neutral-50/50 text-[10px] font-extrabold uppercase tracking-wider text-neutral-400">
+            <tr className="border-b border-zinc-850 bg-zinc-950/50/50 text-[10px] font-extrabold uppercase tracking-wider text-zinc-500">
               {resource === "products" && (
                 <>
                   <th className="px-6 py-3">Product Name</th>
@@ -938,44 +938,44 @@ function Records({ items, resource }: { items: Array<Record<string, unknown>>; r
               )}
             </tr>
           </thead>
-          <tbody className="divide-y divide-neutral-100 font-semibold text-neutral-700">
+          <tbody className="divide-y divide-zinc-900 font-semibold text-zinc-300">
             {items.slice(0, 10).map((item, index) => (
-              <tr key={String(item._id || index)} className="hover:bg-neutral-50/50 transition-colors">
+              <tr key={String(item._id || index)} className="hover:bg-zinc-950/50/50 transition-colors">
                 {resource === "products" && (
                   <>
-                    <td className="px-6 py-4 font-bold text-neutral-900">{String(item.title || "—")}</td>
+                    <td className="px-6 py-4 font-bold text-white">{String(item.title || "—")}</td>
                     <td className="px-6 py-4">{String(item.brand || "—")}</td>
                     <td className="px-6 py-4">{String(item.category || "—")}</td>
-                    <td className="px-6 py-4 text-neutral-900 font-mono">
-                      Rs {String(item.sellingPrice || "0")} <span className="ml-1 text-[10px] text-neutral-400 line-through">Rs {String(item.mrp || "0")}</span>
+                    <td className="px-6 py-4 text-white font-mono">
+                      Rs {String(item.sellingPrice || "0")} <span className="ml-1 text-[10px] text-zinc-500 line-through">Rs {String(item.mrp || "0")}</span>
                     </td>
                   </>
                 )}
                 {resource === "templates" && (
                   <>
-                    <td className="px-6 py-4 font-bold text-neutral-900">{String(item.name || "—")}</td>
+                    <td className="px-6 py-4 font-bold text-white">{String(item.name || "—")}</td>
                     <td className="px-6 py-4">
-                      <span className="inline-flex items-center gap-1 rounded px-2 py-0.5 text-[9px] font-extrabold uppercase bg-neutral-950 text-white">
+                      <span className="inline-flex items-center gap-1 rounded px-2 py-0.5 text-[9px] font-extrabold uppercase bg-indigo-600 text-white">
                         {String(item.platform || "meesho")}
                       </span>
                     </td>
-                    <td className="px-6 py-4 font-mono text-[10px] text-neutral-500">
+                    <td className="px-6 py-4 font-mono text-[10px] text-zinc-400">
                       {item.selectors ? Object.keys(item.selectors).join(", ") : "None"}
                     </td>
                   </>
                 )}
                 {resource === "listings" && (
                   <>
-                    <td className="px-6 py-4 font-bold text-neutral-900">{String(item.title || "—")}</td>
+                    <td className="px-6 py-4 font-bold text-white">{String(item.title || "—")}</td>
                     <td className="px-6 py-4">
-                      <span className="inline-flex items-center gap-1 rounded px-2 py-0.5 text-[9px] font-extrabold uppercase bg-neutral-100 border border-neutral-200 text-neutral-800">
+                      <span className="inline-flex items-center gap-1 rounded px-2 py-0.5 text-[9px] font-extrabold uppercase bg-zinc-900 border border-zinc-800 text-zinc-200">
                         {String(item.platform || "meesho")}
                       </span>
                     </td>
-                    <td className="px-6 py-4 font-mono text-neutral-600">{String(item.sku || "—")}</td>
+                    <td className="px-6 py-4 font-mono text-zinc-400">{String(item.sku || "—")}</td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[9px] font-extrabold uppercase ${
-                        item.status === "generated" ? "bg-neutral-950 text-white" : "bg-neutral-100 border border-neutral-200 text-neutral-700"
+                        item.status === "generated" ? "bg-indigo-600 text-white" : "bg-zinc-900 border border-zinc-800 text-zinc-300"
                       }`}>
                         {String(item.status || "draft")}
                       </span>
@@ -984,9 +984,9 @@ function Records({ items, resource }: { items: Array<Record<string, unknown>>; r
                 )}
                 {resource !== "products" && resource !== "templates" && resource !== "listings" && (
                   <>
-                    <td className="px-6 py-4 font-mono text-[10px] text-neutral-500">{String(item._id || index).slice(-8)}</td>
+                    <td className="px-6 py-4 font-mono text-[10px] text-zinc-400">{String(item._id || index).slice(-8)}</td>
                     <td className="px-6 py-4">
-                      <pre className="max-w-xs md:max-w-md overflow-x-auto text-[10px] text-neutral-500 font-mono bg-neutral-50 p-2 rounded border border-neutral-100">
+                      <pre className="max-w-xs md:max-w-md overflow-x-auto text-[10px] text-zinc-400 font-mono bg-zinc-950/50 p-2 rounded border border-zinc-900">
                         {JSON.stringify(item, null, 2)}
                       </pre>
                     </td>

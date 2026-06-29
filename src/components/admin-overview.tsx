@@ -49,19 +49,19 @@ export function AdminOverview() {
   return (
     <div className="space-y-7">
       <div>
-        <p className="text-[10px] font-medium uppercase tracking-widest text-neutral-400">Admin dashboard</p>
-        <h1 className="mt-2 text-3xl font-medium tracking-tight text-neutral-900 sm:text-4xl">Overview</h1>
+        <p className="text-[10px] font-medium uppercase tracking-widest text-zinc-500">Admin dashboard</p>
+        <h1 className="mt-2 text-3xl font-medium tracking-tight text-white sm:text-4xl">Overview</h1>
       </div>
-      {status ? <p className="rounded-xl border border-neutral-200 bg-white p-3 text-xs font-medium text-neutral-700 shadow-sm">{status}</p> : null}
+      {status ? <p className="rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-3 text-xs font-medium text-zinc-300 shadow-sm">{status}</p> : null}
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {cards.map(([label, key, Icon]) => (
-          <article className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm" key={key}>
+          <article className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-5 shadow-sm" key={key}>
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-[10px] font-medium uppercase tracking-wider text-neutral-400">{label}</p>
-                <p className="mt-2 break-words text-2xl font-medium text-neutral-900">{formatValue(key, stats[key] ?? 0)}</p>
+                <p className="text-[10px] font-medium uppercase tracking-wider text-zinc-500">{label}</p>
+                <p className="mt-2 break-words text-2xl font-medium text-white">{formatValue(key, stats[key] ?? 0)}</p>
               </div>
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-neutral-200 bg-neutral-50 text-neutral-800">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-zinc-800 bg-zinc-950/50 text-zinc-200">
                 <Icon className="h-5 w-5" />
               </span>
             </div>
@@ -78,18 +78,18 @@ export function AdminOverview() {
 
 function RecentPanel({ title, items }: { title: string; items: Array<Record<string, unknown>> }) {
   return (
-    <article className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
-      <h2 className="text-sm font-medium uppercase tracking-wider text-neutral-900">{title}</h2>
+    <article className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-5 shadow-sm">
+      <h2 className="text-sm font-medium uppercase tracking-wider text-white">{title}</h2>
       <div className="mt-4 grid gap-2">
         {items.length ? (
           items.map((item, index) => (
-            <div className="rounded-xl border border-neutral-100 bg-neutral-50 p-3 text-xs text-neutral-700" key={String(item._id || index)}>
-              <p className="break-words font-medium text-neutral-900">{String(item.name || item.email || item.feature || item.status || "Activity")}</p>
-              <p className="mt-1 break-words text-neutral-500">{String(item.email || item.reason || item.createdAt || "")}</p>
+            <div className="rounded-xl border border-zinc-900 bg-zinc-950/50 p-3 text-xs text-zinc-300" key={String(item._id || index)}>
+              <p className="break-words font-medium text-white">{String(item.name || item.email || item.feature || item.status || "Activity")}</p>
+              <p className="mt-1 break-words text-zinc-400">{String(item.email || item.reason || item.createdAt || "")}</p>
             </div>
           ))
         ) : (
-          <p className="rounded-xl border border-dashed border-neutral-200 bg-neutral-50 p-6 text-center text-xs font-medium text-neutral-500">No recent records.</p>
+          <p className="rounded-xl border border-dashed border-zinc-800 bg-zinc-950/50 p-6 text-center text-xs font-medium text-zinc-400">No recent records.</p>
         )}
       </div>
     </article>

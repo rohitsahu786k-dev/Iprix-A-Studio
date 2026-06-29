@@ -37,12 +37,12 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="rounded-lg border border-[#e5e5e5] bg-white p-6">
+    <form onSubmit={onSubmit} className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6">
       {fields.map(([name, label, type]) => (
         <label key={name} className="mb-4 block">
           <span className="mb-2 block text-sm font-medium">{label}</span>
           <input
-            className="w-full rounded-md border border-[#e5e5e5] bg-white px-4 py-3 outline-none focus:border-neutral-300 focus:ring-2 focus:ring-neutral-100"
+            className="w-full rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md px-4 py-3 outline-none focus:border-zinc-700 focus:ring-2 focus:ring-neutral-100"
             name={name}
             required={name === "name" || name === "email"}
             type={type}
@@ -52,19 +52,19 @@ export function ContactForm() {
       <label className="block">
         <span className="mb-2 block text-sm font-medium">Message</span>
         <textarea
-          className="min-h-36 w-full rounded-md border border-[#e5e5e5] bg-white px-4 py-3 outline-none focus:border-neutral-300 focus:ring-2 focus:ring-neutral-100"
+          className="min-h-36 w-full rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md px-4 py-3 outline-none focus:border-zinc-700 focus:ring-2 focus:ring-neutral-100"
           name="message"
           required
         />
       </label>
       <button
-        className="mt-5 w-full rounded-md bg-[#0a0a0a] py-3 text-sm font-medium text-white disabled:opacity-60"
+        className="mt-5 w-full rounded-xl bg-indigo-600 hover:bg-indigo-500 transition-colors shadow-md shadow-indigo-950/20 py-3 text-sm font-medium text-white disabled:opacity-60"
         disabled={busy}
         type="submit"
       >
         {busy ? "Sending..." : "Send Message"}
       </button>
-      {status ? <p className="mt-3 text-center text-sm text-[#525252]">{status}</p> : null}
+      {status ? <p className="mt-3 text-center text-sm text-zinc-400">{status}</p> : null}
     </form>
   );
 }

@@ -86,9 +86,9 @@ export function resetMonthlyUsageIfNeeded(user: UserDoc) {
   const period = currentPeriod();
   const updates: Record<string, unknown> = {};
 
-  if (!user.freeListingsLimit) updates.freeListingsLimit = 5;
+  if (!user.freeListingsLimit) updates.freeListingsLimit = planListingLimits.free;
   if (typeof user.freeListingsUsed !== "number") updates.freeListingsUsed = 0;
-  if (!user.freeKeywordResearchLimit) updates.freeKeywordResearchLimit = 5;
+  if (!user.freeKeywordResearchLimit) updates.freeKeywordResearchLimit = planKeywordResearchLimits.free;
   if (typeof user.freeKeywordResearchUsed !== "number") updates.freeKeywordResearchUsed = 0;
 
   if (plan !== "free" && user.monthlyListingsPeriod !== period) {
@@ -124,7 +124,7 @@ export const syncUserListingDefaults = resetMonthlyUsageIfNeeded;
 export function getListingUsageSnapshot(user: UserDoc): ListingUsageSnapshot {
   resetMonthlyUsageIfNeeded(user);
   const plan = normalizePlan(user.plan);
-  const freeLimit = Number(user.freeListingsLimit || 5);
+  const freeLimit = Number(user.freeListingsLimit || planListingLimits.free);
   const freeUsed = Number(user.freeListingsUsed || 0);
   const monthlyLimit = plan === "free" ? 0 : Number(user.monthlyListingsLimit || getPlanListingLimit(plan));
   const monthlyUsed = Number(user.monthlyListingsUsed || 0);
@@ -154,7 +154,7 @@ export function getListingUsageSnapshot(user: UserDoc): ListingUsageSnapshot {
 export function getKeywordResearchUsageSnapshot(user: UserDoc): KeywordUsageSnapshot {
   resetMonthlyUsageIfNeeded(user);
   const plan = normalizePlan(user.plan);
-  const freeLimit = Number(user.freeKeywordResearchLimit || 5);
+  const freeLimit = Number(user.freeKeywordResearchLimit || planKeywordResearchLimits.free);
   const freeUsed = Number(user.freeKeywordResearchUsed || 0);
   const monthlyLimit = plan === "free" ? 0 : Number(user.monthlyKeywordResearchLimit || getPlanKeywordResearchLimit(plan));
   const monthlyUsed = Number(user.monthlyKeywordResearchUsed || 0);
