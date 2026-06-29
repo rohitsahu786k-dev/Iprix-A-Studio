@@ -14,7 +14,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <div className="grid min-h-screen lg:grid-cols-[280px_1fr]">
         
         {/* Sidebar */}
-        <aside className="flex border-b border-zinc-900 bg-zinc-900/40 backdrop-blur-xl p-4 shadow-sm lg:min-h-screen lg:flex-col lg:border-b-0 lg:border-r lg:border-zinc-900 lg:p-6 lg:pb-8">
+        <aside className="flex border-b border-zinc-900 bg-zinc-950 p-4 shadow-xl lg:sticky lg:top-0 lg:h-screen lg:flex-col lg:border-b-0 lg:border-r lg:border-zinc-900 lg:p-6 lg:pb-8 lg:z-30">
           <div className="mb-0 mr-4 flex shrink-0 justify-start pl-0 lg:mb-8 lg:mr-0 lg:pl-1">
             <BrandLogo href="/admin" size="md" priority />
           </div>
