@@ -71,6 +71,10 @@ const templateSchema = new Schema(
     name: { type: String, required: true },
     platform: { type: String, default: "meesho", index: true },
     category: String,
+    url: String,
+    vertical: String,
+    brand: String,
+    autoFill: { type: Boolean, default: false, index: true },
     source: {
       type: String,
       enum: ["extension_capture", "manual", "ai_generated"],
@@ -91,6 +95,7 @@ const templateSchema = new Schema(
         groupName: String,
       },
     ],
+    sections: [Schema.Types.Mixed],
     images: [
       {
         url: String,
@@ -445,4 +450,3 @@ export const KeywordResearch = model("KeywordResearch");
 export const UsageLog = model("UsageLog");
 export const TemplateCaptureLog = model("TemplateCaptureLog");
 export const EmailLog = model("EmailLog");
-

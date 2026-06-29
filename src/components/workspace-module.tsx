@@ -20,6 +20,17 @@ import {
 import { pricingPlans } from "@/lib/plans";
 import { PricingCard } from "@/components/pricing-card";
 
+type RazorpayInstance = {
+  open: () => void;
+};
+
+type RazorpayConstructor = new (options: Record<string, unknown>) => RazorpayInstance;
+
+declare global {
+  interface Window {
+    Razorpay?: RazorpayConstructor;
+  }
+}
 
 const resourceMap: Record<string, string> = {
   templates: "templates",
@@ -73,7 +84,7 @@ export function WorkspaceModule({ module }: { module: string }) {
     if (module === "notifications") return <NotificationForm onDone={setStatus} />;
     if (module === "support") return <SupportForm onDone={setStatus} />;
     if (module === "tutorial") return <Tutorial />;
-    if (module === "bulk-csv-upload") return <ComingSoon text="CSV parsing and bulk listing creation is wired into smart listing APIs next." />;
+    if (module === "bulk-csv-upload") return <BulkCsvForm onDone={setStatus} />;
     if (module === "settings") return <SettingsForm onDone={setStatus} />;
     if (module === "smart-listings") return <SmartListingForm onDone={setStatus} />;
     return null;
@@ -423,28 +434,306 @@ function AIJsonForm({
 }
 
 function ImageForm({ onDone }: { onDone: (message: string) => void }) {
+  const [busy, setBusy] = useState(false);
+  const [image, setImage] = useState("");
+  const [filename, setFilename] = useState("");
+  const [result, setResult] = useState<{ url?: string; publicId?: string } | null>(null);
+
+  function selectFile(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setFilename(file.name.replace(/\.[^.]+$/, ""));
+    const reader = new FileReader();
+    reader.onload = () => setImage(String(reader.result || ""));
+    reader.readAsDataURL(file);
+  }
+
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!image) {
+      onDone("Choose an image first.");
+      return;
+    }
+    setBusy(true);
+    setResult(null);
+    try {
+      const response = await fetch("/api/images", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image, filename: filename || "product-image" }),
+      });
+      const data = await response.json().catch(() => ({}));
+      setResult(data.image || null);
+      onDone(response.ok ? "Image processed and saved." : data.error || "Image processing failed.");
+    } catch {
+      onDone("Image processing failed.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
-    <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm space-y-5">
+    <form onSubmit={submit} className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm space-y-5">
       <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-neutral-900">
         <ImageIcon className="h-4.5 w-4.5 text-neutral-850" />
         Product image processing
       </div>
-      <JsonForm endpoint="/api/images" fields={["image", "filename"]} button="Upload and resize 1000x1000" onDone={onDone} />
-      <ComingSoon text="Background removal API is Coming Soon." />
-    </div>
+      <div className="grid gap-4 md:grid-cols-[1fr_0.7fr]">
+        <label className="grid gap-1.5 text-xs font-bold text-neutral-700">
+          <span>Image file</span>
+          <input className="rounded-xl border border-neutral-250 px-4 py-3 text-xs font-semibold" type="file" accept="image/*" onChange={selectFile} required />
+        </label>
+        <label className="grid gap-1.5 text-xs font-bold text-neutral-700">
+          <span>Output name</span>
+          <input className="rounded-xl border border-neutral-250 px-4 py-3 text-xs font-semibold" value={filename} onChange={(event) => setFilename(event.target.value)} />
+        </label>
+      </div>
+      {image ? (
+        // Data URL preview for a local file selected before upload.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img alt="" className="max-h-64 rounded-xl border border-neutral-150 object-contain" src={image} />
+      ) : null}
+      <button className="inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-5 py-3.5 text-xs font-bold text-white disabled:opacity-60" disabled={busy}>
+        <Upload className="h-4 w-4" />
+        {busy ? "Processing..." : "Upload and resize 1000x1000"}
+      </button>
+      {result?.url ? (
+        <div className="grid gap-3 rounded-xl border border-neutral-150 bg-neutral-50 p-4 text-xs font-semibold text-neutral-700">
+          <a className="font-bold text-neutral-950 underline" href={result.url} target="_blank" rel="noreferrer">Open processed image</a>
+          <span className="font-mono text-[10px] text-neutral-500">{result.publicId}</span>
+        </div>
+      ) : null}
+    </form>
   );
 }
 
 function LabelForm({ onDone }: { onDone: (message: string) => void }) {
+  const [busy, setBusy] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+  const [pages, setPages] = useState(1);
+  const [analysis, setAnalysis] = useState<Record<string, unknown> | null>(null);
+
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!file) {
+      onDone("Choose a PDF label first.");
+      return;
+    }
+    setBusy(true);
+    setAnalysis(null);
+    try {
+      const response = await fetch("/api/labels", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ filename: file.name, size: file.size, pages }),
+      });
+      const data = await response.json().catch(() => ({}));
+      setAnalysis(data.analysis || null);
+      onDone(response.ok ? "Label analysed and saved." : data.error || "Label analysis failed.");
+    } catch {
+      onDone("Label analysis failed.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
-    <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm space-y-5">
+    <form onSubmit={submit} className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm space-y-5">
       <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-neutral-900">
         <FileText className="h-4.5 w-4.5 text-neutral-850" />
         PDF label analyser
       </div>
-      <JsonForm endpoint="/api/labels" fields={["filename", "size", "pages"]} button="Save PDF metadata" onDone={onDone} />
-      <ComingSoon text="Advanced carrier detection and PDF page splitting are Coming Soon." />
-    </div>
+      <div className="grid gap-4 md:grid-cols-[1fr_180px]">
+        <label className="grid gap-1.5 text-xs font-bold text-neutral-700">
+          <span>PDF label</span>
+          <input className="rounded-xl border border-neutral-250 px-4 py-3 text-xs font-semibold" type="file" accept="application/pdf,.pdf" onChange={(event) => setFile(event.target.files?.[0] || null)} required />
+        </label>
+        <label className="grid gap-1.5 text-xs font-bold text-neutral-700">
+          <span>Pages</span>
+          <input className="rounded-xl border border-neutral-250 px-4 py-3 text-xs font-semibold" type="number" min={1} value={pages} onChange={(event) => setPages(Number(event.target.value) || 1)} />
+        </label>
+      </div>
+      <button className="inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-5 py-3.5 text-xs font-bold text-white disabled:opacity-60" disabled={busy}>
+        <FileText className="h-4 w-4" />
+        {busy ? "Analysing..." : "Analyse label"}
+      </button>
+      {analysis ? (
+        <pre className="max-h-72 overflow-auto whitespace-pre-wrap break-words rounded-xl border border-neutral-150 bg-neutral-50 p-4 text-xs font-semibold leading-relaxed text-neutral-850">
+          {JSON.stringify(analysis, null, 2)}
+        </pre>
+      ) : null}
+    </form>
+  );
+}
+
+type CsvRow = Record<string, string>;
+
+function parseCsv(input: string) {
+  const rows: string[][] = [];
+  let current = "";
+  let row: string[] = [];
+  let quoted = false;
+
+  for (let index = 0; index < input.length; index += 1) {
+    const char = input[index];
+    const next = input[index + 1];
+    if (char === '"' && quoted && next === '"') {
+      current += '"';
+      index += 1;
+    } else if (char === '"') {
+      quoted = !quoted;
+    } else if (char === "," && !quoted) {
+      row.push(current.trim());
+      current = "";
+    } else if ((char === "\n" || char === "\r") && !quoted) {
+      if (char === "\r" && next === "\n") index += 1;
+      row.push(current.trim());
+      if (row.some(Boolean)) rows.push(row);
+      row = [];
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+
+  row.push(current.trim());
+  if (row.some(Boolean)) rows.push(row);
+  const [headers = [], ...body] = rows;
+  return body
+    .map((cells) =>
+      headers.reduce<CsvRow>((acc, header, index) => {
+        const key = header.trim();
+        if (key) acc[key] = cells[index] || "";
+        return acc;
+      }, {}),
+    )
+    .filter((item) => Object.values(item).some(Boolean));
+}
+
+function listFromCsv(value?: string) {
+  return String(value || "")
+    .split(/[|;]/)
+    .flatMap((part) => part.split(","))
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
+
+function normalizeCsvListing(row: CsvRow, platform: string) {
+  const get = (...keys: string[]) => {
+    const found = keys.find((key) => row[key] || row[key.toLowerCase()] || row[key.toUpperCase()]);
+    return found ? row[found] || row[found.toLowerCase()] || row[found.toUpperCase()] || "" : "";
+  };
+
+  return {
+    platform: get("platform") || platform,
+    source: "csv",
+    status: "draft",
+    title: get("title", "productName", "name"),
+    description: get("description", "details"),
+    sku: get("sku", "SKU"),
+    brand: get("brand"),
+    category: get("category"),
+    price: get("price", "sellingPrice") || undefined,
+    mrp: get("mrp", "MRP") || undefined,
+    keywords: listFromCsv(get("keywords", "tags", "searchTerms")),
+    bulletPoints: listFromCsv(get("bulletPoints", "features")),
+    colors: listFromCsv(get("colors", "colour")),
+    sizes: listFromCsv(get("sizes", "size")),
+    payload: { csvRow: row },
+    consumeUsage: false,
+  };
+}
+
+function BulkCsvForm({ onDone }: { onDone: (message: string) => void }) {
+  const [platform, setPlatform] = useState("meesho");
+  const [csvText, setCsvText] = useState("title,sku,brand,category,price,mrp,keywords,description\n");
+  const [rows, setRows] = useState<CsvRow[]>([]);
+  const [busy, setBusy] = useState(false);
+
+  function loadRows(text: string) {
+    setCsvText(text);
+    setRows(parseCsv(text));
+  }
+
+  async function selectFile(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const text = await file.text();
+    loadRows(text);
+  }
+
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const parsedRows = rows.length ? rows : parseCsv(csvText);
+    if (!parsedRows.length) {
+      onDone("No CSV rows found.");
+      return;
+    }
+    setBusy(true);
+    let saved = 0;
+    try {
+      for (const row of parsedRows.slice(0, 250)) {
+        const response = await fetch("/api/listings", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(normalizeCsvListing(row, platform)),
+        });
+        if (response.ok) saved += 1;
+      }
+      onDone(`Imported ${saved} of ${Math.min(parsedRows.length, 250)} CSV listings.`);
+    } catch {
+      onDone("CSV import failed.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <form onSubmit={submit} className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm space-y-5">
+      <div className="grid gap-4 md:grid-cols-[1fr_180px]">
+        <label className="grid gap-1.5 text-xs font-bold text-neutral-700">
+          <span>CSV file</span>
+          <input className="rounded-xl border border-neutral-250 px-4 py-3 text-xs font-semibold" type="file" accept=".csv,text/csv" onChange={selectFile} />
+        </label>
+        <label className="grid gap-1.5 text-xs font-bold text-neutral-700">
+          <span>Platform</span>
+          <select className="rounded-xl border border-neutral-250 px-4 py-3 text-xs font-semibold" value={platform} onChange={(event) => setPlatform(event.target.value)}>
+            <option value="meesho">Meesho</option>
+            <option value="flipkart">Flipkart</option>
+            <option value="amazon">Amazon</option>
+          </select>
+        </label>
+      </div>
+      <label className="grid gap-1.5 text-xs font-bold text-neutral-700">
+        <span>CSV rows</span>
+        <textarea className="min-h-56 rounded-xl border border-neutral-250 px-4 py-3 font-mono text-xs outline-none focus:border-neutral-300 focus:ring-2 focus:ring-neutral-100" value={csvText} onChange={(event) => loadRows(event.target.value)} />
+      </label>
+      <div className="flex flex-wrap items-center gap-3">
+        <button className="inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-5 py-3.5 text-xs font-bold text-white disabled:opacity-60" disabled={busy}>
+          <Upload className="h-4 w-4" />
+          {busy ? "Importing..." : "Import CSV listings"}
+        </button>
+        <span className="text-xs font-bold text-neutral-500">{rows.length} rows ready</span>
+      </div>
+      {rows.length ? (
+        <div className="overflow-x-auto rounded-xl border border-neutral-150">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-neutral-50 text-[10px] uppercase tracking-wider text-neutral-400">
+              <tr>
+                {Object.keys(rows[0]).slice(0, 6).map((key) => <th className="px-4 py-3" key={key}>{key}</th>)}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-neutral-100 font-semibold text-neutral-700">
+              {rows.slice(0, 5).map((row, index) => (
+                <tr key={index}>
+                  {Object.keys(rows[0]).slice(0, 6).map((key) => <td className="px-4 py-3" key={key}>{row[key]}</td>)}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : null}
+    </form>
   );
 }
 
@@ -452,6 +741,21 @@ function SubscriptionForm({ onDone }: { onDone: (message: string) => void }) {
   const [busy, setBusy] = useState<string | null>(null);
   const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
   const searchParams = useSearchParams();
+
+  const loadRazorpay = useCallback(() => {
+    return new Promise<boolean>((resolve) => {
+      if (window.Razorpay) {
+        resolve(true);
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.async = true;
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  }, []);
 
   const upgrade = useCallback(async (plan: string, billingMode: "monthly" | "yearly") => {
     setBusy(plan);
@@ -462,13 +766,41 @@ function SubscriptionForm({ onDone }: { onDone: (message: string) => void }) {
         body: JSON.stringify({ plan, billing: billingMode }) 
       });
       const data = await response.json().catch(() => ({}));
-      onDone(response.ok ? "Checkout order created. Continue in Razorpay when production billing is enabled." : data.error || "Checkout unavailable.");
+      if (!response.ok) {
+        onDone(data.error || "Checkout unavailable.");
+        return;
+      }
+      const ready = await loadRazorpay();
+      if (!ready || !window.Razorpay) {
+        onDone("Could not load Razorpay checkout.");
+        return;
+      }
+      const checkout = new window.Razorpay({
+        key: data.keyId,
+        amount: data.order?.amount,
+        currency: data.order?.currency || "INR",
+        name: "A+ Studio",
+        description: `${plan} ${billingMode} subscription`,
+        order_id: data.order?.id,
+        handler: async (payment: Record<string, string>) => {
+          const verifyResponse = await fetch("/api/subscription/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payment),
+          });
+          const verifyData = await verifyResponse.json().catch(() => ({}));
+          onDone(verifyResponse.ok ? "Subscription activated successfully." : verifyData.error || "Payment verification failed.");
+        },
+        theme: { color: "#09090b" },
+      });
+      checkout.open();
+      onDone("Razorpay checkout opened.");
     } catch {
       onDone("Payment system connection error.");
     } finally {
       setBusy(null);
     }
-  }, [onDone]);
+  }, [loadRazorpay, onDone]);
 
   useEffect(() => {
     const plan = searchParams.get("plan");
@@ -544,14 +876,6 @@ function Tutorial() {
           </div>
         </article>
       ))}
-    </div>
-  );
-}
-
-function ComingSoon({ text }: { text: string }) {
-  return (
-    <div className="rounded-xl border border-dashed border-neutral-200 bg-neutral-50 p-4 text-xs font-bold text-neutral-600">
-      {text}
     </div>
   );
 }

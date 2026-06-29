@@ -29,6 +29,10 @@ export const templateSchema = z.object({
   name: z.string().min(2),
   platform: z.string().min(2).default("meesho"),
   category: z.string().optional().default(""),
+  url: z.string().optional().default(""),
+  vertical: z.string().optional().default(""),
+  brand: z.string().optional().default(""),
+  autoFill: z.boolean().optional().default(false),
   source: z.enum(["extension_capture", "manual", "ai_generated"]).optional().default("manual"),
   capturedFromUrl: z.string().optional().default(""),
   selectors: z.record(z.string(), z.any()).optional().default({}),
@@ -47,6 +51,7 @@ export const templateSchema = z.object({
     )
     .optional()
     .default([]),
+  sections: z.array(z.any()).optional().default([]),
   images: z.array(z.any()).optional().default([]),
   fieldCount: z.number().optional().default(0),
 });

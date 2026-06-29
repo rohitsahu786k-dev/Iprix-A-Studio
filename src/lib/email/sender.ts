@@ -4,12 +4,16 @@ import { EmailLog } from "@/models";
 import { connectDb } from "@/lib/db";
 import { getServerEnv } from "@/lib/env";
 
+function errorMessage(error: unknown) {
+  return error instanceof Error ? error.message : String(error);
+}
+
 export async function sendMailWithLog(
   userId: string | null,
   to: string,
   trigger: keyof typeof emailTemplates,
   input: EmailTemplateInput,
-  metadata?: Record<string, any>
+  metadata?: Record<string, unknown>
 ) {
   try {
     const templateBuilder = emailTemplates[trigger];
@@ -33,9 +37,9 @@ export async function sendMailWithLog(
         subject,
         html,
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(`Error sending SMTP email for trigger "${trigger}":`, err);
-      sendError = err?.message || String(err);
+      sendError = errorMessage(err);
       status = "failed";
     }
 
@@ -58,8 +62,8 @@ export async function sendMailWithLog(
     }
 
     return { sent: status === "sent", error: sendError };
-  } catch (outerErr: any) {
+  } catch (outerErr: unknown) {
     console.error("Fatal error in sendMailWithLog:", outerErr);
-    return { sent: false, error: outerErr?.message || String(outerErr) };
+    return { sent: false, error: errorMessage(outerErr) };
   }
 }

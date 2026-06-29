@@ -1375,12 +1375,12 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
           return _origOpen.apply(this, arguments);
         };
         XMLHttpRequest.prototype.send = function () {
-          var self = this;
-          if (self.__listifyUrl && self.__listifyUrl.includes("getTransferPrice")) {
-            console.log("[LISTIFY-PAGE] getTransferPrice via XHR:", self.__listifyUrl);
-            self.addEventListener("load", function () {
+          if (this.__listifyUrl && this.__listifyUrl.includes("getTransferPrice")) {
+            console.log("[LISTIFY-PAGE] getTransferPrice via XHR:", this.__listifyUrl);
+            this.addEventListener("load", function (event) {
               try {
-                var d = JSON.parse(self.responseText);
+                var xhr = event.currentTarget;
+                var d = JSON.parse(xhr.responseText);
                 console.log("[LISTIFY-PAGE] postMessage transferPrice (XHR):", d);
                 window.postMessage({ __listify: "transferPrice", data: d }, "*");
               } catch (e) { console.log("[LISTIFY-PAGE] XHR JSON error:", e); }

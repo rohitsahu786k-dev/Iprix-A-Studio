@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Check, Clock3, ShieldCheck } from "lucide-react";
 import { type PricingPlan } from "@/lib/plans";
@@ -25,13 +24,7 @@ export function PricingCard({
   billing?: "monthly" | "yearly";
   onSubscribe?: (planSlug: string, billing: "monthly" | "yearly") => void;
 }) {
-  const [internalBilling, setInternalBilling] = useState<"monthly" | "yearly">("monthly");
-  const billing = propBilling || internalBilling;
-  const setBilling = (b: "monthly" | "yearly") => {
-    if (!propBilling) {
-      setInternalBilling(b);
-    }
-  };
+  const billing = propBilling || "monthly";
 
   const isFree = plan.monthlyPrice === 0;
 

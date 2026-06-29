@@ -9,16 +9,19 @@ function VerifyEmailInner() {
   const router = useRouter();
   const token = searchParams.get("token");
   const email = searchParams.get("email");
+  const missingVerificationParams = !token || !email;
 
-  const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
-  const [message, setMessage] = useState("Verifying your email address...");
+  const [status, setStatus] = useState<"loading" | "success" | "error">(
+    missingVerificationParams ? "error" : "loading",
+  );
+  const [message, setMessage] = useState(
+    missingVerificationParams
+      ? "Missing verification token or email address in URL."
+      : "Verifying your email address...",
+  );
 
   useEffect(() => {
-    if (!token || !email) {
-      setStatus("error");
-      setMessage("Missing verification token or email address in URL.");
-      return;
-    }
+    if (missingVerificationParams) return;
 
     fetch("/api/auth/verify-email", {
       method: "POST",
@@ -42,7 +45,7 @@ function VerifyEmailInner() {
         setStatus("error");
         setMessage("An error occurred during verification.");
       });
-  }, [token, email, router]);
+  }, [token, email, missingVerificationParams, router]);
 
   return (
     <div className="mx-auto max-w-md w-full border border-neutral-200 bg-white rounded-2xl p-8 shadow-sm text-center">
