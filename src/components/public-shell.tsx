@@ -233,7 +233,7 @@ export function PublicFooter() {
 
 export function PublicShell({ children }: { children: React.ReactNode }) {
   return (
-    <main className="min-h-screen bg-zinc-950 text-white selection:bg-indigo-600 selection:text-white">
+    <main className="min-h-screen w-full overflow-x-hidden bg-zinc-950 text-white selection:bg-indigo-600 selection:text-white">
       <PublicHeader />
       {children}
       <PublicFooter />

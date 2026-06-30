@@ -51,7 +51,8 @@ export function DashboardNav({ links }: DashboardNavProps) {
     <nav className="flex min-w-0 flex-1 gap-1 overflow-x-auto lg:flex lg:flex-col lg:gap-1.5 lg:overflow-x-hidden pr-2 py-2">
       {links.map(([label, href]) => {
         const Icon = navIcons[label as keyof typeof navIcons] || Boxes;
-        const isActive = pathname === href;
+        // Keep active if exact match or if sub-route (except dashboard home itself)
+        const isActive = pathname === href || (href !== "/dashboard" && pathname.startsWith(href));
 
         return (
           <Link

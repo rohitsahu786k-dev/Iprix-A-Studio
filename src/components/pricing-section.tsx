@@ -17,13 +17,13 @@ export function PricingSection() {
         </div>
       </section>
 
-      <section className="container py-20 bg-zinc-900/50 backdrop-blur-md">
+      <section className="container py-20 bg-zinc-950/20 relative z-10">
         <div className="mx-auto max-w-2xl text-center mb-10">
-          <p className="inline-flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-950/50 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-zinc-200">
+          <p className="inline-flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900/60 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-zinc-305">
             Simple Pricing
           </p>
           <h1 className="mt-6 text-5xl font-extrabold leading-tight md:text-6xl text-white">
-            Plans for every <span className="underline decoration-indigo-500 underline-offset-4">Indian seller.</span>
+            Plans for every <span className="bg-gradient-to-r from-indigo-400 via-indigo-500 to-violet-400 bg-clip-text text-transparent">Indian seller.</span>
           </h1>
           <p className="mt-4 text-base leading-7 text-zinc-400">
             Generate real AI listings, capture templates with the Chrome extension, and move to monthly quotas when you are ready.

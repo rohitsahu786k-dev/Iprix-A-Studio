@@ -18,12 +18,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <div className="grid min-h-screen lg:grid-cols-[280px_1fr]">
         
         {/* Sidebar / Top Nav (Sticky on both mobile and desktop) */}
-        <aside className="sticky top-0 z-30 flex items-center justify-between border-b border-zinc-900 bg-zinc-950/90 backdrop-blur-xl p-4 shadow-2xl lg:sticky lg:top-0 lg:h-screen lg:w-auto lg:flex-col lg:border-b-0 lg:border-r lg:border-zinc-900 lg:p-6 lg:pb-8">
+        <aside className="sticky top-0 z-30 flex w-full items-center justify-between border-b border-zinc-900 bg-zinc-950/90 backdrop-blur-xl p-4 shadow-2xl lg:sticky lg:top-0 lg:h-screen lg:w-[280px] lg:max-w-[280px] lg:flex-col lg:border-b-0 lg:border-r lg:border-zinc-900 lg:p-6 lg:pb-8">
           <div className="mb-0 mr-4 flex shrink-0 justify-start pl-0 lg:mb-8 lg:mr-0 lg:pl-1">
             <BrandLogo href="/dashboard" size="md" priority />
           </div>
           
-          <div className="flex-1 overflow-y-auto overflow-x-hidden -mx-2 px-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:w-full">
+          <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden -mx-2 px-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:w-full">
             <DashboardNav links={dashboardNav as [string, string][]} />
           </div>
           

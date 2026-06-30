@@ -146,86 +146,87 @@ export default function Home() {
   return (
     <PublicShell>
       {/* ── HERO SECTION ── */}
-      <section className="relative overflow-hidden bg-zinc-950 py-20 lg:py-32 border-b border-zinc-900">
+      <section className="relative overflow-hidden bg-zinc-950 py-24 lg:py-36 border-b border-zinc-900">
         {/* Premium Grid Blueprint Background */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#18181b_1px,transparent_1px),linear-gradient(to_bottom,#18181b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-80 pointer-events-none" />
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-950/20 rounded-full blur-3xl -z-10 pointer-events-none animate-pulse" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#18181b_1px,transparent_1px),linear-gradient(to_bottom,#18181b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-70 pointer-events-none" />
+        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-indigo-950/15 rounded-full blur-3xl -z-10 pointer-events-none animate-pulse duration-[8000ms]" />
+        <div className="absolute -left-12 top-1/4 w-[400px] h-[400px] bg-violet-950/10 rounded-full blur-3xl -z-10 pointer-events-none animate-pulse duration-[10000ms]" />
         
         <div className="container grid gap-16 lg:grid-cols-[1.15fr_0.85fr] lg:items-center relative z-10">
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/60 text-xs font-semibold text-zinc-300 mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-indigo-500/10 bg-indigo-950/20 text-xs font-bold text-indigo-300 uppercase tracking-widest mb-8">
               <Icons.Sparkles />
               AI Listing Studio for Indian Sellers
             </div>
-            <h1 className="text-5xl lg:text-[64px] font-extrabold tracking-tight text-white leading-[1.1] mb-6">
-              Create marketplace-ready <span className="underline decoration-indigo-500 underline-offset-4 decoration-4">listings in seconds.</span>
+            <h1 className="text-5xl lg:text-[64px] font-extrabold tracking-tight text-white leading-[1.05] mb-6">
+              Create marketplace-ready <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-indigo-300 bg-clip-text text-transparent">listings in seconds.</span>
             </h1>
-            <p className="text-lg lg:text-xl text-zinc-400 leading-relaxed mb-8 max-w-2xl">
+            <p className="text-lg lg:text-xl text-zinc-400 leading-relaxed mb-10 max-w-2xl">
               A+ Studio by Iprix Media helps Indian sellers create AI-powered product titles, descriptions, keywords,
               SKUs, images and autofill marketplace listing forms with a powerful Chrome extension.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link className="rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 px-7 py-4 text-sm font-bold text-white shadow-md shadow-indigo-550/20 hover:from-indigo-500 hover:to-violet-500 transition-all duration-200 active:scale-[0.98]" href="/signup">
+              <Link className="rounded-2xl bg-gradient-to-r from-indigo-500 via-indigo-600 to-violet-600 px-8 py-4.5 text-sm font-bold text-white shadow-[0_1px_2px_rgba(0,0,0,0.05),0_0_24px_rgba(99,102,241,0.15)] hover:shadow-[0_1px_2px_rgba(0,0,0,0.05),0_0_32px_rgba(99,102,241,0.25)] hover:from-indigo-450 hover:via-indigo-550 hover:to-violet-550 hover:scale-[1.01] active:scale-[0.98] transition-all duration-300" href="/signup">
                 Start Free Trial
               </Link>
-              <Link className="rounded-2xl border border-zinc-850 bg-zinc-900/40 px-7 py-4 text-sm font-bold text-zinc-200 hover:bg-zinc-800 transition-all inline-flex items-center gap-2.5 active:scale-[0.98]" href="#chrome-extension">
+              <Link className="rounded-2xl border border-zinc-800 bg-zinc-900/40 px-8 py-4.5 text-sm font-bold text-zinc-200 hover:bg-zinc-800 hover:border-zinc-750 transition-all inline-flex items-center gap-2.5 hover:scale-[1.01] active:scale-[0.98] duration-300" href="#chrome-extension">
                 <Image src="/icon/chrome.jpg" alt="Chrome Logo" width={18} height={18} className="object-contain rounded" />
                 Install Extension
               </Link>
-              <Link className="rounded-2xl border border-zinc-850 bg-zinc-900/40 px-7 py-4 text-sm font-bold text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-all active:scale-[0.98]" href="/pricing">
+              <Link className="rounded-2xl border border-zinc-800/80 bg-zinc-900/20 px-8 py-4.5 text-sm font-bold text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/60 hover:border-zinc-700 transition-all hover:scale-[1.01] active:scale-[0.98] duration-300" href="/pricing">
                 View Plans
               </Link>
             </div>
           </div>
-
+ 
           {/* Premium Preview Stack (Layered Showcase UI) */}
           <div className="relative lg:ml-4">
             {/* Glow effect */}
-            <div className="absolute -inset-4 bg-gradient-to-tr from-indigo-500/10 via-violet-500/5 to-transparent rounded-3xl blur-3xl opacity-80 -z-10 animate-pulse" />
+            <div className="absolute -inset-4 bg-gradient-to-tr from-indigo-500/15 via-violet-500/10 to-transparent rounded-[32px] blur-3xl opacity-80 -z-10 animate-pulse duration-[6000ms]" />
             
             {/* Main Browser Mockup (Dashboard) */}
-            <div className="relative rounded-3xl border border-zinc-850 bg-zinc-900/80 p-2 shadow-2xl transition-all duration-300">
-              <div className="bg-zinc-950 border-b border-zinc-850 px-4 py-2.5 flex items-center gap-1.5 rounded-t-2xl select-none">
+            <div className="relative rounded-[32px] border border-zinc-800/80 bg-zinc-900/70 p-2 shadow-2xl transition-all duration-300 backdrop-blur-md">
+              <div className="bg-zinc-950/80 border-b border-zinc-850/80 px-4 py-3 flex items-center gap-1.5 rounded-t-[24px] select-none">
                 <span className="w-2.5 h-2.5 rounded-full bg-zinc-800" />
                 <span className="w-2.5 h-2.5 rounded-full bg-zinc-800" />
                 <span className="w-2.5 h-2.5 rounded-full bg-zinc-800" />
-                <div className="mx-auto bg-zinc-900 border border-zinc-800 rounded px-4 py-0.5 text-[9px] text-zinc-500 font-mono w-1/2 text-center truncate">
+                <div className="mx-auto bg-zinc-900 border border-zinc-850 rounded px-4 py-0.5 text-[9px] text-zinc-500 font-mono w-1/2 text-center truncate">
                   app.iprixmedia.com/dashboard
                 </div>
               </div>
-              <div className="relative overflow-hidden rounded-b-2xl aspect-[16/10] bg-zinc-950">
+              <div className="relative overflow-hidden rounded-b-[24px] aspect-[16/10] bg-zinc-950">
                 <Image 
                   src="/seller-dashboard.png" 
                   alt="A+ Studio Seller Dashboard" 
                   fill 
-                  className="object-cover object-top hover:scale-[1.02] transition-transform duration-500" 
+                  className="object-cover object-top hover:scale-[1.01] transition-transform duration-500" 
                   priority
                 />
               </div>
             </div>
-
+ 
             {/* Floating Live Indicator Badge */}
-            <div className="absolute -right-4 -top-4 rounded-2xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 shadow-xl flex items-center gap-2 z-20">
+            <div className="absolute -right-4 -top-4 rounded-2xl border border-zinc-800/80 bg-zinc-900/90 backdrop-blur-md px-4 py-2.5 shadow-xl flex items-center gap-2 z-20">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              <span className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest">A+ AI Agent Active</span>
+              <span className="text-[10px] font-extrabold text-zinc-200 uppercase tracking-widest">A+ AI Agent Active</span>
             </div>
-
+ 
             {/* Floating Meesho Listing Preview Card (Layered on top of the dashboard screenshot) */}
-            <div className="absolute -left-6 -bottom-6 w-72 rounded-3xl border border-zinc-800 bg-zinc-900/95 p-5 shadow-2xl z-20 hidden md:block hover:-translate-y-1 transition-transform duration-300">
+            <div className="absolute -left-6 -bottom-6 w-72 rounded-3xl border border-zinc-800/80 bg-zinc-900/95 p-5 shadow-2xl z-20 hidden md:block hover:-translate-y-1 transition-transform duration-300 backdrop-blur-md">
               <div className="flex items-center justify-between border-b border-zinc-850 pb-3 mb-3">
                 <div className="flex items-center gap-2">
                   <Image src="/icon/Meesho_logo.png" alt="Meesho" width={16} height={16} className="object-contain rounded" />
                   <span className="font-extrabold text-white text-xs">Meesho Preview</span>
                 </div>
-                <span className="rounded-full bg-zinc-800 border border-zinc-700 px-2 py-0.5 text-[9px] font-extrabold text-zinc-300">92 Score</span>
+                <span className="rounded-full bg-zinc-800 border border-zinc-700 px-2 py-0.5 text-[9px] font-extrabold text-zinc-350">92 Score</span>
               </div>
               <div className="space-y-2">
                 {["Product Title", "MRP & Selling Price", "SKU & Keywords"].map((field) => (
-                  <div key={field} className="flex justify-between items-center rounded-2xl border border-zinc-850 bg-zinc-950/70 px-3 py-2 text-[10px]">
-                    <span className="text-zinc-500 font-bold">{field}</span>
+                  <div key={field} className="flex justify-between items-center rounded-2xl border border-zinc-850 bg-zinc-950/70 px-3.5 py-2.5 text-[10px]">
+                    <span className="text-zinc-550 font-bold">{field}</span>
                     <span className="text-indigo-400 font-extrabold flex items-center gap-1">
                       <svg className="w-3 h-3 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="20 6 9 17 4 12" />
@@ -241,80 +242,81 @@ export default function Home() {
       </section>
 
       {/* ── SECTION 1: WORKFLOW STEPS ── */}
-      <section className="relative py-24 bg-zinc-950 border-t border-zinc-900">
+      <section className="relative py-28 bg-zinc-950 border-t border-zinc-900">
         <div className="container relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900/50 text-xs font-bold text-zinc-300 uppercase tracking-widest mb-5">
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/60 text-xs font-bold text-zinc-300 uppercase tracking-widest mb-6">
               <Icons.Sparkles />
               Seller Automation Workflow
             </div>
-            <h2 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4">
-              Built for the <span className="underline decoration-indigo-500 underline-offset-4">repetitive seller workflow.</span>
+            <h2 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-5 leading-tight">
+              Built for the <span className="bg-gradient-to-r from-indigo-400 via-indigo-500 to-violet-400 bg-clip-text text-transparent">repetitive seller workflow.</span>
             </h2>
-            <p className="text-base lg:text-lg text-zinc-400 leading-relaxed">
+            <p className="text-base lg:text-lg text-zinc-400 leading-relaxed max-w-2xl mx-auto">
               Save once, generate with AI, preview with confidence, and track every seller operation from one place.
             </p>
           </div>
 
           <div className="relative grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {/* Desktop Connecting Line */}
-            <div className="absolute top-[48px] left-[12%] right-[12%] h-0.5 bg-zinc-900 z-0 hidden lg:block" />
+            <div className="absolute top-[48px] left-[12%] right-[12%] h-[1px] bg-zinc-850/80 z-0 hidden lg:block" />
 
             {/* Card 1 */}
-            <article className="relative z-10 flex flex-col justify-between rounded-3xl border border-zinc-900 bg-zinc-900/30 p-6 shadow-sm hover:border-zinc-800 hover:shadow-lg transition-all group">
+            <article className="relative z-10 flex flex-col justify-between rounded-3xl border border-zinc-850/50 bg-zinc-900/20 p-7 shadow-sm hover:border-zinc-700/80 hover:bg-zinc-900/40 hover:scale-[1.01] hover:shadow-lg transition-all duration-300 group">
               <div>
-                <div className="flex justify-between items-start mb-6">
-                  <span className="text-xs font-bold text-zinc-300 bg-zinc-800 px-2.5 py-1 rounded-full uppercase tracking-wider">Step 1</span>
-                  <div className="w-10 h-10 rounded-xl bg-zinc-900 flex items-center justify-center border border-zinc-850">
+                <div className="flex justify-between items-start mb-8">
+                  <span className="text-[10px] font-extrabold text-zinc-400 bg-zinc-900 border border-zinc-850 px-3 py-1 rounded-full uppercase tracking-wider">Step 1</span>
+                  <div className="w-10 h-10 rounded-xl bg-zinc-950 flex items-center justify-center border border-zinc-800 shadow-sm group-hover:border-zinc-700 transition-colors">
                     <Icons.Database />
                   </div>
                 </div>
-                <h3 className="font-bold text-white text-sm leading-snug mb-2">Save product data and selectors once.</h3>
+                <h3 className="font-extrabold text-white text-base leading-snug mb-3">Save product data and selectors once.</h3>
                 <p className="text-xs text-zinc-400 leading-relaxed">Store reusable product details and selectors to speed up future listings.</p>
               </div>
             </article>
 
             {/* Card 2 (Highlighted) */}
-            <article className="relative z-10 flex flex-col justify-between rounded-3xl border border-indigo-500/30 shadow-indigo-500/5 bg-zinc-900/60 p-6 shadow-xl hover:border-indigo-500/50 transition-all group">
+            <article className="relative z-10 flex flex-col justify-between rounded-3xl border border-indigo-500/35 bg-indigo-950/10 p-7 shadow-xl shadow-indigo-950/10 hover:border-indigo-500/60 hover:scale-[1.01] transition-all duration-300 group overflow-hidden">
+              <div className="absolute -right-12 -top-12 w-28 h-28 bg-indigo-500/10 rounded-full blur-xl pointer-events-none group-hover:bg-indigo-500/15 transition-colors" />
               <div className="relative z-10">
-                <div className="flex justify-between items-start mb-6">
-                  <span className="text-xs font-bold text-white bg-indigo-600 px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">Step 2</span>
-                  <div className="w-10 h-10 rounded-xl bg-indigo-955 flex items-center justify-center text-indigo-400 border border-indigo-550/30 shadow-md">
+                <div className="flex justify-between items-start mb-8">
+                  <span className="text-[10px] font-extrabold text-white bg-indigo-650 px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">Step 2</span>
+                  <div className="w-10 h-10 rounded-xl bg-indigo-950 flex items-center justify-center text-indigo-400 border border-indigo-500/30 shadow-md">
                     <Icons.Sparkles />
                   </div>
                 </div>
-                <h3 className="font-bold text-white text-sm leading-snug mb-2">Generate title, SKU and keywords with AI.</h3>
-                <p className="text-xs text-zinc-400 leading-relaxed mb-4">Create optimized marketplace-ready content in seconds.</p>
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-indigo-950 text-[9px] font-extrabold text-indigo-400 uppercase tracking-widest border border-indigo-900/50">
+                <h3 className="font-extrabold text-white text-base leading-snug mb-3">Generate title, SKU and keywords with AI.</h3>
+                <p className="text-xs text-zinc-400 leading-relaxed mb-5">Create optimized marketplace-ready content in seconds.</p>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-950/80 text-[9px] font-extrabold text-indigo-400 uppercase tracking-widest border border-indigo-900/50">
                   AI Powered
                 </span>
               </div>
             </article>
 
             {/* Card 3 */}
-            <article className="relative z-10 flex flex-col justify-between rounded-3xl border border-zinc-900 bg-zinc-900/30 p-6 shadow-sm hover:border-zinc-800 hover:shadow-lg transition-all group">
+            <article className="relative z-10 flex flex-col justify-between rounded-3xl border border-zinc-850/50 bg-zinc-900/20 p-7 shadow-sm hover:border-zinc-700/80 hover:bg-zinc-900/40 hover:scale-[1.01] hover:shadow-lg transition-all duration-300 group">
               <div>
-                <div className="flex justify-between items-start mb-6">
-                  <span className="text-xs font-bold text-zinc-300 bg-zinc-800 px-2.5 py-1 rounded-full uppercase tracking-wider">Step 3</span>
-                  <div className="w-10 h-10 rounded-xl bg-zinc-900 flex items-center justify-center border border-zinc-850">
+                <div className="flex justify-between items-start mb-8">
+                  <span className="text-[10px] font-extrabold text-zinc-400 bg-zinc-900 border border-zinc-850 px-3 py-1 rounded-full uppercase tracking-wider">Step 3</span>
+                  <div className="w-10 h-10 rounded-xl bg-zinc-950 flex items-center justify-center border border-zinc-800 shadow-sm group-hover:border-zinc-700 transition-colors">
                     <Icons.Eye />
                   </div>
                 </div>
-                <h3 className="font-bold text-white text-sm leading-snug mb-2">Preview inside Chrome extension.</h3>
+                <h3 className="font-extrabold text-white text-base leading-snug mb-3">Preview inside Chrome extension.</h3>
                 <p className="text-xs text-zinc-400 leading-relaxed">Review and confirm all values before pushing them live.</p>
               </div>
             </article>
 
             {/* Card 4 */}
-            <article className="relative z-10 flex flex-col justify-between rounded-3xl border border-zinc-900 bg-zinc-900/30 p-6 shadow-sm hover:border-zinc-800 hover:shadow-lg transition-all group">
+            <article className="relative z-10 flex flex-col justify-between rounded-3xl border border-zinc-850/50 bg-zinc-900/20 p-7 shadow-sm hover:border-zinc-700/80 hover:bg-zinc-900/40 hover:scale-[1.01] hover:shadow-lg transition-all duration-300 group">
               <div>
-                <div className="flex justify-between items-start mb-6">
-                  <span className="text-xs font-bold text-zinc-300 bg-zinc-800 px-2.5 py-1 rounded-full uppercase tracking-wider">Step 4</span>
-                  <div className="w-10 h-10 rounded-xl bg-zinc-900 flex items-center justify-center border border-zinc-850">
+                <div className="flex justify-between items-start mb-8">
+                  <span className="text-[10px] font-extrabold text-zinc-400 bg-zinc-900 border border-zinc-850 px-3 py-1 rounded-full uppercase tracking-wider">Step 4</span>
+                  <div className="w-10 h-10 rounded-xl bg-zinc-950 flex items-center justify-center border border-zinc-800 shadow-sm group-hover:border-zinc-700 transition-colors">
                     <Icons.Chart />
                   </div>
                 </div>
-                <h3 className="font-bold text-white text-sm leading-snug mb-2">Track usage and admin activity logs.</h3>
+                <h3 className="font-extrabold text-white text-base leading-snug mb-3">Track usage and admin activity logs.</h3>
                 <p className="text-xs text-zinc-400 leading-relaxed">Centralize analytics, billing, team activity and admin visibility.</p>
               </div>
             </article>
@@ -323,17 +325,18 @@ export default function Home() {
       </section>
 
       {/* ── SECTION 2: COMPLETE SAAS MODULES ── */}
-      <section className="relative py-24 bg-zinc-900/40 border-y border-zinc-900">
+      <section className="relative py-28 bg-zinc-900/20 border-y border-zinc-900">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(99,102,241,0.02),transparent_40%)] pointer-events-none" />
         <div className="container relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900/50 text-xs font-bold text-zinc-300 uppercase tracking-widest mb-5">
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/60 text-xs font-bold text-zinc-300 uppercase tracking-widest mb-6">
               <Icons.Database />
               Core Platform Modules
             </div>
-            <h2 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4">
-              Complete <span className="underline decoration-indigo-500 underline-offset-4">SaaS modules</span>
+            <h2 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-5 leading-tight">
+              Complete <span className="bg-gradient-to-r from-indigo-400 via-indigo-500 to-violet-400 bg-clip-text text-transparent">SaaS modules</span>
             </h2>
-            <p className="text-base lg:text-lg text-zinc-400 leading-relaxed">
+            <p className="text-base lg:text-lg text-zinc-400 leading-relaxed max-w-2xl mx-auto">
               Everything you need to create, optimize, automate and manage marketplace listings at scale.
             </p>
           </div>
@@ -347,8 +350,8 @@ export default function Home() {
               { title: "Image optimization", image: "/image-optimization.png", desc: "Automatically enhance, background remove and optimize images for every marketplace.", icon: <Icons.Image /> },
               { title: "Admin analytics", image: "/admin-analytics.png", desc: "Advanced analytics, user management and usage insights to grow your business.", icon: <Icons.Chart /> },
             ].map((module, idx) => (
-              <article key={idx} className="flex flex-col justify-between rounded-3xl border border-zinc-900 bg-zinc-900/30 shadow-sm hover:shadow-2xl hover:-translate-y-1 hover:border-zinc-850 transition-all duration-300 group overflow-hidden">
-                <div className="p-5 bg-gradient-to-br from-zinc-900 to-zinc-950 border-b border-zinc-900 flex items-center justify-center relative aspect-[16/10] overflow-hidden">
+              <article key={idx} className="flex flex-col justify-between rounded-3xl border border-zinc-850/60 bg-zinc-900/20 shadow-sm hover:shadow-2xl hover:shadow-indigo-500/5 hover:-translate-y-1 hover:border-zinc-700/80 hover:bg-zinc-900/40 transition-all duration-300 group overflow-hidden">
+                <div className="p-6 bg-gradient-to-br from-zinc-900/50 to-zinc-950/50 border-b border-zinc-900/80 flex items-center justify-center relative aspect-[16/10] overflow-hidden">
                   <div className="relative w-full h-full rounded-2xl overflow-hidden border border-zinc-850 shadow-sm bg-zinc-950">
                     <Image 
                       src={module.image} 
@@ -360,16 +363,16 @@ export default function Home() {
                 </div>
                 <div className="p-6 flex-grow flex flex-col justify-between">
                   <div>
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-9 h-9 rounded-lg bg-zinc-900 flex items-center justify-center border border-zinc-800">
+                    <div className="flex items-center gap-3.5 mb-4">
+                      <div className="w-10 h-10 rounded-xl bg-zinc-950 flex items-center justify-center border border-zinc-800 text-zinc-300 group-hover:border-zinc-700 group-hover:text-indigo-400 transition-colors duration-300">
                         {module.icon}
                       </div>
-                      <h3 className="font-bold text-white text-lg leading-tight">{module.title}</h3>
+                      <h3 className="font-extrabold text-white text-base leading-tight group-hover:text-indigo-300 transition-colors duration-350">{module.title}</h3>
                     </div>
-                    <p className="text-sm text-zinc-400 leading-relaxed">{module.desc}</p>
+                    <p className="text-xs leading-relaxed text-zinc-400">{module.desc}</p>
                   </div>
                   <div className="flex justify-end mt-6">
-                    <div className="w-8 h-8 rounded-full border border-zinc-800 flex items-center justify-center bg-zinc-900 group-hover:border-zinc-700 group-hover:bg-zinc-850 transition-colors">
+                    <div className="w-8 h-8 rounded-full border border-zinc-800 flex items-center justify-center bg-zinc-900/60 group-hover:border-indigo-550/40 group-hover:bg-indigo-950/20 text-zinc-400 group-hover:text-indigo-400 transition-all duration-300">
                       <Icons.ArrowRight />
                     </div>
                   </div>
@@ -381,15 +384,15 @@ export default function Home() {
       </section>
 
       {/* ── SECTION 3: CORE FEATURES ── */}
-      <section className="relative py-24 bg-zinc-950 overflow-hidden">
+      <section className="relative py-28 bg-zinc-950 overflow-hidden">
         <div className="container relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900/50 text-xs font-bold text-zinc-300 uppercase tracking-widest mb-5">
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/60 text-xs font-bold text-zinc-300 uppercase tracking-widest mb-6">
               <Icons.Sparkles />
               Core Features
             </div>
-            <h2 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4">Features</h2>
-            <p className="text-base lg:text-lg text-zinc-400 leading-relaxed">
+            <h2 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-5">Features</h2>
+            <p className="text-base lg:text-lg text-zinc-400 leading-relaxed max-w-2xl mx-auto">
               Everything you need to create, optimize, automate and manage marketplace listings at scale.
             </p>
           </div>
@@ -409,15 +412,15 @@ export default function Home() {
               { title: "CSV import/export", icon: <Icons.Download />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
               { title: "Chrome extension autofill", icon: <Icons.Chrome />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
             ].map((feature, idx) => (
-              <article key={idx} className="flex gap-4 p-5 rounded-3xl border border-zinc-900 bg-zinc-900/30 shadow-sm hover:shadow-md hover:border-zinc-800 transition-all group relative items-start">
-                <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center flex-shrink-0">
+              <article key={idx} className="flex gap-4.5 p-6 rounded-3xl border border-zinc-850/50 bg-zinc-900/10 shadow-sm hover:shadow-xl hover:shadow-indigo-550/2 hover:-translate-y-0.5 hover:border-zinc-700/80 transition-all duration-300 group relative items-start">
+                <div className="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800/80 flex items-center justify-center flex-shrink-0 text-zinc-400 group-hover:text-indigo-400 group-hover:border-zinc-700 transition-colors duration-300">
                   {feature.icon}
                 </div>
-                <div className="flex-grow">
-                  <h3 className="font-extrabold text-white text-sm leading-snug mb-1">{feature.title}</h3>
-                  <p className="text-xs text-zinc-400 leading-relaxed pr-8">{feature.desc}</p>
+                <div className="flex-grow pr-6">
+                  <h3 className="font-extrabold text-white text-sm leading-snug mb-1.5 group-hover:text-indigo-300 transition-colors">{feature.title}</h3>
+                  <p className="text-xs text-zinc-400 leading-relaxed">{feature.desc}</p>
                 </div>
-                <div className="absolute bottom-5 right-5 w-6 h-6 rounded-full border border-zinc-850 flex items-center justify-center bg-zinc-900 group-hover:border-zinc-700 group-hover:bg-zinc-850 transition-colors">
+                <div className="absolute bottom-6 right-6 w-6 h-6 rounded-full border border-zinc-800 flex items-center justify-center bg-zinc-900/60 group-hover:border-indigo-500/40 group-hover:bg-indigo-950/20 text-zinc-550 group-hover:text-indigo-400 transition-all duration-300">
                   <Icons.ArrowRight />
                 </div>
               </article>
@@ -427,30 +430,31 @@ export default function Home() {
       </section>
 
       {/* ── SECTION 4: CHROME EXTENSION ── */}
-      <section className="relative py-24 bg-zinc-900/40 border-t border-zinc-900 overflow-hidden" id="chrome-extension">
+      <section className="relative py-28 bg-zinc-900/20 border-t border-zinc-900 overflow-hidden" id="chrome-extension">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(99,102,241,0.02),transparent_40%)] pointer-events-none" />
         <div className="container relative z-10">
-          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center mb-16">
+          <div className="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center mb-20">
             <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/50 text-xs font-semibold text-zinc-300 mb-6">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/60 text-xs font-bold text-zinc-350 mb-6">
                 <Image src="/icon/chrome.jpg" alt="Chrome logo" width={16} height={16} className="object-contain" />
                 A+ Studio Chrome Extension
               </div>
-              <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-6">
-                A+ Studio <span className="underline decoration-indigo-500 underline-offset-4">Chrome Extension</span>
+              <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+                A+ Studio <span className="bg-gradient-to-r from-indigo-400 via-indigo-500 to-violet-400 bg-clip-text text-transparent">Chrome Extension</span>
               </h2>
-              <p className="text-base lg:text-lg text-zinc-400 leading-relaxed mb-8">
+              <p className="text-base lg:text-lg text-zinc-400 leading-relaxed mb-10 max-w-xl">
                 Manifest V3 extension with login, plan status, templates, products, Meesho detection, template capture, autofill preview and activity logs.
               </p>
               
-              <div className="grid grid-cols-2 gap-3 max-w-md">
+              <div className="grid grid-cols-2 gap-3.5 max-w-md">
                 {[
                   { label: "Manifest V3", icon: <Icons.Shield /> },
                   { label: "Secure & Private", icon: <Icons.Lock /> },
                   { label: "Fast & Lightweight", icon: <Icons.Bolt /> },
                   { label: "Auto-detect Marketplace", icon: <Icons.Check /> },
                 ].map((pill, idx) => (
-                  <div key={idx} className="flex items-center gap-2 px-3 py-2.5 rounded-2xl border border-zinc-800 bg-zinc-900/30 text-xs font-bold text-zinc-350">
-                    {pill.icon}
+                  <div key={idx} className="flex items-center gap-2.5 px-4.5 py-3 rounded-2xl border border-zinc-850 bg-zinc-900/10 text-xs font-extrabold text-zinc-300">
+                    <span className="text-indigo-450">{pill.icon}</span>
                     {pill.label}
                   </div>
                 ))}
@@ -459,19 +463,20 @@ export default function Home() {
 
             {/* Right: Chrome extension floating popup mockup inside marketplace bg */}
             <div className="relative">
-              <div className="relative rounded-3xl border border-zinc-800 bg-zinc-900/50 shadow-2xl overflow-hidden aspect-[4/3] flex flex-col">
+              <div className="absolute -inset-4 bg-gradient-to-tr from-indigo-500/10 via-violet-500/5 to-transparent rounded-[32px] blur-3xl opacity-80 -z-10 animate-pulse duration-[8000ms]" />
+              <div className="relative rounded-[32px] border border-zinc-800/80 bg-zinc-900/70 shadow-2xl overflow-hidden aspect-[4/3] flex flex-col backdrop-blur-md">
                 {/* Browser top header */}
-                <div className="bg-zinc-950 border-b border-zinc-850 px-4 py-3 flex items-center justify-between">
+                <div className="bg-zinc-950/80 border-b border-zinc-850/85 px-4 py-3.5 flex items-center justify-between">
                   <div className="flex gap-1.5">
-                    <span className="w-3 h-3 rounded-full bg-zinc-800" />
-                    <span className="w-3 h-3 rounded-full bg-zinc-800" />
-                    <span className="w-3 h-3 rounded-full bg-zinc-800" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-zinc-800" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-zinc-800" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-zinc-800" />
                   </div>
-                  <div className="bg-zinc-900 border border-zinc-800 rounded-md px-3 py-0.5 text-[10px] text-zinc-550 w-1/2 text-center select-none truncate">
+                  <div className="bg-zinc-900/60 border border-zinc-850 rounded px-4 py-0.5 text-[9px] text-zinc-500 font-mono w-1/2 text-center select-none truncate">
                     seller.meesho.com
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <Image src="/icon/chrome.jpg" alt="Chrome Logo" width={16} height={16} className="object-contain" />
+                    <Image src="/icon/chrome.jpg" alt="Chrome Logo" width={14} height={14} className="object-contain" />
                   </div>
                 </div>
 
@@ -481,50 +486,50 @@ export default function Home() {
                     src="/chrome-extension-preview.png" 
                     alt="A+ Studio Chrome Extension Preview" 
                     fill 
-                    className="object-cover object-top hover:scale-[1.02] transition-transform duration-500"
+                    className="object-cover object-top hover:scale-[1.01] transition-transform duration-550"
                   />
                   {/* Floating Extension Popup UI simulation */}
-                  <div className="absolute right-4 top-4 bottom-4 w-72 rounded-2xl border border-zinc-800 bg-zinc-900/95 backdrop-blur-md shadow-2xl p-4.5 z-20 flex flex-col justify-between hidden md:flex">
+                  <div className="absolute right-4 top-4 bottom-4 w-72 rounded-2xl border border-zinc-800/90 bg-zinc-900/95 backdrop-blur-md shadow-2xl p-4.5 z-20 flex flex-col justify-between hidden md:flex">
                     <div>
                       {/* Extension Header */}
-                      <div className="flex justify-between items-center pb-3 border-b border-zinc-850 mb-3">
+                      <div className="flex justify-between items-center pb-3 border-b border-zinc-850 mb-3.5">
                         <div className="flex items-center gap-2">
                           <Image src="/icon/iprix-media-white-logo.webp" alt="Iprix Logo" width={16} height={16} className="object-contain" />
                           <span className="font-extrabold text-xs text-white tracking-tight">A+ Studio</span>
                         </div>
-                        <span className="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-zinc-800 border border-zinc-700 text-[9px] font-extrabold text-zinc-300 uppercase tracking-wide">
+                        <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-zinc-800 border border-zinc-700 text-[9px] font-extrabold text-zinc-300 uppercase tracking-wide">
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                           Active
                         </span>
                       </div>
 
                       {/* Marketplace detected status */}
-                      <div className="bg-zinc-950/70 border border-zinc-850 rounded-xl p-3 mb-4 flex items-center justify-between shadow-sm">
+                      <div className="bg-zinc-950/70 border border-zinc-850 rounded-xl p-3.5 mb-4 flex items-center justify-between shadow-sm">
                         <div>
                           <p className="text-[9px] text-zinc-550 font-bold uppercase tracking-wider">Detected Site</p>
-                          <p className="font-extrabold text-sm text-white">Meesho Seller Portal</p>
+                          <p className="font-extrabold text-xs text-white">Meesho Seller Portal</p>
                         </div>
-                        <span className="bg-indigo-650 text-white font-extrabold text-[9px] px-2 py-0.5 rounded">Live</span>
+                        <span className="bg-indigo-600 text-white font-extrabold text-[9px] px-2 py-0.5 rounded">Live</span>
                       </div>
 
                       {/* Info details */}
                       <div className="space-y-2 mb-5">
-                        <div className="flex justify-between text-xs border-b border-zinc-850 pb-1.5">
-                          <span className="text-zinc-500 font-medium">Pricing Plan</span>
-                          <span className="font-bold text-zinc-300">Pro (Yearly)</span>
+                        <div className="flex justify-between text-xs border-b border-zinc-850 pb-2">
+                          <span className="text-zinc-550 font-semibold">Pricing Plan</span>
+                          <span className="font-bold text-zinc-350">Pro (Yearly)</span>
                         </div>
-                        <div className="flex justify-between text-xs border-b border-zinc-850 pb-1.5">
-                          <span className="text-zinc-500 font-medium">Daily Limit</span>
-                          <span className="font-bold text-zinc-300">150 / 500 Credits</span>
+                        <div className="flex justify-between text-xs border-b border-zinc-850 pb-2">
+                          <span className="text-zinc-550 font-semibold">Daily Limit</span>
+                          <span className="font-bold text-zinc-355">150 / 500 Credits</span>
                         </div>
                       </div>
 
                       {/* Action buttons */}
-                      <div className="space-y-2 mb-2">
-                        <button className="w-full py-2.5 bg-gradient-to-r from-indigo-650 to-violet-650 text-white text-xs font-bold rounded-lg hover:from-indigo-600 hover:to-violet-600 active:scale-[0.98] transition-all shadow-md shadow-indigo-550/10">
+                      <div className="space-y-2">
+                        <button className="w-full py-2.5 bg-gradient-to-r from-indigo-500 via-indigo-650 to-violet-650 text-white text-xs font-bold rounded-lg hover:from-indigo-450 hover:to-violet-550 hover:scale-[1.01] active:scale-[0.98] transition-all shadow-md shadow-indigo-550/15 cursor-pointer">
                           Capture Listing Template
                         </button>
-                        <button className="w-full py-2.5 border border-zinc-800 text-zinc-300 text-xs font-bold rounded-lg bg-zinc-800 hover:bg-zinc-700 active:scale-[0.98] transition-all">
+                        <button className="w-full py-2.5 border border-zinc-800 text-zinc-300 text-xs font-bold rounded-lg bg-zinc-800/80 hover:bg-zinc-800 hover:border-zinc-700 active:scale-[0.98] transition-all cursor-pointer">
                           Autofill Form Now
                         </button>
                       </div>
@@ -546,66 +551,72 @@ export default function Home() {
           {/* Three large marketplace cards below */}
           <div className="grid gap-6 md:grid-cols-3 mb-16">
             {/* Card 1 */}
-            <article className="rounded-3xl border border-zinc-900 bg-zinc-900/30 p-6 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between relative overflow-hidden group">
+            <article className="rounded-3xl border border-indigo-500/20 bg-indigo-950/5 p-6 shadow-sm hover:shadow-2xl hover:shadow-indigo-500/5 hover:-translate-y-1 hover:border-indigo-550/40 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group">
               <div>
                 <div className="flex items-center justify-between mb-6">
                   <div className="relative w-24 h-8">
                     <Image src="/icon/Meesho_logo.png" alt="Meesho" fill className="object-contain" />
                   </div>
-                  <span className="px-2.5 py-0.5 rounded-full bg-zinc-900 border border-zinc-800 text-[10px] font-extrabold text-zinc-300 uppercase tracking-widest">LIVE</span>
+                  <span className="px-3 py-1 rounded-full bg-indigo-950 border border-indigo-500/35 text-[9px] font-extrabold text-indigo-300 uppercase tracking-widest flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
+                    LIVE
+                  </span>
                 </div>
-                <h3 className="font-extrabold text-white text-lg leading-tight mb-2">Meesho live</h3>
-                <p className="text-xs text-zinc-400 leading-relaxed mb-6">
+                <h3 className="font-extrabold text-white text-base leading-tight mb-2">Meesho Listing Automation</h3>
+                <p className="text-xs text-zinc-400 leading-relaxed">
                   The extension never stores backend secrets and never auto-submits marketplace forms.
                 </p>
               </div>
-              <div className="flex justify-between items-center pt-4 border-t border-zinc-900">
-                <span className="w-12 h-[3px] bg-indigo-500 rounded-full" />
-                <div className="w-7 h-7 rounded-full border border-zinc-800 flex items-center justify-center bg-zinc-900 group-hover:border-zinc-700 group-hover:bg-zinc-850 transition-colors">
+              <div className="flex justify-between items-center pt-5 mt-6 border-t border-zinc-900/60">
+                <span className="w-12 h-[3px] bg-indigo-550 rounded-full" />
+                <div className="w-8 h-8 rounded-full border border-zinc-800 flex items-center justify-center bg-zinc-950 group-hover:border-indigo-500/40 group-hover:bg-indigo-950/30 text-zinc-400 group-hover:text-indigo-400 transition-colors duration-300">
                   <Icons.ArrowRight />
                 </div>
               </div>
             </article>
 
             {/* Card 2 */}
-            <article className="rounded-3xl border border-zinc-900 bg-zinc-900/30 p-6 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between relative overflow-hidden group">
+            <article className="rounded-3xl border border-zinc-850/80 bg-zinc-900/10 p-6 shadow-sm hover:shadow-2xl hover:shadow-indigo-500/2 hover:-translate-y-1 hover:border-zinc-700/80 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group">
               <div>
                 <div className="flex items-center justify-between mb-6">
                   <div className="relative w-24 h-8">
                     <Image src="/icon/flipkart-icon.png" alt="Flipkart" fill className="object-contain" />
                   </div>
-                  <span className="px-2.5 py-0.5 rounded-full bg-zinc-900 border border-zinc-800 text-[10px] font-extrabold text-zinc-300 uppercase tracking-widest">BETA</span>
+                  <span className="px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-[9px] font-extrabold text-zinc-350 uppercase tracking-widest flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                    BETA
+                  </span>
                 </div>
-                <h3 className="font-extrabold text-white text-lg leading-tight mb-2">Flipkart beta</h3>
-                <p className="text-xs text-zinc-400 leading-relaxed mb-6">
+                <h3 className="font-extrabold text-white text-base leading-tight mb-2">Flipkart Automation</h3>
+                <p className="text-xs text-zinc-400 leading-relaxed">
                   The extension never stores backend secrets and never auto-submits marketplace forms.
                 </p>
               </div>
-              <div className="flex justify-between items-center pt-4 border-t border-zinc-900">
+              <div className="flex justify-between items-center pt-5 mt-6 border-t border-zinc-900/60">
                 <span className="w-12 h-[3px] bg-zinc-700 rounded-full" />
-                <div className="w-7 h-7 rounded-full border border-zinc-800 flex items-center justify-center bg-zinc-900 group-hover:border-zinc-700 group-hover:bg-zinc-850 transition-colors">
+                <div className="w-8 h-8 rounded-full border border-zinc-800 flex items-center justify-center bg-zinc-950 group-hover:border-zinc-700 group-hover:bg-zinc-900/50 text-zinc-400 group-hover:text-zinc-350 transition-colors duration-300">
                   <Icons.ArrowRight />
                 </div>
               </div>
             </article>
 
             {/* Card 3 */}
-            <article className="rounded-3xl border border-zinc-900 bg-zinc-900/30 p-6 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between relative overflow-hidden group">
+            <article className="rounded-3xl border border-zinc-850/80 bg-zinc-900/10 p-6 shadow-sm hover:shadow-2xl hover:shadow-indigo-500/2 hover:-translate-y-1 hover:border-zinc-700/80 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group">
               <div>
                 <div className="flex items-center justify-between mb-6">
                   <div className="relative w-24 h-8">
                     <Image src="/icon/amazon.jpg" alt="Amazon" fill className="object-contain rounded-md" />
                   </div>
-                  <span className="px-2.5 py-0.5 rounded-full bg-zinc-900 border border-zinc-800 text-[10px] font-extrabold text-zinc-400 uppercase tracking-widest">COMING SOON</span>
+                  <span className="px-3 py-1 rounded-full bg-zinc-900/50 border border-zinc-850 text-[9px] font-extrabold text-zinc-400 uppercase tracking-widest">COMING SOON</span>
                 </div>
-                <h3 className="font-extrabold text-white text-lg leading-tight mb-2">Amazon Coming Soon</h3>
-                <p className="text-xs text-zinc-400 leading-relaxed mb-6">
+                <h3 className="font-extrabold text-white text-base leading-tight mb-2">Amazon Integration</h3>
+                <p className="text-xs text-zinc-400 leading-relaxed">
                   The extension never stores backend secrets and never auto-submits marketplace forms.
                 </p>
               </div>
-              <div className="flex justify-between items-center pt-4 border-t border-zinc-900">
+              <div className="flex justify-between items-center pt-5 mt-6 border-t border-zinc-900/60">
                 <span className="w-12 h-[3px] bg-zinc-800 rounded-full" />
-                <div className="w-7 h-7 rounded-full border border-zinc-800 flex items-center justify-center bg-zinc-900 group-hover:border-zinc-700 group-hover:bg-zinc-850 transition-colors">
+                <div className="w-8 h-8 rounded-full border border-zinc-800 flex items-center justify-center bg-zinc-950 group-hover:border-zinc-700 group-hover:bg-zinc-900/50 text-zinc-400 group-hover:text-zinc-350 transition-colors duration-300">
                   <Icons.ArrowRight />
                 </div>
               </div>
@@ -613,45 +624,45 @@ export default function Home() {
           </div>
 
           {/* Bottom Trust Strip */}
-          <div className="rounded-3xl border border-zinc-900 bg-zinc-900/30 p-6 shadow-sm">
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center flex-shrink-0 border border-zinc-800">
+          <div className="rounded-[28px] border border-zinc-850/80 bg-zinc-900/10 p-6 md:p-8 backdrop-blur-sm shadow-md">
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-zinc-950 flex items-center justify-center flex-shrink-0 border border-zinc-800 text-indigo-400 shadow-inner">
                   <Icons.Shield />
                 </div>
                 <div>
-                  <h4 className="font-bold text-white text-xs">100% Secure</h4>
-                  <p className="text-[10px] text-zinc-400">No backend secrets stored in the extension</p>
+                  <h4 className="font-extrabold text-white text-xs mb-1.5">100% Secure</h4>
+                  <p className="text-[11px] text-zinc-400 leading-relaxed">No backend secrets stored in the extension</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center flex-shrink-0 border border-zinc-800">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-zinc-950 flex items-center justify-center flex-shrink-0 border border-zinc-800 text-indigo-400 shadow-inner">
                   <Icons.Lock />
                 </div>
                 <div>
-                  <h4 className="font-bold text-white text-xs">Privacy First</h4>
-                  <p className="text-[10px] text-zinc-400">Your data is safe and always encrypted</p>
+                  <h4 className="font-extrabold text-white text-xs mb-1.5">Privacy First</h4>
+                  <p className="text-[11px] text-zinc-400 leading-relaxed">Your data is safe and always encrypted</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center flex-shrink-0 border border-zinc-800">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-zinc-950 flex items-center justify-center flex-shrink-0 border border-zinc-800 text-indigo-400 shadow-inner">
                   <Icons.Bolt />
                 </div>
                 <div>
-                  <h4 className="font-bold text-white text-xs">High Performance</h4>
-                  <p className="text-[10px] text-zinc-400">Lightweight extension with blazing fast speed</p>
+                  <h4 className="font-extrabold text-white text-xs mb-1.5">High Performance</h4>
+                  <p className="text-[11px] text-zinc-400 leading-relaxed">Lightweight extension with blazing fast speed</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center flex-shrink-0 border border-zinc-800">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-zinc-950 flex items-center justify-center flex-shrink-0 border border-zinc-800 text-indigo-400 shadow-inner">
                   <Icons.Clock />
                 </div>
                 <div>
-                  <h4 className="font-bold text-white text-xs">Activity Logs</h4>
-                  <p className="text-[10px] text-zinc-400">Detailed logs for every action you take</p>
+                  <h4 className="font-extrabold text-white text-xs mb-1.5">Activity Logs</h4>
+                  <p className="text-[11px] text-zinc-400 leading-relaxed">Detailed logs for every action you take</p>
                 </div>
               </div>
             </div>

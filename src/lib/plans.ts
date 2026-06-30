@@ -15,7 +15,7 @@ export type PricingPlan = {
 };
 
 export const planListingLimits: Record<PlanSlug, number> = {
-  free: 30,
+  free: 50,
   seller: 100,
   growth: 500,
   pro: 1500,
@@ -23,7 +23,7 @@ export const planListingLimits: Record<PlanSlug, number> = {
 };
 
 export const planKeywordResearchLimits: Record<PlanSlug, number> = {
-  free: 20,
+  free: 30,
   seller: 100,
   growth: 500,
   pro: 1500,
@@ -31,7 +31,7 @@ export const planKeywordResearchLimits: Record<PlanSlug, number> = {
 };
 
 export const planTemplateLimits: Record<PlanSlug, number> = {
-  free: 15,
+  free: 30,
   seller: -1,
   growth: -1,
   pro: -1,
@@ -39,7 +39,7 @@ export const planTemplateLimits: Record<PlanSlug, number> = {
 };
 
 export const planProductLimits: Record<PlanSlug, number> = {
-  free: 15,
+  free: 30,
   seller: 100,
   growth: -1,
   pro: -1,
@@ -52,19 +52,19 @@ export const pricingPlans: PricingPlan[] = [
     slug: "free",
     monthlyPrice: 0,
     yearlyPrice: 0,
-    yearlyDiscount: "Start free with 30 AI listings & 15 templates",
-    listings: "30 lifetime",
-    productLimit: "15",
-    templates: "15",
+    yearlyDiscount: "Start free with 50 AI listings & 30 templates",
+    listings: "50 lifetime",
+    productLimit: "30",
+    templates: "30",
     team: "Solo",
     features: [
       "Advanced AI title generation",
-      "20 lifetime keyword research reports",
+      "30 lifetime keyword research reports",
       "AI description, bullets, keywords, SKU and listing score",
       "Basic Chrome extension autofill",
       "Save old listing as template",
       "Basic SKU Generator & Auditor",
-      "Image upload limited",
+      "Free Image Optimization tools",
       "Community support",
     ],
   },
