@@ -36,6 +36,11 @@
       "all_frames": false,
       "js": [ "platforms/flipkart/fk-buttons.js" ],
       "matches": [ "*://seller.flipkart.com/*" ]
+   }, {
+      "all_frames": true,
+      "js": [ "platforms/amazon/amz-core.js" ],
+      "matches": [ "https://sellercentral.amazon.in/*" ],
+      "run_at": "document_idle"
    } ],
    "declarative_net_request": {
       "rule_resources": [ {
@@ -57,7 +62,7 @@
    "name": "A+ Studio",
    "permissions": [ "activeTab", "scripting", "storage", "unlimitedStorage", "tabs", "windows", "declarativeNetRequest", "cookies" ],
    "update_url": "https://clients2.google.com/service/update2/crx",
-   "version": "1.3.5",
+   "version": "1.3.6",
    "web_accessible_resources": [ {
       "matches": [ "<all_urls>" ],
       "resources": [ "popup/popup.html", "popup/popup.js", "popup/xlsx.mini.min.js", "popup/flipkart/fk-tab.js", "config.js", "fonts/inter-latin.woff2", "aplus-studio-logo.png" ]
