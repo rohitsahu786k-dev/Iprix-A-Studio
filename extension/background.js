@@ -111,6 +111,29 @@ chrome.storage.onChanged.addListener(async (changes, areaName) => {
   }
 });
 
+// Marketplace domains the extension actually supports autofill on. The
+// onUpdated/onActivated listeners below used to run their template-check
+// fetch() on EVERY website the user visited (Gmail, random sites, anything) —
+// this was pure wasted work and the main source of repeated "Failed to fetch"
+// entries in chrome://extensions/errors, since it fired on every single tab
+// switch/page load regardless of relevance. Gate on this first.
+const SUPPORTED_MARKETPLACE_HOSTS = [
+  "meesho.com",
+  "seller.flipkart.com",
+  "sellercentral.amazon.in",
+];
+function isSupportedMarketplaceUrl(url) {
+  let hostname = "";
+  try {
+    hostname = new URL(url).hostname.toLowerCase();
+  } catch (_) {
+    return false;
+  }
+  return SUPPORTED_MARKETPLACE_HOSTS.some(
+    (host) => hostname === host || hostname.endsWith(`.${host}`),
+  );
+}
+
 // Track which tabs have already been auto-filled (reset on new page load)
 const filledTabIds = new Set();
 
@@ -440,19 +463,17 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.status !== "complete" && !changeInfo.url) return;
   if (!tab.url) return;
 
+  // Skip everything (including the chrome.windows.get / storage / network
+  // calls below) unless this is one of our supported marketplace domains —
+  // this listener used to run its API check on every website.
+  if (!isSupportedMarketplaceUrl(tab.url)) return;
+
   // Only run on the active tab in the focused window
   if (!tab.active) return;
   const win = await chrome.windows.get(tab.windowId).catch(() => null);
   if (!win || !win.focused) return;
 
   const url = tab.url;
-  if (
-    url.startsWith("chrome://") ||
-    url.startsWith("edge://") ||
-    url.startsWith("about:") ||
-    url.startsWith("chrome-extension://")
-  )
-    return;
 
   // For Flipkart seller, only auto-fill on the Add Single Listing form page (must have ?brand= param)
   if (url.includes("seller.flipkart.com") && !url.includes("dashboard/addListings/single?brand=")) return;
@@ -788,13 +809,10 @@ chrome.tabs.onActivated.addListener(async ({ tabId }) => {
   }
 
   if (!tab.url) return;
-  if (
-    tab.url.startsWith("chrome://") ||
-    tab.url.startsWith("edge://") ||
-    tab.url.startsWith("about:") ||
-    tab.url.startsWith("chrome-extension://")
-  )
-    return;
+
+  // Skip everything below (storage + network check) unless this is one of
+  // our supported marketplace domains — this used to run on every website.
+  if (!isSupportedMarketplaceUrl(tab.url)) return;
 
   // For Flipkart seller, only auto-fill on the Add Single Listing form page (must have ?brand= param)
   if (tab.url.includes("seller.flipkart.com") && !tab.url.includes("dashboard/addListings/single?brand=")) return;
@@ -1650,6 +1668,47 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
         sendResponse({ success: true });
       } catch (e) {
         sendResponse({ success: false });
+      }
+    })();
+    return true;
+  }
+
+  // Popup-triggered "record usage + optionally enable autoFill" — run from
+  // the background service worker (not the popup itself) because these are
+  // fire-and-forget bookkeeping calls made right after a fill completes, and
+  // the popup usually closes within a second of that. A fetch() started in
+  // the popup gets aborted the instant the popup is destroyed, which is why
+  // "Failed to fetch" kept showing up in chrome://extensions/errors — the
+  // service worker keeps running independently of the popup's lifetime.
+  if (msg.action === "popup_record_fill") {
+    (async () => {
+      try {
+        const { listify_token } = await chrome.storage.local.get([
+          "listify_token",
+        ]);
+        if (!listify_token || !msg.templateId) {
+          sendResponse({ success: false });
+          return;
+        }
+        const headers = {
+          Authorization: `Bearer ${listify_token}`,
+          "Content-Type": "application/json",
+        };
+        await fetch(`${API_URL}/${msg.templateId}/use`, {
+          method: "POST",
+          headers,
+        }).catch((e) => console.warn("[LISTIFY BG] Usage tracking failed:", e.message));
+
+        if (msg.enableAutoFill) {
+          await fetch(`${API_URL}/${msg.templateId}`, {
+            method: "PUT",
+            headers,
+            body: JSON.stringify({ autoFill: true }),
+          }).catch((e) => console.warn("[LISTIFY BG] autoFill enable failed:", e.message));
+        }
+        sendResponse({ success: true });
+      } catch (e) {
+        sendResponse({ success: false, error: e.message });
       }
     })();
     return true;

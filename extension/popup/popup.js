@@ -726,21 +726,22 @@ document.addEventListener("DOMContentLoaded", () => {
     chrome.tabs.sendMessage(tab.id, { action: "bulk_fill_next" }, (res) => {
       if (res?.ok) {
         bfActiveStatus.textContent = "Filled! Save the form, then click again.";
-        // Record usage dynamically
+        // Record usage dynamically — via background so it survives the popup closing.
         _fillsUsed++;
         const templateId = bfSelectedTemplate?._id || null;
         if (templateId) {
-          fetch(`${API_URL}/${templateId}/use`, {
-            method: "POST",
-            headers: authHeaders(),
-          }).catch(() => {});
+          chrome.runtime
+            ?.sendMessage({ action: "popup_record_fill", templateId })
+            .catch(() => {});
         } else {
           chrome.storage?.local.get(["listify_bulk_template_id"], (r) => {
             if (r.listify_bulk_template_id) {
-              fetch(`${API_URL}/${r.listify_bulk_template_id}/use`, {
-                method: "POST",
-                headers: authHeaders(),
-              }).catch(() => {});
+              chrome.runtime
+                ?.sendMessage({
+                  action: "popup_record_fill",
+                  templateId: r.listify_bulk_template_id,
+                })
+                .catch(() => {});
             }
           });
         }
@@ -1181,10 +1182,9 @@ document.addEventListener("DOMContentLoaded", () => {
               }).catch(() => {});
             }
             if (template._id) {
-              fetch(`${API_URL}/${template._id}/use`, {
-                method: "POST",
-                headers: authHeaders(),
-              }).catch(() => {});
+              chrome.runtime
+                ?.sendMessage({ action: "popup_record_fill", templateId: template._id })
+                .catch(() => {});
             }
 
             // Auto-advance the per-SL pointer (manual or not).
@@ -2788,33 +2788,23 @@ document.addEventListener("DOMContentLoaded", () => {
               );
             }
 
-            // Record usage → updates usageCount + lastUsedAt on backend
+            // Record usage → updates usageCount + lastUsedAt on backend.
+            // Sent to the background service worker (not fetched here directly)
+            // because the popup is usually closed within a second of this point —
+            // a fetch() started in the popup gets aborted the instant it closes,
+            // which is what caused the repeated "Failed to fetch" errors.
+            // The service worker keeps running independently and completes it.
             _fillsUsed++;
-            fetch(`${API_URL}/${template._id}/use`, {
-              method: "POST",
-              headers: authHeaders(),
-            }).catch((err) =>
-              console.warn("[LISTIFY] Usage tracking failed:", err),
-            );
-
-            // Enable auto-fill on this template if not already set —
-            // only for paid plan users; free plan users cannot use autofill
-            if (!template.autoFill && _canAutoFill) {
-              fetch(`${API_URL}/${template._id}`, {
-                method: "PUT",
-                headers: authHeaders(),
-                body: JSON.stringify({ autoFill: true }),
+            const enableAutoFill = !template.autoFill && _canAutoFill;
+            chrome.runtime
+              ?.sendMessage({
+                action: "popup_record_fill",
+                templateId: template._id,
+                enableAutoFill,
               })
-                .then(() => {
-                  template.autoFill = true; // update local reference too
-                  loadTemplates();
-                })
-                .catch((err) =>
-                  console.warn("[LISTIFY] autoFill enable failed:", err),
-                );
-            } else {
-              loadTemplates();
-            }
+              .catch(() => {});
+            if (enableAutoFill) template.autoFill = true; // update local reference optimistically
+            loadTemplates();
           } else {
             const err =
               response && response.error ? response.error : "Unknown error";

@@ -14,12 +14,12 @@
    "content_scripts": [ {
       "all_frames": true,
       "js": [ "logger.js" ],
-      "matches": [ "<all_urls>" ],
+      "matches": [ "*://*.meesho.com/*", "*://seller.flipkart.com/*", "https://sellercentral.amazon.in/*", "https://aplusstudio.iprixmedia.com/*", "https://iprixmedia.com/*", "http://localhost:3000/*", "http://localhost:3457/*" ],
       "run_at": "document_start"
    }, {
       "all_frames": true,
       "js": [ "content-script.js" ],
-      "matches": [ "<all_urls>" ]
+      "matches": [ "*://*.meesho.com/*", "*://seller.flipkart.com/*", "https://sellercentral.amazon.in/*", "https://aplusstudio.iprixmedia.com/*", "https://iprixmedia.com/*", "http://localhost:3000/*", "http://localhost:3457/*" ]
    }, {
       "all_frames": false,
       "js": [ "meesho-guard.js" ],
@@ -62,7 +62,7 @@
    "name": "A+ Studio",
    "permissions": [ "activeTab", "scripting", "storage", "unlimitedStorage", "tabs", "windows", "declarativeNetRequest", "cookies" ],
    "update_url": "https://clients2.google.com/service/update2/crx",
-   "version": "1.4.1",
+   "version": "1.4.2",
    "web_accessible_resources": [ {
       "matches": [ "<all_urls>" ],
       "resources": [ "popup/popup.html", "popup/popup.js", "popup/xlsx.mini.min.js", "popup/flipkart/fk-tab.js", "config.js", "fonts/inter-latin.woff2", "aplus-studio-logo.png" ]
