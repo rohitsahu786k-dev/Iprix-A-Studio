@@ -35,11 +35,11 @@ export function BrandLogo({
           unoptimized
         />
       </span>
-      <span className="flex flex-col text-left">
-        <span className={`text-sm font-extrabold tracking-tight leading-none ${dark ? "text-white" : "text-zinc-100"}`}>
+      <span className="flex shrink-0 flex-col text-left">
+        <span className={`whitespace-nowrap text-sm font-extrabold tracking-tight leading-none ${dark ? "text-white" : "text-zinc-100"}`}>
           A+ <span className="text-indigo-500">Studio</span>
         </span>
-        <span className={`text-[9px] font-semibold mt-0.5 leading-none ${dark ? "text-slate-400" : "text-zinc-550"}`}>
+        <span className={`whitespace-nowrap text-[9px] font-semibold mt-0.5 leading-none ${dark ? "text-slate-400" : "text-zinc-550"}`}>
           by Iprix Media
         </span>
       </span>

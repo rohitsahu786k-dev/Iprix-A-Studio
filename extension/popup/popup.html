@@ -26,40 +26,55 @@
       --soft: #55555e;
       --muted: #74747e;
       --accent: #4f46e5;
+      --accent-2: #7c3aed;
       --btn-text: #ffffff;
       --accent-soft: rgba(79, 70, 229, 0.07);
       --accent-border: rgba(79, 70, 229, 0.3);
       --green: #0f9d63;
+      --green-soft: rgba(15, 157, 99, 0.08);
       --red: #ef4444;
       --gold: #d97706;
       --warn-bg: rgba(217, 119, 6, 0.07);
       --warn-border: rgba(217, 119, 6, 0.3);
       --warn-text: #b45309;
       --warn-head: #92400e;
-      --shadow: 0 1px 3px rgba(20, 12, 20, 0.05), 0 8px 24px rgba(20, 12, 20, 0.08);
+      --shadow: 0 1px 2px rgba(20, 12, 20, 0.04), 0 6px 16px rgba(20, 12, 20, 0.06);
+      --shadow-md: 0 2px 6px rgba(20, 12, 20, 0.06), 0 12px 28px rgba(20, 12, 20, 0.09);
+      --shadow-lg: 0 8px 16px rgba(20, 12, 20, 0.08), 0 24px 48px rgba(20, 12, 20, 0.14);
+      --ring: 0 0 0 3px rgba(79, 70, 229, 0.14);
+      --r-sm: 8px;
+      --r-md: 12px;
+      --r-lg: 18px;
+      --r-pill: 999px;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     /* ── Dark theme ── */
     [data-theme="dark"] {
-      --bg: #09090b;
-      --surface: #18181b;
-      --surface2: #27272a;
+      --bg: #0c0b10;
+      --surface: #17151d;
+      --surface2: #221f2a;
       --border: rgba(255, 255, 255, 0.08);
-      --text: #f4f4f5;
-      --soft: #a1a1aa;
-      --muted: #71717a;
-      --accent: #6366f1;
+      --text: #f4f3f6;
+      --soft: #b3b0bd;
+      --muted: #8b879a;
+      --accent: #7c7bff;
+      --accent-2: #a78bfa;
       --btn-text: #ffffff;
-      --accent-soft: rgba(99, 102, 241, 0.1);
-      --accent-border: rgba(99, 102, 241, 0.3);
-      --green: #10b981;
-      --red: #ef4444;
+      --accent-soft: rgba(124, 123, 255, 0.14);
+      --accent-border: rgba(124, 123, 255, 0.35);
+      --green: #22c58b;
+      --green-soft: rgba(34, 197, 139, 0.12);
+      --red: #f87171;
       --gold: #f59e0b;
-      --warn-bg: rgba(245, 158, 11, 0.06);
-      --warn-border: rgba(245, 158, 11, 0.3);
+      --warn-bg: rgba(245, 158, 11, 0.08);
+      --warn-border: rgba(245, 158, 11, 0.32);
       --warn-text: #fbbf24;
       --warn-head: #fbbf24;
-      --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 6px 16px rgba(0, 0, 0, 0.35);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35), 0 16px 32px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.4), 0 28px 56px rgba(0, 0, 0, 0.5);
+      --ring: 0 0 0 3px rgba(124, 123, 255, 0.22);
     }
 
     * {
@@ -114,24 +129,26 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
     }
 
     .brand-left {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
     }
 
     .brand-icon {
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 8px var(--accent-border);
+      box-shadow: var(--shadow);
     }
 
     .brand-icon img {
@@ -143,9 +160,12 @@
 
     .brand-name {
       font-size: 16px;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: -0.01em;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.015em;
     }
 
     .brand-actions {
@@ -160,15 +180,16 @@
       border: none;
       cursor: pointer;
       color: var(--muted);
-      padding: 5px;
-      border-radius: 6px;
+      padding: 6px;
+      border-radius: var(--r-sm);
       display: flex;
-      transition: color 0.15s, background 0.15s;
+      transition: color 0.15s var(--ease), background 0.15s var(--ease), transform 0.15s var(--ease);
     }
 
     .icon-btn:hover {
       color: var(--text);
       background: var(--surface2);
+      transform: translateY(-1px);
     }
 
     .icon-btn.active {
@@ -183,8 +204,8 @@
       width: 288px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
+      border-radius: var(--r-md);
+      box-shadow: var(--shadow-lg);
       padding: 12px 14px 14px;
       font-size: 12px;
       line-height: 1.55;
@@ -277,23 +298,23 @@
     /* Global Auto toggle — sits in the header beside theme toggle.
        Styled to mirror per-template .btn-auto-toggle ON/OFF states. */
     .global-auto-btn {
-      background: var(--accent);
-      border: 1px solid var(--accent);
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border: 1px solid transparent;
       color: #fff;
-      border-radius: 6px;
-      padding: 4px 10px;
+      border-radius: var(--r-pill);
+      padding: 4px 12px;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: -0.005em;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all 0.15s var(--ease);
       height: 26px;
       line-height: 1;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       white-space: nowrap;
-      box-shadow: 0 1px 3px rgba(229, 90, 43, 0.25);
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.35);
     }
 
     .global-auto-btn::before {
@@ -313,10 +334,10 @@
     }
 
     .global-auto-btn.off {
-      background: var(--surface);
+      background: var(--surface2);
       border: 1px dashed var(--border);
       color: var(--muted);
-      opacity: 0.75;
+      opacity: 0.85;
       box-shadow: none;
     }
 
@@ -342,63 +363,66 @@
     #authSection {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 28px 20px;
+      border-radius: var(--r-lg);
+      padding: 30px 22px;
       text-align: center;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-md);
     }
 
     .auth-icon {
-      width: 48px;
-      height: 48px;
-      background: var(--accent-soft);
-      border: 1px solid var(--accent-border);
-      border-radius: 12px;
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border-radius: var(--r-md);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 14px;
+      margin: 0 auto 16px;
+      box-shadow: 0 6px 18px rgba(79, 70, 229, 0.32);
     }
 
     .auth-icon svg {
-      width: 22px;
-      height: 22px;
-      color: var(--accent);
+      width: 24px;
+      height: 24px;
+      color: #fff;
     }
 
     .auth-title {
-      font-size: 15px;
-      font-weight: 700;
+      font-size: 16px;
+      font-weight: 800;
       color: var(--text);
-      margin-bottom: 4px;
+      margin-bottom: 5px;
+      letter-spacing: -0.01em;
     }
 
     .auth-sub {
       font-size: 12px;
       color: var(--muted);
-      margin-bottom: 20px;
+      margin-bottom: 22px;
       line-height: 1.5;
     }
 
     .btn-signin {
       width: 100%;
-      padding: 10px;
-      background: var(--accent);
+      padding: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
       color: var(--btn-text);
       border: none;
-      border-radius: 8px;
+      border-radius: var(--r-pill);
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: opacity 0.15s, transform 0.1s;
+      transition: box-shadow 0.15s var(--ease), transform 0.1s var(--ease), filter 0.15s var(--ease);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
+      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.32);
     }
 
     .btn-signin:hover {
-      opacity: 0.92;
+      filter: brightness(1.06);
+      box-shadow: 0 6px 20px rgba(79, 70, 229, 0.42);
     }
 
     .btn-signin:active {
@@ -406,7 +430,7 @@
     }
 
     .btn-signup-link {
-      margin-top: 12px;
+      margin-top: 14px;
       font-size: 12px;
       color: var(--muted);
     }
@@ -445,7 +469,7 @@
       justify-content: space-between;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: var(--r-md);
       padding: 10px 12px;
       margin-bottom: 12px;
       box-shadow: var(--shadow);
@@ -459,18 +483,18 @@
     }
 
     .user-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      background: var(--accent-soft);
-      border: 1px solid var(--accent-border);
+      width: 34px;
+      height: 34px;
+      border-radius: var(--r-sm);
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 13px;
-      font-weight: 700;
-      color: var(--accent);
+      font-weight: 800;
+      color: #fff;
       flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
     }
 
     .user-name {
@@ -579,19 +603,21 @@
     .template-item {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: var(--r-md);
+      padding: 9px 11px;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
       gap: 8px;
       box-shadow: var(--shadow);
-      transition: border-color 0.15s;
+      transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease), transform 0.15s var(--ease);
     }
 
     .template-item:hover {
       border-color: var(--accent-border);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
     }
 
     .template-info {
@@ -638,21 +664,22 @@
       background: var(--accent-soft);
       color: var(--accent);
       border: 1px solid var(--accent-border);
-      padding: 4px 12px;
-      border-radius: 6px;
+      padding: 4px 13px;
+      border-radius: var(--r-pill);
       cursor: pointer;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       white-space: nowrap;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      height: 26px;
+      transition: all 0.2s var(--ease);
+      height: 27px;
       letter-spacing: -0.005em;
     }
 
     .btn-fill:hover {
-      background: var(--accent);
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
       color: var(--btn-text);
-      border-color: var(--accent);
+      border-color: transparent;
+      box-shadow: 0 3px 10px rgba(79, 70, 229, 0.35);
     }
 
     .btn-delete {
@@ -718,12 +745,12 @@
     }
 
     .btn-autofill.active {
-      background: var(--accent);
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
       border-style: solid;
-      border-color: var(--accent);
+      border-color: transparent;
       color: #fff;
       opacity: 1;
-      box-shadow: 0 1px 3px rgba(229, 90, 43, 0.25);
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.35);
     }
 
     .btn-auto-toggle.active::before {
@@ -733,8 +760,6 @@
     }
 
     .btn-autofill.active:hover {
-      background: var(--accent);
-      color: #fff;
       filter: brightness(1.05);
     }
 
@@ -746,15 +771,15 @@
     /* ── Save section inputs ── */
     .form-input {
       width: 100%;
-      padding: 9px 12px;
+      padding: 10px 13px;
       margin-bottom: 9px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: var(--r-sm);
       font-size: 13px;
       color: var(--text);
       outline: none;
-      transition: border-color 0.15s;
+      transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
       box-shadow: var(--shadow);
     }
 
@@ -764,6 +789,7 @@
 
     .form-input:focus {
       border-color: var(--accent);
+      box-shadow: var(--ring);
     }
 
     #status {
@@ -781,7 +807,7 @@
       background: var(--warn-bg);
       border: 1px solid var(--warn-border);
       border-left: 3px solid var(--warn-border);
-      border-radius: 8px;
+      border-radius: var(--r-sm);
       padding: 10px 12px;
       font-size: 12px;
     }
@@ -876,15 +902,15 @@
 
     .chip {
       font-size: 11.5px;
-      font-weight: 500;
-      padding: 3px 10px;
-      border-radius: 20px;
+      font-weight: 600;
+      padding: 3px 11px;
+      border-radius: var(--r-pill);
       border: 1px solid var(--border);
       background: var(--surface);
       color: var(--soft);
       cursor: pointer;
       white-space: nowrap;
-      transition: all 0.15s;
+      transition: all 0.15s var(--ease);
       line-height: 1.6;
       letter-spacing: 0;
     }
@@ -895,9 +921,9 @@
     }
 
     .chip.active {
-      background: var(--accent-soft);
-      border-color: var(--accent-border);
-      color: var(--accent);
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border-color: transparent;
+      color: #fff;
     }
 
     /* ── Platform select (native, styled) ── */
@@ -912,13 +938,13 @@
       background-repeat: no-repeat;
       background-position: right 10px center;
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: var(--r-sm);
       font-size: 13px;
       font-weight: 600;
       color: var(--text);
       cursor: pointer;
       letter-spacing: -0.005em;
-      transition: border-color 0.15s;
+      transition: border-color 0.15s var(--ease);
       outline: none;
     }
 
@@ -1022,8 +1048,8 @@
     @keyframes bfpulse{0%,100%{opacity:1}50%{opacity:0.4}}
     /* Flipkart template detail table rows */
     .fk-detail-table tr:hover td { background: var(--accent-soft); }
-    .tab-btn{flex:1;padding:7px 0;border:none;border-radius:6px;font-size:12.5px;font-weight:600;cursor:pointer;background:transparent;color:var(--muted);transition:all .15s;letter-spacing:-0.005em;}
-    .tab-btn.tab-active{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08);}
+    .tab-btn{flex:1;padding:7px 0;border:none;border-radius:var(--r-sm);font-size:12.5px;font-weight:700;cursor:pointer;background:transparent;color:var(--muted);transition:all .15s var(--ease);letter-spacing:-0.005em;}
+    .tab-btn.tab-active{background:var(--bg);color:var(--accent);box-shadow:var(--shadow);}
     .tab-btn:hover:not(.tab-active){color:var(--soft);}
     /* Dark mode: force native select/option to use theme colours */
     [data-theme="dark"] select { color-scheme: dark; color: var(--text); background-color: var(--surface); }
@@ -1062,7 +1088,7 @@
     </div>
 
     <!-- ── Tab switcher ── -->
-    <div style="display:flex;gap:4px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:3px;margin-bottom:12px;">
+    <div style="display:flex;gap:4px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:3px;margin-bottom:12px;">
       <button id="tabTemplates" class="tab-btn tab-active">Templates</button>
       <button id="tabStudioTools" class="tab-btn">Studio</button>
       <button id="tabBulk" class="tab-btn">Bulk Fill</button>

@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { brand, publicLinks } from "@/lib/brand";
 import { BrandLogo, WideLogo } from "@/components/brand-logo";
+import { MobileBottomNav } from "@/components/mobile-bottom-nav";
 
 import { getSession } from "@/lib/auth";
 
@@ -77,15 +78,15 @@ export async function PublicHeader() {
             </div>
           ) : (
             <>
-              <Link 
-                className="text-sm font-semibold text-zinc-400 hover:text-zinc-100 transition-colors duration-200 inline-flex items-center gap-1 group" 
+              <Link
+                className="whitespace-nowrap text-xs font-semibold text-zinc-400 hover:text-zinc-100 transition-colors duration-200 inline-flex items-center gap-1 group"
                 href="/login"
               >
                 Login
                 <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
-              <Link 
-                className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-indigo-550/10 hover:from-indigo-500 hover:to-violet-550 active:scale-[0.98] transition-all duration-200 group" 
+              <Link
+                className="whitespace-nowrap inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-indigo-550/10 hover:from-indigo-500 hover:to-violet-550 active:scale-[0.98] transition-all duration-200 group"
                 href="/signup"
               >
                 Sign up
@@ -239,32 +240,7 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
         {children}
       </div>
       <PublicFooter />
-
-      {/* Sticky Bottom Navigation Bar for Mobile (Native App Feel) */}
-      <div className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-md rounded-2xl border border-zinc-900 bg-zinc-950/80 p-2.5 shadow-2xl backdrop-blur-md lg:hidden">
-        <nav className="flex items-center justify-around">
-          <Link href="/" className="flex flex-col items-center gap-1.5 px-3 py-1.5 text-zinc-400 hover:text-indigo-400 transition-colors">
-            <span className="text-base leading-none">🏠</span>
-            <span className="text-[10px] font-extrabold leading-none">Home</span>
-          </Link>
-          <Link href="/features" className="flex flex-col items-center gap-1.5 px-3 py-1.5 text-zinc-400 hover:text-indigo-400 transition-colors">
-            <span className="text-base leading-none">⚡</span>
-            <span className="text-[10px] font-extrabold leading-none">Features</span>
-          </Link>
-          <Link href="/chrome-extension" className="flex flex-col items-center gap-1.5 px-3 py-1.5 text-zinc-400 hover:text-indigo-400 transition-colors">
-            <span className="text-base leading-none">🔌</span>
-            <span className="text-[10px] font-extrabold leading-none">Extension</span>
-          </Link>
-          <Link href="/pricing" className="flex flex-col items-center gap-1.5 px-3 py-1.5 text-zinc-400 hover:text-indigo-400 transition-colors">
-            <span className="text-base leading-none">💰</span>
-            <span className="text-[10px] font-extrabold leading-none">Pricing</span>
-          </Link>
-          <Link href="/login" className="flex flex-col items-center gap-1.5 px-3 py-1.5 text-zinc-400 hover:text-indigo-400 transition-colors">
-            <span className="text-base leading-none">👤</span>
-            <span className="text-[10px] font-extrabold leading-none">Account</span>
-          </Link>
-        </nav>
-      </div>
+      <MobileBottomNav />
     </main>
   );
 }

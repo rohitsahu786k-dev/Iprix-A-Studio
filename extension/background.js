@@ -1,5 +1,49 @@
 importScripts("logger.js", "config.js");
 
+// ── Icon badge: shows remaining free listing fills at a glance ──
+// Reuses the same templates endpoint every other flow already calls (it
+// returns fillsUsed/fillLimit on every response), so this adds no new
+// backend route and no extra load beyond one lightweight periodic check.
+async function updateUsageBadge() {
+  try {
+    const { listify_token } = await chrome.storage.local.get(["listify_token"]);
+    if (!listify_token) {
+      await chrome.action.setBadgeText({ text: "" });
+      return;
+    }
+    const res = await fetch(`${API_URL}?limit=1`, {
+      headers: { Authorization: `Bearer ${listify_token}` },
+    });
+    if (!res.ok) return;
+    const data = await res.json().catch(() => ({}));
+    const used = data.fillsUsed ?? 0;
+    const limit = data.fillLimit ?? -1;
+    if (limit === -1) {
+      await chrome.action.setBadgeText({ text: "" });
+      return;
+    }
+    const remaining = Math.max(0, limit - used);
+    await chrome.action.setBadgeText({ text: String(remaining) });
+    await chrome.action.setBadgeBackgroundColor({
+      color: remaining === 0 ? "#ef4444" : remaining <= 3 ? "#d97706" : "#4f46e5",
+    });
+  } catch (e) {
+    // Badge is a nice-to-have — never let it throw into the caller.
+    console.warn("[LISTIFY BG] Badge update failed:", e.message);
+  }
+}
+
+chrome.runtime.onStartup?.addListener(() => updateUsageBadge());
+chrome.runtime.onInstalled?.addListener(() => updateUsageBadge());
+chrome.storage.onChanged.addListener((changes, areaName) => {
+  if (areaName === "local" && changes.listify_token) updateUsageBadge();
+});
+// Recurring refresh — chrome.alarms survives service worker restarts, unlike setInterval.
+chrome.alarms?.create("aps_refresh_badge", { periodInMinutes: 20 });
+chrome.alarms?.onAlarm.addListener((alarm) => {
+  if (alarm.name === "aps_refresh_badge") updateUsageBadge();
+});
+
 // Toggle overlay sidebar when extension icon is clicked, or redirect to login if unauthenticated
 chrome.action.onClicked.addListener(async (tab) => {
   try {
@@ -427,6 +471,26 @@ async function runBulkFillTabs(queue, templateUrl, firstTabId) {
         // Ignore inactive tabs
       });
   }
+
+  // Desktop notification — bulk fill runs across several background tabs
+  // over tens of seconds, so the user is usually not watching. Let them
+  // know it's done without having to check back manually.
+  const failCount = queue.length - successCount;
+  chrome.notifications?.create(`aps_bulk_${Date.now()}`, {
+    type: "basic",
+    iconUrl: "aplus-studio-logo.png",
+    title: "A+ Studio — Bulk fill complete",
+    message:
+      failCount > 0
+        ? `${successCount} of ${queue.length} listings filled. ${failCount} need a manual check.`
+        : `All ${queue.length} listings filled successfully.`,
+    priority: 1,
+  }, () => {
+    if (chrome.runtime.lastError) {
+      console.warn("[LISTIFY BG] Notification failed:", chrome.runtime.lastError.message);
+    }
+  });
+  updateUsageBadge();
 
   // All done — clear queue immediately so no new bulk triggers fire
   await chrome.storage.local.remove([
@@ -1664,6 +1728,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
               "Content-Type": "application/json",
             },
           }).catch(() => {});
+          updateUsageBadge();
         }
         sendResponse({ success: true });
       } catch (e) {
@@ -1706,6 +1771,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
             body: JSON.stringify({ autoFill: true }),
           }).catch((e) => console.warn("[LISTIFY BG] autoFill enable failed:", e.message));
         }
+        updateUsageBadge();
         sendResponse({ success: true });
       } catch (e) {
         sendResponse({ success: false, error: e.message });

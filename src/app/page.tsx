@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { Home as HomeIcon, Layers, Package, Zap as ZapIcon } from "lucide-react";
 import { PublicShell } from "@/components/public-shell";
 import { PricingSection } from "@/components/pricing-section";
 import { InteractiveCalculator } from "@/components/interactive-calculator";
@@ -600,10 +601,10 @@ export default function Home() {
 
                     {/* Bottom Nav inside extension */}
                     <div className="flex justify-between border-t border-zinc-850 pt-3 mt-3 text-[9px] font-bold text-zinc-500">
-                      <div className="text-zinc-350 flex flex-col items-center gap-1 cursor-pointer"><span className="text-xs">🏠</span>Home</div>
-                      <div className="flex flex-col items-center gap-1 cursor-pointer hover:text-zinc-350"><span className="text-xs">📋</span>Templates</div>
-                      <div className="flex flex-col items-center gap-1 cursor-pointer hover:text-zinc-350"><span className="text-xs">📦</span>Products</div>
-                      <div className="flex flex-col items-center gap-1 cursor-pointer hover:text-zinc-350"><span className="text-xs">⚡</span>Activity</div>
+                      <div className="text-zinc-350 flex flex-col items-center gap-1 cursor-pointer"><HomeIcon className="h-3.5 w-3.5" /> Home</div>
+                      <div className="flex flex-col items-center gap-1 cursor-pointer hover:text-zinc-350"><Layers className="h-3.5 w-3.5" /> Templates</div>
+                      <div className="flex flex-col items-center gap-1 cursor-pointer hover:text-zinc-350"><Package className="h-3.5 w-3.5" /> Products</div>
+                      <div className="flex flex-col items-center gap-1 cursor-pointer hover:text-zinc-350"><ZapIcon className="h-3.5 w-3.5" /> Activity</div>
                     </div>
                   </div>
                 </div>
