@@ -1661,9 +1661,14 @@ document.addEventListener("DOMContentLoaded", () => {
     isRestrictedUrl: (url) => isRestrictedUrl(url),
   };
 
-  // ── Redirect to login and close sidebar ──
-  async function redirectToLogin() {
+  // ── Show auth UI (called on boot when no token found) ──
+  function redirectToLogin() {
     clearStoredAuth();
+    showAuthUI();
+  }
+
+  // ── Open login tab manually (called when user clicks Sign In button) ──
+  async function openLoginTab() {
     chrome.tabs.create({ url: `${FRONTEND_URL}/login?from=extension` });
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -1674,7 +1679,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ── Storage listener: automatically sync authentication when storage changes ──
-  chrome.storage.onChanged.addListener(async (changes, areaName) => {
+  chrome.storage?.onChanged.addListener(async (changes, areaName) => {
     if (areaName === "local" && changes.listify_token) {
       const newToken = changes.listify_token.newValue;
       if (newToken) {
@@ -1783,13 +1788,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ── Sign In / Sign Up — redirect to frontend ──
   signInBtn.addEventListener("click", () => {
-    chrome.tabs.create({ url: `${FRONTEND_URL}/login?from=extension` });
+    openLoginTab();
     // Start polling for the token from the frontend tab
     _pollFrontendToken();
   });
 
   signUpLink.addEventListener("click", () => {
-    chrome.tabs.create({ url: `${FRONTEND_URL}/register?from=extension` });
+    chrome.tabs.create({ url: `${FRONTEND_URL}/signup?from=extension` });
     _pollFrontendToken();
   });
 
