@@ -258,6 +258,51 @@ export default function FeaturesPage() {
           </div>
         </div>
       </section>
+
+      {/* SEO Text — features explained in plain language */}
+      <section className="bg-zinc-950 border-t border-zinc-900">
+        <div className="container py-20 max-w-4xl mx-auto">
+          <h2 className="text-3xl font-extrabold text-zinc-100 mb-10 text-center">Everything an Indian seller needs, in one platform</h2>
+          <div className="grid gap-10 md:grid-cols-2 text-sm leading-relaxed text-zinc-400">
+            <div>
+              <h3 className="text-lg font-bold text-zinc-200 mb-3">AI Listing Generator for Meesho, Flipkart &amp; Amazon</h3>
+              <p>
+                The A+ Studio AI listing generator creates optimised product titles, descriptions, bullet points and keywords for Indian marketplaces. Simply enter your product name, category and key details — the AI produces marketplace-ready content in seconds. Titles are tuned for Meesho's character limits and keyword ranking signals. Descriptions follow Flipkart's and Amazon India's best practices for conversion.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-zinc-200 mb-3">Chrome Extension with Meesho Autofill</h3>
+              <p>
+                The A+ Studio Chrome extension reads your saved listing template and fills the Meesho supplier panel — product title, price, description, size, colour, weight and attributes — automatically. It also supports Flipkart's listing form in beta mode. One click replaces 15 minutes of manual typing per SKU, and it works across all Meesho catalog categories including apparel, home decor, electronics accessories and beauty.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-zinc-200 mb-3">Meesho Keyword Research Tool</h3>
+              <p>
+                The Keyword Explorer pulls real-time autocomplete data from Google India and DuckDuckGo — the exact search phrases Indian buyers type when looking for products like yours. It classifies results into buyer-intent, long-tail and audience keywords, shows estimated search volume signals, and lets you export any keyword list to CSV. Unlike generic keyword tools, it is specifically built for Meesho category naming conventions and Indian shopping behaviour.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-zinc-200 mb-3">Image Compliance Checker &amp; Shipping Weight Calculator</h3>
+              <p>
+                Meesho rejects catalog images that do not meet its specifications: minimum 512×512 px resolution, square 1:1 ratio, plain white background, no visible text or watermarks, and file size under 2 MB. The A+ Studio Image Checker verifies all of these in one click before you upload. The Shipping Weight Calculator computes the chargeable weight (higher of dead weight vs. volumetric weight at L×B×H÷5000) so you always declare the correct figure and avoid shipping overcharges.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-zinc-200 mb-3">Bulk CSV Upload for Meesho</h3>
+              <p>
+                Upload hundreds of products at once using A+ Studio's bulk catalog upload. Import your product spreadsheet, map the columns to Meesho's required fields, run AI generation across every row, and export a ready-to-upload CSV file. This replaces hours of manual data entry for high-volume sellers, cataloging agencies and wholesale suppliers onboarding large inventories.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-zinc-200 mb-3">PDF Label Analyser</h3>
+              <p>
+                Meesho prints shipping labels as PDF files that contain declared product weight. A+ Studio's PDF Label Analyser scans your label and extracts the declared weight automatically, then compares it against the calculated volumetric weight of your package dimensions. If there is a mismatch that could trigger a chargeback, the tool flags it before dispatch — protecting your seller rating and profitability.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </PublicShell>
   );
 }

@@ -301,6 +301,45 @@ export default function ChromeExtensionPage() {
           </div>
         </div>
       </section>
+
+      {/* Long-form SEO section */}
+      <section className="bg-zinc-950 border-t border-zinc-900">
+        <div className="container py-20 max-w-4xl mx-auto">
+          <h2 className="text-3xl font-extrabold text-zinc-100 mb-10 text-center">How the A+ Studio Chrome Extension works</h2>
+          <div className="space-y-8 text-sm leading-relaxed text-zinc-400">
+            <div>
+              <h3 className="text-lg font-bold text-zinc-200 mb-3">Installation and setup</h3>
+              <p>
+                Download the A+ Studio Chrome extension from the Chrome Web Store or install it as an unpacked extension from your A+ Studio dashboard. Once installed, you will see the A+ Studio icon appear in your Chrome toolbar. Log in using your A+ Studio credentials — the same email and password you use on the website. The extension connects to your account in real time so your saved templates are always in sync.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-zinc-200 mb-3">Autofilling Meesho listings</h3>
+              <p>
+                Open the Meesho supplier panel and navigate to the catalog listing form. Click the A+ Studio extension icon to open the sidebar, select the template that matches your product, then click Autofill. The extension reads every visible field — product title, price, description, colour, size, material, weight and all category-specific attributes — and fills them automatically. It handles multi-size grids, dropdowns and radio buttons that are standard across Meesho's 1,000+ categories.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-zinc-200 mb-3">Template capture and reuse</h3>
+              <p>
+                When you manually fill in a Meesho or Flipkart listing form, the A+ Studio extension can capture all the field values into a reusable template with a single click. This means you never have to type the same product attributes twice. Build a library of templates for your most common product categories and variants — the extension saves them to your account so they are available across devices and browser sessions.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-zinc-200 mb-3">Flipkart beta support</h3>
+              <p>
+                The A+ Studio Chrome extension also supports Flipkart's seller hub listing forms in beta mode. It captures and fills fields including product name, brand, description, HSN code, MRP, selling price and key attributes across Flipkart's categories. Full Flipkart support — including all category-specific attribute grids — is in active development and rolling out progressively.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-zinc-200 mb-3">Security and privacy</h3>
+              <p>
+                The A+ Studio extension never auto-submits a form, never reads your bank or payment data, and never captures data from pages unrelated to marketplace listing forms. It only activates on whitelisted domains — Meesho's supplier panel, Flipkart's seller hub, and the A+ Studio dashboard. All communication between the extension and our servers uses HTTPS. Your login session is stored in a secure HTTP-only cookie — never in localStorage or extension storage.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </PublicShell>
   );
 }

@@ -98,6 +98,34 @@ export default function ContactPage() {
             <ContactForm />
           </div>
         </div>
+
+        {/* Support info section for SEO text density */}
+        <div className="max-w-5xl mx-auto mt-20 border-t border-zinc-900 pt-16 grid gap-8 md:grid-cols-2">
+          <div>
+            <h2 className="text-xl font-bold text-zinc-100 mb-3">Seller support hours</h2>
+            <p className="text-sm leading-relaxed text-zinc-400">
+              Our support team is available Monday through Saturday, 10 AM to 7 PM IST. For urgent extension issues or billing queries, WhatsApp is the fastest channel. Email responses typically arrive within 4–8 business hours. We prioritise active paid plan subscribers for live support.
+            </p>
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-zinc-100 mb-3">Common questions we handle</h2>
+            <p className="text-sm leading-relaxed text-zinc-400">
+              We regularly assist with Chrome extension installation on Meesho and Flipkart seller panels, plan upgrades, API integration questions, bulk CSV upload formatting, image compliance troubleshooting, and account reset requests. For technical bugs, please include your browser version and a screenshot when writing to us.
+            </p>
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-zinc-100 mb-3">Partnership &amp; reseller enquiries</h2>
+            <p className="text-sm leading-relaxed text-zinc-400">
+              If you are a seller coach, cataloging agency, or marketplace consultant interested in offering A+ Studio to your clients, we have a reseller and affiliate programme. Email us with your seller community size, platform focus and use case, and we will get back to you within two business days.
+            </p>
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-zinc-100 mb-3">Feature requests &amp; feedback</h2>
+            <p className="text-sm leading-relaxed text-zinc-400">
+              A+ Studio is actively developed based on real seller feedback. If there is a marketplace, form field, category attribute, or workflow you want automated, tell us. Many of our most-used features — including Meesho size grid autofill, bulk listing upload, and the shipping weight guard — were built directly from seller requests.
+            </p>
+          </div>
+        </div>
       </section>
     </PublicShell>
   );

@@ -71,7 +71,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto">
+          <div className="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto mb-20">
             {[
               { title: "AI seller tools", icon: <Icons.Sparkles />, desc: "Focused on marketplace operators who need speed, accuracy and repeatable workflows." },
               { title: "Automation systems", icon: <Icons.Database />, desc: "Engineering lightweight chrome tools and background processors that run efficiently." },
@@ -87,6 +87,31 @@ export default function AboutPage() {
                 </div>
               </article>
             ))}
+          </div>
+
+          {/* Mission & Story */}
+          <div className="max-w-3xl mx-auto text-zinc-400 space-y-6 text-sm leading-relaxed border-t border-zinc-900 pt-16">
+            <h2 className="text-2xl font-bold text-zinc-100">Why we built A+ Studio</h2>
+            <p>
+              Indian marketplace sellers spend hours manually copying product data between spreadsheets and online listing panels. Titles get truncated, images get rejected, and shipping weights are declared incorrectly — costing sellers money on every order. A+ Studio was born from firsthand experience with these pain points.
+            </p>
+            <p>
+              Our team at Iprix Media has spent over two years building tools specifically for Meesho, Flipkart and Amazon India sellers. We understand the nuances of catalog compliance, the way Meesho's image checker works, how volumetric weight affects profitability, and what makes a product title rank in marketplace search.
+            </p>
+            <p>
+              A+ Studio is not a generic SaaS product — it is purpose-built for the Indian e-commerce ecosystem. Every feature addresses a real workflow bottleneck: from the Chrome extension that fills listing forms in seconds, to the AI tool that generates keyword-rich titles and descriptions matched to your product category.
+            </p>
+            <h2 className="text-2xl font-bold text-zinc-100 pt-4">Our commitment to sellers</h2>
+            <p>
+              We believe powerful seller software should be accessible to everyone — from first-time Meesho suppliers to experienced catalog managers handling hundreds of SKUs per day. That is why A+ Studio's free plan is genuinely useful: unlimited keyword research, free image compliance checks, a shipping weight calculator, and AI-powered listing generation with no credit card required.
+            </p>
+            <p>
+              As you grow, our paid plans scale with you — adding higher AI listing limits, bulk CSV uploads, advanced keyword insights and priority support. Every plan is month-to-month with no lock-in. We earn your trust by delivering results, not by trapping you in annual contracts.
+            </p>
+            <h2 className="text-2xl font-bold text-zinc-100 pt-4">Get in touch</h2>
+            <p>
+              We are always open to feedback, partnership enquiries and feature requests from active sellers. Reach out via our <a href="/contact" className="text-indigo-400 hover:underline">contact page</a>, or email us at <a href="mailto:info@iprixmedia.com" className="text-indigo-400 hover:underline">info@iprixmedia.com</a>. Our team typically responds within one business day.
+            </p>
           </div>
         </div>
       </section>

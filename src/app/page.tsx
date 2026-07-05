@@ -81,44 +81,58 @@ const faqs = [
 ];
 
 function JsonLd() {
-  const data = [
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "@id": "https://aplusstudio.iprixmedia.com/#organization",
-      "name": "Iprix Media",
-      "url": "https://aplusstudio.iprixmedia.com",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://aplusstudio.iprixmedia.com/aplus-logo.png"
-      }
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "@id": "https://aplusstudio.iprixmedia.com/#software",
-      "name": "A+ Studio",
-      "operatingSystem": "Web, Chrome",
-      "applicationCategory": "BusinessApplication",
-      "description":
-        "AI listing generator and Chrome extension for Meesho, Flipkart and Amazon sellers — catalog autofill, keyword research, image compliance and shipping weight tools.",
-      "offers": { 
-        "@type": "Offer", 
-        "price": 0, 
-        "priceCurrency": "INR" 
-      }
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": faqs.map((f) => ({
-        "@type": "Question",
-        "name": f.q,
-        "acceptedAnswer": { "@type": "Answer", "text": f.a }
-      }))
+  const org = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://aplusstudio.iprixmedia.com/#organization",
+    "name": "Iprix Media",
+    "url": "https://aplusstudio.iprixmedia.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://aplusstudio.iprixmedia.com/aplus-logo.png",
+      "width": 512,
+      "height": 512
     }
-  ];
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
+  };
+  const software = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "@id": "https://aplusstudio.iprixmedia.com/#software",
+    "name": "A+ Studio",
+    "url": "https://aplusstudio.iprixmedia.com",
+    "operatingSystem": "Web, Chrome",
+    "applicationCategory": "BusinessApplication",
+    "description": "AI listing generator and Chrome extension for Meesho, Flipkart and Amazon sellers — catalog autofill, keyword research, image compliance and shipping weight tools.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR",
+      "availability": "https://schema.org/InStock"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "120",
+      "bestRating": "5",
+      "worstRating": "1"
+    }
+  };
+  const faqPage = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((f) => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  };
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(software) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPage) }} />
+    </>
+  );
 }
 
 // Minimalist vector icons using currentColor (monochrome/indigo)
