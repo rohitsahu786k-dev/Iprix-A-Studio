@@ -113,16 +113,16 @@
   window.__listifyCS = true;
   // Store a ping function closed over THIS instance's chrome.runtime.
   // It throws automatically when this context is later invalidated.
-  window.__listifyPing = () => chrome.runtime.getURL("");
+  window.__listifyPing = () => chrome.runtime?.getURL("");
 
   // Abort flag — set to true by abort_fill message; reset at fillForm start.
   let _listifyAbortFill = false;
 
   console.log("Smart Autofill Content Script Loaded (v6.0)");
 
-  // ── Token bridge: sync localStorage → chrome.storage.local ──
+  // ── Token bridge: sync localStorage → chrome.storage?.local ──
   // The A+ Studio frontend stores the JWT in localStorage. The background script
-  // reads from chrome.storage.local (cross-origin safe). Sync whenever the
+  // reads from chrome.storage?.local (cross-origin safe). Sync whenever the
   // content script loads on an A+ Studio page so the token is always available.
   (function syncListifyToken() {
     const host = window.location.hostname;
@@ -136,9 +136,9 @@
         try {
           const token = localStorage.getItem("listify_token");
           if (token) {
-            chrome.storage.local.set({ listify_token: token });
+            chrome.storage?.local.set({ listify_token: token });
           } else {
-            chrome.storage.local.remove("listify_token");
+            chrome.storage?.local.remove("listify_token");
           }
         } catch (_) {}
       };
@@ -150,10 +150,10 @@
       // Re-sync every 5s to catch same-tab mutations (React login/logout)
       setInterval(syncNow, 5000);
 
-      // Sync shipping costs: chrome.storage.local → localStorage so the dashboard can read them
+      // Sync shipping costs: chrome.storage?.local → localStorage so the dashboard can read them
       const syncCosts = () => {
         try {
-          chrome.storage.local.get(["listify_shipping_costs"], (stored) => {
+          chrome.storage?.local.get(["listify_shipping_costs"], (stored) => {
             if (stored.listify_shipping_costs) {
               localStorage.setItem("listify_shipping_costs", JSON.stringify(stored.listify_shipping_costs));
             }
@@ -174,7 +174,7 @@
 
     let popupUrl;
     try {
-      popupUrl = chrome.runtime.getURL("popup/popup.html");
+      popupUrl = chrome.runtime?.getURL("popup/popup.html");
     } catch (_) {
       return;
     }
@@ -252,7 +252,7 @@
     if (href.includes("meesho.com") && href.includes("/catalogs/single/")) {
       if (lastAutoOpenedUrl !== href) {
         lastAutoOpenedUrl = href;
-        chrome.storage.local.get(["listify_token"], (result) => {
+        chrome.storage?.local.get(["listify_token"], (result) => {
           if (result.listify_token) {
             console.log("[LISTIFY] Auto-opening sidebar for Meesho listing page:", href);
             toggleSidebar(true);
@@ -271,19 +271,19 @@
       d.type === "BULK_FILL_SET_QUEUE" ||
       d.type === "BULK_FILL_CLEAR_QUEUE"
     ) {
-      chrome.runtime.sendMessage(d).catch(() => {});
+      chrome.runtime?.sendMessage(d).catch(() => {});
     }
   });
 
   // ── Relay background → dashboard (progress updates) ──
-  chrome.runtime.onMessage.addListener((msg) => {
+  chrome.runtime?.onMessage.addListener((msg) => {
     if (msg && msg.source === "lisstify-extension") {
       console.log("[LISTIFY CS] Relaying extension message to page:", msg.type);
       window.postMessage(msg, "*");
     }
   });
 
-  chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
+  chrome.runtime?.onMessage.addListener((request, _sender, sendResponse) => {
     (async () => {
       try {
         if (request.action === "TOGGLE_SIDEBAR") {
@@ -652,7 +652,7 @@
           window.__listify_is_filling = true;
           try {
             const stored = await new Promise((resolve) =>
-              chrome.storage.local.get(
+              chrome.storage?.local.get(
                 [
                   "listify_bulk_queue",
                   "listify_bulk_index",
@@ -671,7 +671,7 @@
             const idx = stored.listify_bulk_index || 0;
             if (idx >= queue.length) {
               // Queue done
-              chrome.storage.local.remove([
+              chrome.storage?.local.remove([
                 "listify_bulk_active",
                 "listify_bulk_queue",
                 "listify_bulk_index",
@@ -696,7 +696,7 @@
             // Advance index so next call picks up the right row
             const nextIdx = idx + 1;
             await new Promise((resolve) =>
-              chrome.storage.local.set(
+              chrome.storage?.local.set(
                 { listify_bulk_index: nextIdx },
                 resolve,
               ),
@@ -784,14 +784,14 @@
               console.log(`[SL IMG CS] Fetching image ${i + 1}/${urls.length}: ${url}`);
               try {
                 const imgRes = await new Promise((resolve) =>
-                  chrome.runtime.sendMessage({ action: "fk_fetch_image", url }, resolve),
+                  chrome.runtime?.sendMessage({ action: "fk_fetch_image", url }, resolve),
                 );
                 console.log(`[SL IMG CS] fk_fetch_image response for img ${i + 1}:`, {
                   ok: imgRes?.ok,
                   type: imgRes?.type,
                   hasDataUrl: !!imgRes?.dataUrl,
                   dataUrlPrefix: imgRes?.dataUrl?.substring(0, 40),
-                  lastError: chrome.runtime.lastError?.message,
+                  lastError: chrome.runtime?.lastError?.message,
                 });
 
                 if (!imgRes?.ok) {
@@ -1428,9 +1428,9 @@
       if (_interceptorInjected) { console.log("[LISTIFY] interceptor already requested"); return Promise.resolve(); }
       _interceptorInjected = true;
       return new Promise((resolve) => {
-        chrome.runtime.sendMessage({ action: "inject_transfer_interceptor" }, (res) => {
-          if (chrome.runtime.lastError) {
-            console.error("[LISTIFY] inject_transfer_interceptor error:", chrome.runtime.lastError.message);
+        chrome.runtime?.sendMessage({ action: "inject_transfer_interceptor" }, (res) => {
+          if (chrome.runtime?.lastError) {
+            console.error("[LISTIFY] inject_transfer_interceptor error:", chrome.runtime?.lastError.message);
           } else {
             console.log("[LISTIFY] inject_transfer_interceptor result:", res);
           }
@@ -1570,8 +1570,8 @@
       backdrop.addEventListener("click", (e) => { if (e.target === backdrop) backdrop.remove(); });
 
       // Fetch generations via background
-      chrome.runtime.sendMessage({ action: "fetch_lisstify_generations" }, (res) => {
-        if (chrome.runtime.lastError || !res?.ok) {
+      chrome.runtime?.sendMessage({ action: "fetch_lisstify_generations" }, (res) => {
+        if (chrome.runtime?.lastError || !res?.ok) {
           content.innerHTML = `<div style="text-align:center;padding:40px;color:#6b7280;font-size:14px;line-height:1.6;">
             Could not load images.<br><br>
             <strong style="color:#111;">To fix this:</strong><br>
@@ -1703,7 +1703,7 @@
             barFill.style.width = `${Math.round((i / images.length) * 100)}%`;
 
             // Fetch image blob via background
-            const imgRes = await new Promise((r) => chrome.runtime.sendMessage({ action: "fk_fetch_image", url }, r));
+            const imgRes = await new Promise((r) => chrome.runtime?.sendMessage({ action: "fk_fetch_image", url }, r));
             if (!imgRes?.ok || stopped) { _logRow(logList, i + 1, url, null, "fetch failed"); continue; }
 
             // Build File object
@@ -1785,7 +1785,7 @@
           barFill.style.width = "90%";
 
           // Upload winner
-          const winRes = await new Promise((r) => chrome.runtime.sendMessage({ action: "fk_fetch_image", url: best.url }, r));
+          const winRes = await new Promise((r) => chrome.runtime?.sendMessage({ action: "fk_fetch_image", url: best.url }, r));
           if (winRes?.ok) {
             try {
               const mt = winRes.type || "image/jpeg";
@@ -1813,15 +1813,15 @@
           barFill.style.width = "100%";
 
           // Persist all shipping costs locally and to backend so badges survive session clears
-          chrome.storage.local.get(["listify_shipping_costs"], (stored) => {
+          chrome.storage?.local.get(["listify_shipping_costs"], (stored) => {
             const costs = stored.listify_shipping_costs || {};
             const newCosts = {};
             for (const r of results) { costs[r.url] = r.shipping; newCosts[r.url] = r.shipping; }
-            chrome.storage.local.set({ listify_shipping_costs: costs });
+            chrome.storage?.local.set({ listify_shipping_costs: costs });
             // Mirror into in-memory cache so re-opened folder grid shows badge immediately
             for (const r of results) shippingCosts[r.url] = r.shipping;
             // Also save to backend for cross-device / cross-session persistence
-            chrome.runtime.sendMessage({ action: "save_shipping_costs", costs: newCosts });
+            chrome.runtime?.sendMessage({ action: "save_shipping_costs", costs: newCosts });
           });
 
           backdrop.remove();
@@ -2099,8 +2099,8 @@
           useBtn.disabled = true;
           useBtn.style.opacity = "0.6";
 
-          chrome.runtime.sendMessage({ action: "fk_fetch_image", url: selectedUrl }, (imgRes) => {
-            if (chrome.runtime.lastError || !imgRes?.ok) {
+          chrome.runtime?.sendMessage({ action: "fk_fetch_image", url: selectedUrl }, (imgRes) => {
+            if (chrome.runtime?.lastError || !imgRes?.ok) {
               showToast("Could not fetch image — try again", "error");
               useBtn.textContent = "Use This Image";
               useBtn.disabled = false;
@@ -2159,9 +2159,9 @@
         // Step 1: pull costs from the A+ Studio website's localStorage (recovers data lost when chrome.storage was cleared)
         // Step 2: fetch from backend (merges backend costs into local)
         // Step 3: read merged result and render
-        chrome.runtime.sendMessage({ action: "sync_website_shipping_costs" }, () => {
-          chrome.runtime.sendMessage({ action: "fetch_shipping_costs" }, () => {
-            chrome.storage.local.get(["listify_shipping_costs"], (stored) => {
+        chrome.runtime?.sendMessage({ action: "sync_website_shipping_costs" }, () => {
+          chrome.runtime?.sendMessage({ action: "fetch_shipping_costs" }, () => {
+            chrome.storage?.local.get(["listify_shipping_costs"], (stored) => {
               shippingCosts = stored.listify_shipping_costs || {};
               renderFolders();
             });
@@ -4337,10 +4337,10 @@
 
       // Save per-tab — background keys it by tab ID so multiple tabs don't interfere
       try {
-        chrome.runtime.sendMessage(
+        chrome.runtime?.sendMessage(
           { action: "save_tab_category", category },
           () => {
-            if (chrome.runtime.lastError) return;
+            if (chrome.runtime?.lastError) return;
             console.log(
               `%c[LISTIFY] Category updated (unlocked): "${category}"`,
               "color:#4caf50;font-weight:bold",
@@ -4394,7 +4394,7 @@
                 );
                 sessionStorage.setItem("listify_tab_category", deepestCat);
                 try {
-                  chrome.runtime.sendMessage({
+                  chrome.runtime?.sendMessage({
                     action: "save_tab_category",
                     category: deepestCat,
                   });
@@ -4431,7 +4431,7 @@
           sessionStorage.removeItem("listify_cat_locked");
           sessionStorage.removeItem("listify_tab_category");
           try {
-            chrome.runtime.sendMessage({ action: "clear_tab_category" });
+            chrome.runtime?.sendMessage({ action: "clear_tab_category" });
           } catch (_) {}
         }
 
@@ -4471,7 +4471,7 @@
           );
           sessionStorage.setItem("listify_tab_category", leaf);
           try {
-            chrome.runtime.sendMessage({
+            chrome.runtime?.sendMessage({
               action: "save_tab_category",
               category: leaf,
             });
@@ -4604,7 +4604,7 @@
       if (immediate) {
         sessionStorage.setItem("listify_tab_category", immediate);
         try {
-          chrome.runtime.sendMessage({
+          chrome.runtime?.sendMessage({
             action: "save_tab_category",
             category: immediate,
           });
@@ -4624,7 +4624,7 @@
         if (cat) {
           sessionStorage.setItem("listify_tab_category", cat);
           try {
-            chrome.runtime.sendMessage({
+            chrome.runtime?.sendMessage({
               action: "save_tab_category",
               category: cat,
             });
@@ -4655,7 +4655,7 @@
       if (isPageReload) {
         sessionStorage.removeItem("listify_tab_category");
         try {
-          chrome.runtime.sendMessage({ action: "clear_tab_category" });
+          chrome.runtime?.sendMessage({ action: "clear_tab_category" });
         } catch (_) {}
       }
       watchDefaultCategory();
@@ -4682,7 +4682,7 @@
         sessionStorage.removeItem("listify_cat_locked");
         sessionStorage.removeItem("listify_tab_category");
         try {
-          chrome.runtime.sendMessage({ action: "clear_tab_category" });
+          chrome.runtime?.sendMessage({ action: "clear_tab_category" });
         } catch (_) {}
       }
 
@@ -4691,7 +4691,7 @@
         // Clear old category so the tree scrape picks up the new selection
         sessionStorage.removeItem("listify_tab_category");
         try {
-          chrome.runtime.sendMessage({ action: "clear_tab_category" });
+          chrome.runtime?.sendMessage({ action: "clear_tab_category" });
         } catch (_) {}
         // Re-arm so category clicks are captured
         _catArmed = true;
@@ -4733,7 +4733,7 @@
     (function injectInterFont() {
       try {
         if (document.getElementById("__listify_inter_font__")) return;
-        const fontUrl = chrome.runtime.getURL("fonts/inter-latin.woff2");
+        const fontUrl = chrome.runtime?.getURL("fonts/inter-latin.woff2");
         const style = document.createElement("style");
         style.id = "__listify_inter_font__";
         style.textContent =
@@ -4817,7 +4817,7 @@
           sessionStorage.getItem("listify_tab_category") || "";
         let storedCategory = "";
         try {
-          const bgCat = await chrome.runtime.sendMessage({
+          const bgCat = await chrome.runtime?.sendMessage({
             action: "get_my_tab_category",
           });
           storedCategory = (bgCat?.category || "").trim();
@@ -4825,7 +4825,7 @@
         const domCategory_resolved =
           sessionCategory || storedCategory || domCategory;
 
-        const result = await chrome.runtime.sendMessage({
+        const result = await chrome.runtime?.sendMessage({
           action: "trigger_autofill",
           domCategory: domCategory_resolved,
         });
@@ -4841,7 +4841,7 @@
           if (window.__listify_abort_fill) return;
 
           window.__listify_page_filled = true; // prevent storage.onChanged from re-triggering auto-fill
-          chrome.runtime.sendMessage({
+          chrome.runtime?.sendMessage({
             action: "record_template_usage",
             templateId: result.template._id,
           });
@@ -4953,7 +4953,7 @@
           if (window.__listify_page_filled) return; // already filled this page
           window.__listify_is_filling = true; // block category saves during network call + fill
           try {
-            const stored = await chrome.storage.local.get([
+            const stored = await chrome.storage?.local.get([
               "listify_autofill_enabled",
             ]);
             if (stored.listify_autofill_enabled === false) {
@@ -4963,7 +4963,7 @@
 
             const domCategory = newCat || detectCurrentCategory();
 
-            const result = await chrome.runtime.sendMessage({
+            const result = await chrome.runtime?.sendMessage({
               action: "trigger_autofill",
               domCategory,
               autoTriggered: true,
@@ -4981,7 +4981,7 @@
               const fillRes = await fillForm(result.template, {
                 resolvedCategory: result.category,
               });
-              chrome.runtime.sendMessage({
+              chrome.runtime?.sendMessage({
                 action: "record_template_usage",
                 templateId: result.template._id,
               });
@@ -5235,7 +5235,7 @@
       //    not already resolved above).
       if (!quickCat) {
         try {
-          const bgRes = await chrome.runtime.sendMessage({
+          const bgRes = await chrome.runtime?.sendMessage({
             action: "get_my_tab_category",
           });
           const storedCat = (bgRes?.category || "").trim();
@@ -5330,7 +5330,7 @@
         );
 
         // Send to background so the fetch bypasses Meesho's CSP
-        const result = await chrome.runtime.sendMessage({
+        const result = await chrome.runtime?.sendMessage({
           action: "save_template",
           payload: { name, url: formData.domain, fields, category },
         });
@@ -5504,7 +5504,7 @@
 
         aiFab.innerHTML = `Generating…`;
 
-        const result = await chrome.runtime.sendMessage({
+        const result = await chrome.runtime?.sendMessage({
           action: "ai_fill",
           category,
           fields,
@@ -5648,7 +5648,7 @@
               ? await imgToBase64(imgEl)
               : src;
         }
-        const result = await chrome.runtime.sendMessage({
+        const result = await chrome.runtime?.sendMessage({
           action: "ai_fill",
           category,
           fields,

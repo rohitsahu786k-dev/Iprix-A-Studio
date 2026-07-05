@@ -12,7 +12,7 @@
     (function injectInterFont() {
         try {
             if (document.getElementById('__listify_inter_font__')) return;
-            const fontUrl = chrome.runtime.getURL('fonts/inter-latin.woff2');
+            const fontUrl = chrome.runtime?.getURL('fonts/inter-latin.woff2');
             const style = document.createElement('style');
             style.id = '__listify_inter_font__';
             style.textContent =
@@ -44,7 +44,7 @@
         }
         // 2. Listify side: token present in chrome.storage
         try {
-            const tokRes = await chrome.runtime.sendMessage({ action: 'get_listify_token_status' });
+            const tokRes = await chrome.runtime?.sendMessage({ action: 'get_listify_token_status' });
             if (!tokRes?.hasToken) {
                 return {
                     ok: false,
@@ -212,7 +212,7 @@
         setStatus('');
 
         try {
-            const tabRes = await chrome.runtime.sendMessage({ action: 'get_tab_id' });
+            const tabRes = await chrome.runtime?.sendMessage({ action: 'get_tab_id' });
             const tabId = tabRes?.tabId;
             if (!tabId) throw new Error('Could not get tab ID');
 
@@ -221,7 +221,7 @@
             // routes to captureAllTabs (tabbed layout) or captureAllSections.
             saveBtn.textContent = 'Walking all tabs…';
             try {
-                const capRes = await chrome.runtime.sendMessage({ action: 'fk_capture_all_sections' });
+                const capRes = await chrome.runtime?.sendMessage({ action: 'fk_capture_all_sections' });
                 console.log('[LISTIFY FK BUTTONS] capture-all result:', capRes);
             } catch (e) {
                 console.warn('[LISTIFY FK BUTTONS] capture_all failed:', e);
@@ -232,7 +232,7 @@
 
             saveBtn.textContent = 'Saving…';
 
-            const bufRes = await chrome.runtime.sendMessage({ action: 'fk_get_buffer', tabId });
+            const bufRes = await chrome.runtime?.sendMessage({ action: 'fk_get_buffer', tabId });
             const buf = bufRes?.buf || { fields: {}, sections: {} };
 
             const allFields = Object.values(buf.fields || {}).map(({ _key, _section, ...f }) => f);
@@ -287,7 +287,7 @@
                 sections.map(s => `${s.title}(${s.fields.length})`).join(', '),
                 '| total fields:', allFields.length,
                 '| image fields:', allFields.filter(f => f.type === 'image').length);
-            const saveRes = await chrome.runtime.sendMessage({
+            const saveRes = await chrome.runtime?.sendMessage({
                 action: 'fk_save_template_bg',
                 payload: { name, url: 'seller.flipkart.com', category, vertical, brand, fields: allFields, sections, autoFill: true },
             });
@@ -295,7 +295,7 @@
             if (saveRes?.ok) {
                 setStatus(`Saved! ${allFields.length} fields across ${sections.length} section(s).`, 'ok');
                 saveBtn.textContent = 'Saved ✓';
-                chrome.runtime.sendMessage({ action: 'fk_clear_buffer' }).catch(() => {});
+                chrome.runtime?.sendMessage({ action: 'fk_clear_buffer' }).catch(() => {});
                 const { backdrop } = buildModal();
                 setTimeout(() => sp(backdrop, 'display', 'none'), 1500);
             } else {
@@ -500,7 +500,7 @@
         // not already resolved from sessionStorage above).
         if (!category) {
             try {
-                const catRes = await chrome.runtime.sendMessage({ action: 'get_my_tab_category' });
+                const catRes = await chrome.runtime?.sendMessage({ action: 'get_my_tab_category' });
                 category = (catRes?.category || '').trim();
                 if (category) {
                     catInput.value = category;
@@ -525,11 +525,11 @@
         try {
             let category = (sessionStorage.getItem('listify_tab_category') || '').trim();
             if (!category) {
-                const catRes = await chrome.runtime.sendMessage({ action: 'get_my_tab_category' });
+                const catRes = await chrome.runtime?.sendMessage({ action: 'get_my_tab_category' });
                 category = (catRes?.category || '').trim();
             }
 
-            const result = await chrome.runtime.sendMessage({
+            const result = await chrome.runtime?.sendMessage({
                 action: 'fk_trigger_autofill_fk',
                 domCategory: category,
             });
@@ -563,7 +563,7 @@
             });
 
             if (result.template?._id) {
-                chrome.runtime.sendMessage({ action: 'record_template_usage', templateId: result.template._id }).catch(() => {});
+                chrome.runtime?.sendMessage({ action: 'record_template_usage', templateId: result.template._id }).catch(() => {});
             }
         } catch (e) {
             console.error('[LISTIFY FK BUTTONS] Autofill error:', e);

@@ -74,7 +74,7 @@
 
         sessionStorage.setItem('listify_tab_category', cat);
         try {
-            chrome.runtime.sendMessage({ action: 'save_tab_category', category: cat });
+            chrome.runtime?.sendMessage({ action: 'save_tab_category', category: cat });
         } catch (_) {}
 
         console.log('[LISTIFY FK] Category detected & saved:', cat);
@@ -88,7 +88,7 @@
         if (vertical) sessionStorage.setItem('listify_tab_vertical', vertical);
         if (brand) sessionStorage.setItem('listify_tab_brand', brand);
         try {
-            chrome.runtime.sendMessage({ action: 'save_tab_vertical_brand', vertical, brand });
+            chrome.runtime?.sendMessage({ action: 'save_tab_vertical_brand', vertical, brand });
         } catch (_) {}
 
         console.log('[LISTIFY FK] Vertical:', vertical, '| Brand:', brand);

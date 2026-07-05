@@ -21,7 +21,7 @@
     window.addEventListener('message', (e) => {
         if (!e.data || e.data.type !== '__LISTIFY_DUMP') return;
         const filter = (e.data.filter || '').toLowerCase();
-        chrome.runtime.sendMessage({ action: 'fk_get_buffer' }, (r) => {
+        chrome.runtime?.sendMessage({ action: 'fk_get_buffer' }, (r) => {
             const all = Object.values((r && r.buf && r.buf.fields) || {});
             const rows = all
                 .filter(f => !filter || (f.label || '').toLowerCase().includes(filter))
@@ -78,8 +78,8 @@
     function requestTabId(attempt = 0) {
         if (_storKey) return;
         if (!chrome.runtime?.id) return;
-        chrome.runtime.sendMessage({ action: 'get_tab_id' }, (res) => {
-            if (chrome.runtime.lastError || !res?.tabId) {
+        chrome.runtime?.sendMessage({ action: 'get_tab_id' }, (res) => {
+            if (chrome.runtime?.lastError || !res?.tabId) {
                 if (attempt < 6) setTimeout(() => requestTabId(attempt + 1), 500 * (attempt + 1));
                 return;
             }
@@ -312,9 +312,9 @@
         // autofill side generates a fresh random value instead of replaying.
         if (field && /^\s*seller\s*sku\s*id\b/i.test(field.label || '')) return Promise.resolve();
         const job = () => new Promise(resolve => {
-            chrome.runtime.sendMessage({ action: 'fk_save_field', storKey: _storKey, field }, (res) => {
-                if (chrome.runtime.lastError) {
-                    console.error('[FK FILL] ❌ fk_save_field failed:', chrome.runtime.lastError.message);
+            chrome.runtime?.sendMessage({ action: 'fk_save_field', storKey: _storKey, field }, (res) => {
+                if (chrome.runtime?.lastError) {
+                    console.error('[FK FILL] ❌ fk_save_field failed:', chrome.runtime?.lastError.message);
                     return resolve();
                 }
                 if (res?.fieldCount) notifyPopup(res.fieldCount, res.sectionCount);
@@ -331,7 +331,7 @@
         clearTimeout(_notifyTimer);
         _notifyTimer = setTimeout(() => {
             if (!chrome.runtime?.id) return;
-            chrome.runtime.sendMessage({
+            chrome.runtime?.sendMessage({
                 action: 'fk_buffer_updated',
                 count:  fieldCount,
                 sectionCount,
@@ -922,7 +922,7 @@
     // ─────────────────────────────────────────────────────
     // MESSAGE HANDLER
     // ─────────────────────────────────────────────────────
-    chrome.runtime.onMessage.addListener((req, _sender, sendResponse) => {
+    chrome.runtime?.onMessage.addListener((req, _sender, sendResponse) => {
 
         if (req.action === 'get_tab_category') {
             const fromSession = sessionStorage.getItem('listify_tab_category') || '';
@@ -932,7 +932,7 @@
                 sendResponse({ category: fromSession, vertical, brand });
                 return false;
             }
-            chrome.runtime.sendMessage({ action: 'get_tab_category_bg' }, (res) => {
+            chrome.runtime?.sendMessage({ action: 'get_tab_category_bg' }, (res) => {
                 const cat = res?.category || '';
                 if (cat) sessionStorage.setItem('listify_tab_category', cat);
                 if (res?.vertical) sessionStorage.setItem('listify_tab_vertical', res.vertical);

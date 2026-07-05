@@ -1053,7 +1053,7 @@
 
         // Fetch the CDN bytes via background (covers CORS)
         const fetchRes = await new Promise((resolve) => {
-            chrome.runtime.sendMessage({ action: 'fk_fetch_image', url: field.value }, (r) => resolve(r || { ok: false }));
+            chrome.runtime?.sendMessage({ action: 'fk_fetch_image', url: field.value }, (r) => resolve(r || { ok: false }));
         });
         if (!fetchRes.ok) {
             console.warn(`[LISTIFY FK FILL] image fetch failed for ${field.value}:`, fetchRes.error);
@@ -1862,10 +1862,10 @@
         if (window.__listify_fk_is_filling)   return;
         if (document.visibilityState !== 'visible') return;
 
-        const stored = await chrome.storage.local.get(['listify_autofill_enabled']);
+        const stored = await chrome.storage?.local.get(['listify_autofill_enabled']);
         if (stored.listify_autofill_enabled === false) return;
 
-        const catRes = await chrome.runtime.sendMessage({ action: 'get_my_tab_category' });
+        const catRes = await chrome.runtime?.sendMessage({ action: 'get_my_tab_category' });
         const cat = (catRes?.category || '').trim();
         if (!cat) return;
 
@@ -1878,7 +1878,7 @@
 
         window.__listify_fk_is_filling = true;
         try {
-            const result = await chrome.runtime.sendMessage({
+            const result = await chrome.runtime?.sendMessage({
                 action: 'fk_trigger_autofill_fk',
                 domCategory: cat,
                 autoTriggered: true,
@@ -1887,7 +1887,7 @@
                 window.__listify_fk_page_filled = true;
                 console.log('[LISTIFY FK] Auto-filling category:', result.category);
                 await autofill(result.template);
-                chrome.runtime.sendMessage({ action: 'record_template_usage', templateId: result.template._id });
+                chrome.runtime?.sendMessage({ action: 'record_template_usage', templateId: result.template._id });
             }
         } catch (e) {
             console.warn('[LISTIFY FK] Auto-fill error:', e);
@@ -1918,7 +1918,7 @@
     // 3. Initial check (handles hard refresh on a listing page)
     checkAndAutoFill();
 
-    chrome.runtime.onMessage.addListener((req, _sender, sendResponse) => {
+    chrome.runtime?.onMessage.addListener((req, _sender, sendResponse) => {
 
         if (req.action === 'fk_get_section_order') {
             // Runs only in the top frame (fk-autofill.js has window !== window.top guard)

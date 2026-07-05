@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (closeBtn) {
       closeBtn.style.display = "inline-flex";
       closeBtn.addEventListener("click", () => {
-        chrome.runtime.sendMessage({ action: "CLOSE_SIDEBAR" });
+        chrome.runtime?.sendMessage({ action: "CLOSE_SIDEBAR" });
       });
     }
   }
@@ -442,7 +442,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Check if a queue is already active and show/hide panels accordingly
   function bfRefreshActivePanel() {
-    chrome.storage.local.get(
+    chrome.storage?.local.get(
       ["listify_bulk_active", "listify_bulk_index", "listify_bulk_total"],
       (r) => {
         if (!r.listify_bulk_active) {
@@ -668,7 +668,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     await new Promise((resolve) =>
-      chrome.storage.local.set(
+      chrome.storage?.local.set(
         {
           listify_bulk_active: true,
           listify_bulk_queue: rowsToFill,
@@ -694,13 +694,13 @@ document.addEventListener("DOMContentLoaded", () => {
     bfRefreshActivePanel();
 
     // Tell background.js to start: fill current tab first, then open new tabs for remaining rows
-    chrome.runtime.sendMessage(
+    chrome.runtime?.sendMessage(
       { action: "bulk_start_new_tab", firstTabId: currentTab?.id || null },
       (res) => {
-        if (chrome.runtime.lastError || res?.ok === false) {
+        if (chrome.runtime?.lastError || res?.ok === false) {
           bfStatus(
             "Failed to start: " +
-              (res?.error || chrome.runtime.lastError?.message || "unknown"),
+              (res?.error || chrome.runtime?.lastError?.message || "unknown"),
             "var(--red)",
           );
           return;
@@ -735,7 +735,7 @@ document.addEventListener("DOMContentLoaded", () => {
             headers: authHeaders(),
           }).catch(() => {});
         } else {
-          chrome.storage.local.get(["listify_bulk_template_id"], (r) => {
+          chrome.storage?.local.get(["listify_bulk_template_id"], (r) => {
             if (r.listify_bulk_template_id) {
               fetch(`${API_URL}/${r.listify_bulk_template_id}/use`, {
                 method: "POST",
@@ -744,11 +744,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           });
         }
-        chrome.runtime.sendMessage({ action: "refresh_dashboard_stats" });
+        chrome.runtime?.sendMessage({ action: "refresh_dashboard_stats" });
       } else {
         if (res?.error === "Queue complete") {
           bfActiveStatus.textContent = "All listings done!";
-          chrome.runtime.sendMessage({ action: "refresh_dashboard_stats" });
+          chrome.runtime?.sendMessage({ action: "refresh_dashboard_stats" });
         } else {
           bfActiveStatus.textContent = "Error: " + (res?.error || "unknown");
         }
@@ -760,7 +760,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Stop bulk fill — signal background to abort, close duplicate tabs, and clear queue
   bfStopBtn.addEventListener("click", () => {
-    chrome.runtime.sendMessage({ action: "bulk_fill_stop" }, () => {
+    chrome.runtime?.sendMessage({ action: "bulk_fill_stop" }, () => {
       bfRefreshActivePanel();
     });
   });
@@ -1161,7 +1161,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (isAborted()) return; // user clicked Stop while fill was running
           exitFill();
 
-          if (chrome.runtime.lastError) {
+          if (chrome.runtime?.lastError) {
             slMsg("Content script error — refresh the page.", "var(--red)");
             return;
           }
@@ -1293,7 +1293,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function imCheckStatus() {
-    chrome.storage.local.get(["listify_img_status", "listify_img_count", "listify_img_error"], (r) => {
+    chrome.storage?.local.get(["listify_img_status", "listify_img_count", "listify_img_error"], (r) => {
       if (r.listify_img_status === "generating") imShowState("generating");
       else if (r.listify_img_status === "done")  imShowState("done",  { count: r.listify_img_count });
       else if (r.listify_img_status === "error") imShowState("error", { error: r.listify_img_error });
@@ -1304,9 +1304,9 @@ document.addEventListener("DOMContentLoaded", () => {
     imHistoryLoad.style.display  = "block";
     imHistoryEmpty.style.display = "none";
     imHistoryGrid.innerHTML      = "";
-    chrome.runtime.sendMessage({ action: "fetch_lisstify_generations" }, (res) => {
+    chrome.runtime?.sendMessage({ action: "fetch_lisstify_generations" }, (res) => {
       imHistoryLoad.style.display = "none";
-      if (chrome.runtime.lastError || !res?.ok) return;
+      if (chrome.runtime?.lastError || !res?.ok) return;
       const gens = Array.isArray(res.data) ? res.data : (res.data?.generations || []);
       if (!gens.length) { imHistoryEmpty.style.display = "block"; return; }
       const sorted = [...gens].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -1345,9 +1345,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!changes.listify_img_status) return;
     const newStatus = changes.listify_img_status.newValue;
     if (newStatus === "done") {
-      chrome.storage.local.get(["listify_img_count"], (r) => imShowState("done", { count: r.listify_img_count }));
+      chrome.storage?.local.get(["listify_img_count"], (r) => imShowState("done", { count: r.listify_img_count }));
     } else if (newStatus === "error") {
-      chrome.storage.local.get(["listify_img_error"], (r) => imShowState("error", { error: r.listify_img_error }));
+      chrome.storage?.local.get(["listify_img_error"], (r) => imShowState("error", { error: r.listify_img_error }));
     }
   });
 
@@ -1468,8 +1468,8 @@ document.addEventListener("DOMContentLoaded", () => {
       imGenerateBtn.textContent = "Generate & Save to Library";
       imShowState("generating");
       // Clear any previous result in storage so onChanged fires for the new run
-      await chrome.storage.local.remove(["listify_img_status", "listify_img_count", "listify_img_error"]);
-      chrome.runtime.sendMessage({
+      await chrome.storage?.local.remove(["listify_img_status", "listify_img_count", "listify_img_error"]);
+      chrome.runtime?.sendMessage({
         action:         "generate_image_start",
         imageBase64:    dataUrl,
         removeBg:       imRemoveBg.checked,
@@ -1505,7 +1505,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  chrome.storage.local.get(["listify_theme"], (result) => {
+  chrome.storage?.local.get(["listify_theme"], (result) => {
     applyTheme(result.listify_theme || "light");
   });
 
@@ -1514,7 +1514,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.documentElement.getAttribute("data-theme") || "light";
     const next = current === "dark" ? "light" : "dark";
     applyTheme(next);
-    chrome.storage.local.set({ listify_theme: next });
+    chrome.storage?.local.set({ listify_theme: next });
   });
 
   // ── Auto help popover ──
@@ -1555,7 +1555,7 @@ document.addEventListener("DOMContentLoaded", () => {
       : "Auto-fill is OFF — click to enable";
   }
 
-  chrome.storage.local.get(["listify_autofill_enabled"], (r) => {
+  chrome.storage?.local.get(["listify_autofill_enabled"], (r) => {
     // Default is ON (only false when explicitly turned off)
     applyAutoFillGlobal(r.listify_autofill_enabled !== false);
   });
@@ -1578,10 +1578,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       return;
     }
-    chrome.storage.local.get(["listify_autofill_enabled"], (r) => {
+    chrome.storage?.local.get(["listify_autofill_enabled"], (r) => {
       const current = r.listify_autofill_enabled !== false; // default true
       const next = !current;
-      chrome.storage.local.set({ listify_autofill_enabled: next });
+      chrome.storage?.local.set({ listify_autofill_enabled: next });
       applyAutoFillGlobal(next);
 
       // Show toast on the current page
@@ -1650,7 +1650,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ── Shared helpers for platform modules (fk-tab.js etc.) ──
   // fk-tab.js is loaded after popup.js and reads these via window.listifyShared.
   // getAuthToken() is a function so it always returns the current token value,
-  // even though authToken is set asynchronously after chrome.storage.local.get.
+  // even though authToken is set asynchronously after chrome.storage?.local.get.
   window.listifyShared = {
     getAuthToken: () => authToken,
     authHeaders: () => ({
@@ -1685,7 +1685,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
           if (res.ok) {
             const user = await res.json();
-            chrome.storage.local.set({ listify_user: user });
+            chrome.storage?.local.set({ listify_user: user });
             showMainUI(user);
           }
         } catch (_) {}
@@ -1697,7 +1697,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ── Bootstrap: check stored token, or pick up from frontend ──
-  chrome.storage.local.get(
+  chrome.storage?.local.get(
     ["listify_token", "listify_user"],
     async (result) => {
       if (result.listify_token) {
@@ -1711,7 +1711,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
           .then((r) => {
             if (r.ok) return r.json().then((user) => {
-              chrome.storage.local.set({ listify_user: user });
+              chrome.storage?.local.set({ listify_user: user });
               showMainUI(user);
             });
             if (r.status === 401 || r.status === 403) {
@@ -1746,7 +1746,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (res.ok) {
               const user = await res.json();
               authToken = frontendToken;
-              chrome.storage.local.set(
+              chrome.storage?.local.set(
                 {
                   listify_token: frontendToken,
                   listify_user: user,
@@ -1834,7 +1834,7 @@ document.addEventListener("DOMContentLoaded", () => {
               if (res.ok) {
                 const user = await res.json();
                 authToken = token;
-                chrome.storage.local.set(
+                chrome.storage?.local.set(
                   {
                     listify_token: token,
                     listify_user: user,
@@ -1940,7 +1940,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Fallback: derive chips from Meesho category click history
   function loadCategoryChipsFromSteps() {
-    chrome.storage.local.get(["listify_meesho_steps"], (result) => {
+    chrome.storage?.local.get(["listify_meesho_steps"], (result) => {
       const steps = result.listify_meesho_steps || [];
       if (steps.length === 0) {
         quickCatSection.style.display = "none";
@@ -1982,7 +1982,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function clearStoredAuth() {
-    chrome.storage.local.remove(["listify_token", "listify_user"]);
+    chrome.storage?.local.remove(["listify_token", "listify_user"]);
   }
 
   // ── Helper: auth headers ──
@@ -2076,10 +2076,10 @@ document.addEventListener("DOMContentLoaded", () => {
         target: { tabId: tabId, allFrames: true },
         files: ["content-script.js"],
       });
-      if (chrome.runtime.lastError) {
+      if (chrome.runtime?.lastError) {
         console.warn(
           "Script injection warning:",
-          chrome.runtime.lastError.message,
+          chrome.runtime?.lastError.message,
         );
       }
     } catch (e) {
@@ -2108,10 +2108,10 @@ document.addEventListener("DOMContentLoaded", () => {
         { action: "scan_form" },
         { frameId: 0 },
         (response) => {
-          if (chrome.runtime.lastError) {
+          if (chrome.runtime?.lastError) {
             console.warn(
               "[LISTIFY POPUP] Scan error:",
-              chrome.runtime.lastError.message,
+              chrome.runtime?.lastError.message,
             );
             setBusy(false);
             return status("Error: Refresh the page.", "red");
@@ -2387,7 +2387,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!_canAutoFill) {
         autoFillGlobalBtn.disabled = true;
         autoFillGlobalBtn.title = "Upgrade to Pro to enable Auto-fill";
-        chrome.storage.local.set({ listify_autofill_enabled: false });
+        chrome.storage?.local.set({ listify_autofill_enabled: false });
         applyAutoFillGlobal(false);
       } else {
         autoFillGlobalBtn.disabled = false;
@@ -2733,10 +2733,10 @@ document.addEventListener("DOMContentLoaded", () => {
         { action: "fill_form", data: template },
         { frameId: 0 },
         (response) => {
-          if (chrome.runtime.lastError) {
+          if (chrome.runtime?.lastError) {
             console.warn(
               "[LISTIFY POPUP] Fill error:",
-              chrome.runtime.lastError.message,
+              chrome.runtime?.lastError.message,
             );
             status("Error: content script disconnected. Retry.", "red");
             return;

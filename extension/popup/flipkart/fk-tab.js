@@ -233,7 +233,7 @@
     }
 
     // Listen for push from fk-fill.js — fires every time a field is captured
-    chrome.runtime.onMessage.addListener((msg) => {
+    chrome.runtime?.onMessage.addListener((msg) => {
         if (msg.action === 'fk_buffer_updated') {
             updateBufferUI(msg.count, msg.sectionCount);
         }
@@ -245,7 +245,7 @@
             if (!fkActiveTab?.id) return;
             try {
                 // background.js owns the storage — send directly with tabId
-                await chrome.runtime.sendMessage({ action: 'fk_clear_buffer', tabId: fkActiveTab.id });
+                await chrome.runtime?.sendMessage({ action: 'fk_clear_buffer', tabId: fkActiveTab.id });
                 updateBufferUI(0, 0);
                 fkSetStatus('Buffer cleared — fill sections again to recapture.', 'var(--muted)');
             } catch (_) {}
@@ -566,7 +566,7 @@
         // Tell fk-fill.js its tabId so it can set the storage key
         chrome.tabs.sendMessage(fkActiveTab.id, { action: 'fk_set_tab_id', tabId: fkActiveTab.id }).catch(() => {});
 
-        // Get detected category — content script checks sessionStorage then chrome.storage.local
+        // Get detected category — content script checks sessionStorage then chrome.storage?.local
         try {
             const res = await chrome.tabs.sendMessage(
                 fkActiveTab.id,
@@ -577,11 +577,11 @@
             fkBrand    = (res?.brand || '').trim();
         } catch (_) { fkCategory = ''; }
 
-        // Last resort: read tab-specific key from chrome.storage.local directly
+        // Last resort: read tab-specific key from chrome.storage?.local directly
         if (!fkCategory && fkActiveTab?.id) {
             try {
                 const key    = `listify_cat_${fkActiveTab.id}`;
-                const stored = await chrome.storage.local.get(key);
+                const stored = await chrome.storage?.local.get(key);
                 fkCategory   = (stored?.[key] || '').trim();
             } catch (_) {}
         }
@@ -754,7 +754,7 @@
                 );
                 showFkToast(fkActiveTab.id, `Template saved — ${allFields.length} fields`, 'success');
                 _savedInfo = { fieldCount: allFields.length, sectionCount: sections.length };
-                chrome.runtime.sendMessage({ action: 'fk_clear_buffer', tabId: fkActiveTab.id }).catch(() => {});
+                chrome.runtime?.sendMessage({ action: 'fk_clear_buffer', tabId: fkActiveTab.id }).catch(() => {});
                 updateBufferUI(0, 0);
                 closeFkSaveSection();
                 fkLoadTemplates();
