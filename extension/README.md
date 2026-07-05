@@ -9,6 +9,27 @@ AI listing autofill studio for Indian sellers by Iprix Media. This unpacked Mani
 3. Click **Load unpacked**
 4. Select this `listify` folder
 
+## Source layout
+
+Most files here are hand-edited directly and loaded as-is. `content-script.js` is
+the one exception: it is a **generated build output** bundled from modular
+source under [`src/content/`](src/content/):
+
+- `src/content/toast.js` — in-page toast notifications
+- `src/content/text-utils.js` — DOM label/selector extraction helpers
+- `src/content/category.js` — page category detection
+- `src/content/main.js` — everything else (sidebar, fill engine, FAB UI, Meesho library panel)
+
+After editing anything under `extension/src/`, rebuild before reloading the
+unpacked extension:
+
+```bash
+npm run extension:build
+```
+
+`npm run extension:dist` runs this automatically before minifying and zipping
+for the Chrome Web Store.
+
 ## Features
 
 - Save Current Form as Template — captures text, dropdown, chip, checkbox and image fields.

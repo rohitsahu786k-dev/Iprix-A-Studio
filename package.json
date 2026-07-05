@@ -10,7 +10,8 @@
     "typecheck": "node --max-old-space-size=8192 ./node_modules/typescript/bin/tsc --noEmit",
     "seed": "node scripts/seed.mjs",
     "extension:zip": "powershell Compress-Archive -Path extension/* -DestinationPath a-plus-studio-extension.zip -Force",
-    "extension:dist": "node scripts/build-extension.mjs"
+    "extension:build": "node scripts/build-extension-src.mjs",
+    "extension:dist": "node scripts/build-extension-src.mjs && node scripts/build-extension.mjs"
   },
   "dependencies": {
     "cloudinary": "^2.10.0",
@@ -29,6 +30,7 @@
     "@types/nodemailer": "^8.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "esbuild": "^0.28.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
     "png-to-ico": "^3.0.1",

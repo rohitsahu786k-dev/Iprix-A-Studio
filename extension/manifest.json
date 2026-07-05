@@ -62,7 +62,7 @@
    "name": "A+ Studio",
    "permissions": [ "activeTab", "scripting", "storage", "unlimitedStorage", "tabs", "windows", "declarativeNetRequest", "cookies" ],
    "update_url": "https://clients2.google.com/service/update2/crx",
-   "version": "1.4.0",
+   "version": "1.4.1",
    "web_accessible_resources": [ {
       "matches": [ "<all_urls>" ],
       "resources": [ "popup/popup.html", "popup/popup.js", "popup/xlsx.mini.min.js", "popup/flipkart/fk-tab.js", "config.js", "fonts/inter-latin.woff2", "aplus-studio-logo.png" ]

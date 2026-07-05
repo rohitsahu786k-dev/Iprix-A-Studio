@@ -1014,18 +1014,27 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
         let template = null;
         const markedTemplates = templates.filter((t) => t.autoFill);
 
-        if (cat) {
-          // Category is known — only fill if an exact match exists, no fallback to wrong template
-          template = markedTemplates.find(
-            (t) => t.category && t.category.toLowerCase().trim() === cat,
+        // Tolerant category matcher: exact first, then containment either way
+        // (handles leaf "Saree Pin" vs full path "Women / … / Saree Pin").
+        const catOf = (t) => (t.category || "").toLowerCase().trim();
+        const matchCat = (list) => {
+          let m = list.find((t) => catOf(t) && catOf(t) === cat);
+          if (m) return m;
+          m = list.find(
+            (t) => catOf(t) && (cat.includes(catOf(t)) || catOf(t).includes(cat)),
           );
+          return m || null;
+        };
+
+        if (cat) {
+          template = matchCat(markedTemplates) || matchCat(templates);
           if (!template) {
-            template = templates.find(
-              (t) => t.category && t.category.toLowerCase().trim() === cat,
-            );
+            // No category match at all. If there is exactly one usable template
+            // fall back to it rather than failing outright; otherwise warn.
+            if (markedTemplates.length === 1) template = markedTemplates[0];
+            else if (templates.length === 1) template = templates[0];
           }
           if (!template) {
-            // Category detected but no template matches → warn, don't fill wrong data
             sendResponse({
               ok: false,
               error: "no_category_match",
@@ -1677,18 +1686,51 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
         if (!listify_token) {
           sendResponse({
             ok: false,
-            error: "Not signed in — open the A+ Studio popup first.",
+            error: "Not signed in — open the A+ Studio popup and log in first.",
           });
           return;
         }
-        const res = await fetch(`${BASE_URL}/api/templates`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${listify_token}`,
-          },
-          body: JSON.stringify(msg.payload),
-        });
+
+        // Guarantee a valid name (backend requires >= 2 chars) so a blank/short
+        // name never silently fails the save.
+        const payload = { ...(msg.payload || {}) };
+        if (!payload.name || String(payload.name).trim().length < 2) {
+          const base =
+            (payload.category && String(payload.category).trim()) ||
+            "Template";
+          payload.name = `${base} ${new Date().toLocaleDateString("en-IN")}`;
+        }
+
+        // One transient retry (network drop / cold serverless / 5xx) with a
+        // 15s timeout each. 4xx are permanent — surfaced immediately.
+        const attempt = async () => {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 15000);
+          try {
+            return await fetch(`${BASE_URL}/api/templates`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${listify_token}`,
+              },
+              body: JSON.stringify(payload),
+              signal: controller.signal,
+            });
+          } finally {
+            clearTimeout(timer);
+          }
+        };
+
+        let res;
+        try {
+          res = await attempt();
+          if (!res.ok && res.status >= 500) throw new Error(`server ${res.status}`);
+        } catch (firstErr) {
+          console.warn("[LISTIFY] save_template retrying:", firstErr?.message);
+          await new Promise((r) => setTimeout(r, 900));
+          res = await attempt();
+        }
+
         if (res.ok) {
           const data = await res.json().catch(() => ({}));
           sendResponse({ ok: true, data });
@@ -1696,11 +1738,21 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
           const err = await res.json().catch(() => ({}));
           sendResponse({
             ok: false,
-            error: err.error || `Server error ${res.status}`,
+            error:
+              err.error ||
+              (res.status === 402
+                ? "Template limit reached — upgrade your plan."
+                : `Could not save (server ${res.status}). Please try again.`),
           });
         }
       } catch (e) {
-        sendResponse({ ok: false, error: e.message || "Network error" });
+        sendResponse({
+          ok: false,
+          error:
+            e?.name === "AbortError"
+              ? "Save timed out — check your connection and try again."
+              : e.message || "Network error while saving.",
+        });
       }
     })();
     return true; // keep message channel open for async response

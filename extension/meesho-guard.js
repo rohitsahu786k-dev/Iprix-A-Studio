@@ -65,7 +65,7 @@
         width: 100%; border: 1px solid #e9e9ec; border-radius: 10px; padding: 8px 10px;
         font-size: 12px; font-weight: 700; color: #211922; outline: none; background: #fff;
       }
-      .calc input:focus { border-color: ${ACCENT}; box-shadow: 0 0 0 3px rgba(230,0,35,0.1); }
+      .calc input:focus { border-color: ${ACCENT}; box-shadow: 0 0 0 3px rgba(79,70,229,0.12); }
       .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 8px; }
       .stat { background: #f7f7f8; border-radius: 12px; padding: 9px 11px; }
       .stat b { display: block; font-size: 13px; font-weight: 800; }

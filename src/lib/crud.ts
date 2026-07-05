@@ -44,6 +44,11 @@ export const templateSchema = z.object({
         value: z.any().optional(),
         selector: z.string().optional().default(""),
         inputType: z.string().optional().default("text"),
+        // Extension capture fields — kept so fill fidelity survives the round-trip.
+        type: z.string().optional().default(""),
+        id: z.string().optional().default(""),
+        name: z.string().optional().default(""),
+        placeholder: z.string().optional().default(""),
         required: z.boolean().optional().default(false),
         confidence: z.number().optional().default(0.7),
         groupName: z.string().optional().default("Listing fields"),

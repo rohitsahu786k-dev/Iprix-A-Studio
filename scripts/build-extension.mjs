@@ -16,7 +16,18 @@ const out = join("dist", "extension");
 
 rmSync("dist", { recursive: true, force: true });
 mkdirSync(out, { recursive: true });
-cpSync(src, out, { recursive: true, filter: (p) => !p.includes("_metadata") });
+// extension/src/** is modular dev-only source, already bundled into
+// extension/content-script.js by `npm run extension:build` (run before this
+// script via `extension:dist`) — never ship it, and never re-minify it here.
+cpSync(src, out, {
+  recursive: true,
+  filter: (p) => {
+    const norm = p.replaceAll("\\", "/");
+    if (norm.includes("_metadata")) return false;
+    if (norm === "extension/src" || norm.startsWith("extension/src/")) return false;
+    return true;
+  },
+});
 
 async function walk(dir) {
   for (const name of readdirSync(dir)) {

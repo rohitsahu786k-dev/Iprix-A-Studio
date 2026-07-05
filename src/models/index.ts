@@ -90,6 +90,11 @@ const templateSchema = new Schema(
         value: Schema.Types.Mixed,
         selector: String,
         inputType: String,
+        // Extension capture metadata (kept for high-fidelity autofill).
+        type: String,
+        id: String,
+        name: String,
+        placeholder: String,
         required: Boolean,
         confidence: Number,
         groupName: String,
