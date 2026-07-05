@@ -1,0 +1,66 @@
+# A+ Studio by Iprix Media - Complete Reference
+
+> Comprehensive documentation of A+ Studio features, technical architecture, schema integrations, extension capabilities, and marketplace automations.
+
+---
+
+## 1. Technical Overview
+
+### Web Platform
+- **Framework**: Next.js (App Router)
+- **Styling**: TailwindCSS, Vanilla CSS, Custom Monochrome Luxury Design
+- **Database**: MongoDB (Mongoose Schema)
+- **Security**: Stateless JSON Web Token cookie-based session management, isolated CSS scopes
+- **API Services**: Cloudinary for image processing, Resend/SMTP for trigger-based transactional emails
+
+### Chrome Extension (Manifest V3)
+- **Architecture**: Separated content scripts, background workers, and popup UI
+- **DOM Isolation**: Shadow DOM injection (`#aplus-floating-root`) prevents host website style conflicts on Meesho, Flipkart, and Amazon seller portals.
+- **Autofill Mechanism**: Auto-detects input fields, textareas, and select elements; matches with template queries; parses and fills target attributes with real-time feedback loops.
+
+---
+
+## 2. Product Features & Modules
+
+### AI Content Studio
+- Generate high-scoring product titles, bullet points, meta descriptions, and search terms.
+- Built-in character length limit enforcement for specific platforms.
+
+### Chrome Extension Autofill
+- Seamless floating action bar at the bottom of seller portal listing forms.
+- Interactive modal previews for template mapping validation before applying values.
+
+### PDF Label Analyser
+- Bulk PDF parser for shipping labels.
+- Automated carrier detection and split processing for Meesho and Flipkart labels.
+
+### Image Maker
+- Resizes, cleans, and optimizes product graphics to standard 1000x1000 pixels.
+- Background removal capability for professional catalogs.
+
+### Keyword Research
+- Analysis of seed terms to extract search volume and difficulty metrics.
+- Regional target suggestions based on Indian seasonal sales.
+
+---
+
+## 3. Subscription & Billing Plans
+
+### Billing Frequency
+- Subscriptions support both **Monthly** and **Yearly** billing cycles controlled globally.
+- Yearly subscriptions are discounted by up to 60% relative to monthly pricing.
+
+### Plan Tiers
+- **Free**: 5 templates, 5 lifetime AI-powered listings, Solo team, basic email support.
+- **Seller (₹99/mo)**: Unlimited templates, 100/mo AI-powered listings, 100 products, basic support.
+- **Growth (₹199/mo)**: Unlimited templates, 500/mo AI-powered listings, Unlimited products, Team of 2, Flipkart beta, standard support.
+- **Pro (₹299/mo)**: Unlimited templates, 1,500/mo AI-powered listings, Unlimited products, Team of 10, full AI content studio, priority support.
+- **Agency (₹799/mo)**: Unlimited templates, 10,000/mo AI-powered listings, Unlimited products, Team Unlimited, client workspaces, dedicated support.
+
+---
+
+## 4. Brand & Company Context
+- **Organization**: Iprix Media
+- **Service Name**: A+ Studio
+- **Support Contact**: WhatsApp (+91 6394423902), Email (info@iprixmedia.com)
+- **Office Location**: Udaipur, Rajasthan, India

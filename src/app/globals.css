@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+/*
+  A+ Studio — Pinterest-inspired light design system.
+
+  The whole codebase was originally written against the dark zinc palette
+  (bg-zinc-950 pages, zinc-900 cards, zinc-800 borders, indigo accents).
+  Instead of touching every class in every file, we remap the palettes here:
+
+  - zinc scale is INVERTED  → dark-theme markup renders as a clean light UI
+  - indigo scale → Pinterest red (brand accent)
+  - violet scale → warm coral/orange (gradient partner for the accent)
+
+  New code should keep using the same class names so everything stays coherent.
+*/
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a; /* Slate 900 */
+  --muted: #475569; /* Slate 600 */
+  --border: #e2e8f0; /* Slate 200 */
+  --soft: #f8fafc; /* Slate 50 */
+  --accent: #4f46e5; /* Indigo 600 */
+  --accent-dark: #3730a3; /* Indigo 800 */
+  --accent-glow: rgba(79, 70, 229, 0.12);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-be-vietnam);
+}
+
+@theme {
+  /* ---- zinc: inverted to a light neutral ramp ---- */
+  --color-zinc-50: #09090b;
+  --color-zinc-100: #0f172a;
+  --color-zinc-150: #1e293b;
+  --color-zinc-200: #1e293b;
+  --color-zinc-250: #334155;
+  --color-zinc-300: #334155;
+  --color-zinc-350: #475569;
+  --color-zinc-400: #475569;
+  --color-zinc-450: #64748b;
+  --color-zinc-500: #64748b;
+  --color-zinc-550: #334155;
+  --color-zinc-600: #475569;
+  --color-zinc-650: #64748b;
+  --color-zinc-700: #94a3b8;
+  --color-zinc-750: #cbd5e1;
+  --color-zinc-800: #e2e8f0;
+  --color-zinc-850: #f1f5f9;
+  --color-zinc-900: #f8fafc;
+  --color-zinc-950: #ffffff;
+
+  /* ---- indigo: premium indigo brand accent scale ---- */
+  --color-indigo-50: #f5f7ff;
+  --color-indigo-100: #e0e7ff;
+  --color-indigo-200: #c7d2fe;
+  --color-indigo-300: #a5b4fc;
+  --color-indigo-350: #818cf8;
+  --color-indigo-400: #818cf8;
+  --color-indigo-450: #6366f1;
+  --color-indigo-500: #4f46e5;
+  --color-indigo-550: #4338ca;
+  --color-indigo-600: #4338ca;
+  --color-indigo-650: #3730a3;
+  --color-indigo-700: #3730a3;
+  --color-indigo-750: #312e81;
+  --color-indigo-800: #312e81;
+  --color-indigo-900: #1e1b4b;
+  --color-indigo-950: #111827;
+
+  /* ---- violet: premium violet/purple partner for gradients ---- */
+  --color-violet-50: #faf5ff;
+  --color-violet-100: #f3e8ff;
+  --color-violet-200: #e9d5ff;
+  --color-violet-300: #d8b4fe;
+  --color-violet-400: #c084fc;
+  --color-violet-450: #a855f7;
+  --color-violet-500: #a855f7;
+  --color-violet-550: #9333ea;
+  --color-violet-600: #9333ea;
+  --color-violet-650: #7e22ce;
+  --color-violet-700: #7e22ce;
+  --color-violet-800: #6b21a8;
+  --color-violet-900: #581c87;
+  --color-violet-950: #0f172a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--background);
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-be-vietnam), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.heading {
+  letter-spacing: -0.03em;
+  color: inherit;
+}
+
+input,
+select,
+textarea {
+  border-color: var(--border);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--accent-glow) !important;
+}
+
+::selection {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e2e2e6;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c9c9cf;
+}
+
+/* Center all container elements globally */
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* Pinterest-style soft card shadow helpers */
+.shadow-pin {
+  box-shadow: 0 1px 3px rgba(20, 12, 20, 0.05), 0 8px 24px rgba(20, 12, 20, 0.06);
+}
+
+.shadow-pin-lg {
+  box-shadow: 0 2px 6px rgba(20, 12, 20, 0.06), 0 16px 40px rgba(20, 12, 20, 0.1);
+}
+
+/* Force button text contrast */
+.text-white, 
+button.text-white, 
+a.text-white,
+.bg-indigo-600,
+.bg-indigo-500,
+button[class*="bg-gradient"],
+a[class*="bg-gradient"],
+button[class*="bg-linear"],
+a[class*="bg-linear"] {
+  color: #ffffff !important;
+}
+
+button.text-white *,
+a.text-white * {
+  color: inherit;
+}
+

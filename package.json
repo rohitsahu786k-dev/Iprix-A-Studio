@@ -1,0 +1,39 @@
+{
+  "name": "a-plus-studio",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "node --max-old-space-size=8192 ./node_modules/typescript/bin/tsc --noEmit",
+    "seed": "node scripts/seed.mjs",
+    "extension:zip": "powershell Compress-Archive -Path extension/* -DestinationPath a-plus-studio-extension.zip -Force",
+    "extension:dist": "node scripts/build-extension.mjs"
+  },
+  "dependencies": {
+    "cloudinary": "^2.10.0",
+    "lucide-react": "^1.18.0",
+    "mongoose": "^9.7.0",
+    "next": "16.2.9",
+    "nodemailer": "^9.0.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/nodemailer": "^8.0.1",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.9",
+    "png-to-ico": "^3.0.1",
+    "sharp": "^0.35.3",
+    "tailwindcss": "^4",
+    "terser": "^5.48.0",
+    "typescript": "^5"
+  }
+}

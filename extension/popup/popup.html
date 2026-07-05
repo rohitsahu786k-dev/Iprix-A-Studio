@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A+ Studio</title>
+
+  <style>
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400 700;
+      font-display: swap;
+      src: url('../fonts/inter-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    /* ── Light theme (default) — Pinterest-inspired ── */
+    :root {
+      --bg: #ffffff;
+      --surface: #f7f7f8;
+      --surface2: #efeff1;
+      --border: rgba(20, 12, 20, 0.09);
+      --text: #211922;
+      --soft: #55555e;
+      --muted: #74747e;
+      --accent: #4f46e5;
+      --btn-text: #ffffff;
+      --accent-soft: rgba(79, 70, 229, 0.07);
+      --accent-border: rgba(79, 70, 229, 0.3);
+      --green: #0f9d63;
+      --red: #ef4444;
+      --gold: #d97706;
+      --warn-bg: rgba(217, 119, 6, 0.07);
+      --warn-border: rgba(217, 119, 6, 0.3);
+      --warn-text: #b45309;
+      --warn-head: #92400e;
+      --shadow: 0 1px 3px rgba(20, 12, 20, 0.05), 0 8px 24px rgba(20, 12, 20, 0.08);
+    }
+
+    /* ── Dark theme ── */
+    [data-theme="dark"] {
+      --bg: #09090b;
+      --surface: #18181b;
+      --surface2: #27272a;
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #f4f4f5;
+      --soft: #a1a1aa;
+      --muted: #71717a;
+      --accent: #6366f1;
+      --btn-text: #ffffff;
+      --accent-soft: rgba(99, 102, 241, 0.1);
+      --accent-border: rgba(99, 102, 241, 0.3);
+      --green: #10b981;
+      --red: #ef4444;
+      --gold: #f59e0b;
+      --warn-bg: rgba(245, 158, 11, 0.06);
+      --warn-border: rgba(245, 158, 11, 0.3);
+      --warn-text: #fbbf24;
+      --warn-head: #fbbf24;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Force form controls to inherit the Inter stack — browsers default them to system UI font */
+    input, select, textarea, button, optgroup, option, datalist {
+      font-family: inherit;
+      font-feature-settings: inherit;
+      letter-spacing: inherit;
+      -webkit-font-smoothing: inherit;
+      -moz-osx-font-smoothing: inherit;
+    }
+
+    body {
+      width: 100%;
+      padding: 16px;
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', Roboto, sans-serif;
+      font-feature-settings: 'cv11', 'ss01';
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      letter-spacing: -0.005em;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 13.5px;
+      line-height: 1.55;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    /* ── Shared section-title (used by Flipkart list headings) ── */
+    .section-title {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 8px;
+      letter-spacing: 0;
+    }
+
+    /* Shared micro-label style */
+    .micro-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0;
+    }
+
+    /* ── Brand Header ── */
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .brand-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px var(--accent-border);
+    }
+
+    .brand-icon img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .brand-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .brand-actions {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    /* Icon buttons */
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      padding: 5px;
+      border-radius: 6px;
+      display: flex;
+      transition: color 0.15s, background 0.15s;
+    }
+
+    .icon-btn:hover {
+      color: var(--text);
+      background: var(--surface2);
+    }
+
+    .icon-btn.active {
+      color: var(--accent);
+    }
+
+    /* Auto help popover */
+    .auto-info-popover {
+      position: fixed;
+      top: 56px;
+      right: 14px;
+      width: 288px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
+      padding: 12px 14px 14px;
+      font-size: 12px;
+      line-height: 1.55;
+      color: var(--text);
+      z-index: 9999;
+      display: none;
+    }
+
+    .auto-info-popover.open {
+      display: block;
+    }
+
+    .auto-info-popover::before {
+      content: "";
+      position: absolute;
+      top: -6px;
+      right: 48px;
+      width: 10px;
+      height: 10px;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      border-top: 1px solid var(--border);
+      transform: rotate(45deg);
+    }
+
+    .auto-info-title {
+      font-weight: 600;
+      font-size: 12.5px;
+      color: var(--text);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .auto-info-close {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+      padding: 0 2px;
+    }
+
+    .auto-info-close:hover {
+      color: var(--text);
+    }
+
+    .auto-info-popover p {
+      margin: 0 0 8px;
+      color: var(--muted);
+    }
+
+    .auto-info-popover ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .auto-info-popover li {
+      margin-bottom: 4px;
+    }
+
+    .auto-info-popover b {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .auto-info-popover .pill-demo {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      margin: 0 1px;
+      vertical-align: baseline;
+    }
+    .auto-info-popover .pill-on {
+      background: var(--accent);
+      color: #fff;
+    }
+    .auto-info-popover .pill-off {
+      background: var(--surface2);
+      color: var(--muted);
+      border: 1px dashed var(--border);
+    }
+
+    /* Global Auto toggle — sits in the header beside theme toggle.
+       Styled to mirror per-template .btn-auto-toggle ON/OFF states. */
+    .global-auto-btn {
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      color: #fff;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: -0.005em;
+      cursor: pointer;
+      transition: all 0.15s;
+      height: 26px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      box-shadow: 0 1px 3px rgba(229, 90, 43, 0.25);
+    }
+
+    .global-auto-btn::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #fff;
+      margin-right: 6px;
+      opacity: 1;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+      transition: all 0.15s;
+    }
+
+    .global-auto-btn:hover {
+      filter: brightness(1.05);
+    }
+
+    .global-auto-btn.off {
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      color: var(--muted);
+      opacity: 0.75;
+      box-shadow: none;
+    }
+
+    .global-auto-btn.off::before {
+      background: var(--muted);
+      opacity: 0.6;
+      box-shadow: none;
+    }
+
+    .global-auto-btn.off:hover {
+      border-style: solid;
+      border-color: var(--accent);
+      color: var(--accent);
+      opacity: 1;
+    }
+
+    .global-auto-btn.off:hover::before {
+      background: var(--accent);
+      opacity: 0.6;
+    }
+
+    /* ── Auth Section ── */
+    #authSection {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 20px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .auth-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--accent-soft);
+      border: 1px solid var(--accent-border);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+    }
+
+    .auth-icon svg {
+      width: 22px;
+      height: 22px;
+      color: var(--accent);
+    }
+
+    .auth-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .auth-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .btn-signin {
+      width: 100%;
+      padding: 10px;
+      background: var(--accent);
+      color: var(--btn-text);
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-signin:hover {
+      opacity: 0.92;
+    }
+
+    .btn-signin:active {
+      transform: scale(0.98);
+    }
+
+    .btn-signup-link {
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .btn-signup-link a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-signup-link a:hover {
+      text-decoration: underline;
+    }
+
+    .login-error {
+      display: none;
+      background: rgba(220, 38, 38, 0.08);
+      border: 1px solid rgba(220, 38, 38, 0.2);
+      color: var(--red);
+      font-size: 11.5px;
+      border-radius: 6px;
+      padding: 7px 10px;
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    /* ── Main Section ── */
+    #mainSection {
+      display: none;
+    }
+
+    .user-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--accent-soft);
+      border: 1px solid var(--accent-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .user-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      letter-spacing: -0.005em;
+    }
+
+    .user-email {
+      font-size: 11.5px;
+      color: var(--muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .btn-logout {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-logout:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      width: 100%;
+      padding: 11px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13.5px;
+      letter-spacing: -0.005em;
+      transition: opacity 0.15s, transform 0.1s;
+      margin-bottom: 10px;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--btn-text);
+    }
+
+    .btn-secondary {
+      background: var(--green);
+      color: white;
+    }
+
+    /* ── Template list ── */
+    .section h3 {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 8px;
+      letter-spacing: 0;
+    }
+
+    .template-list {
+      list-style: none;
+      max-height: 190px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .template-list::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .template-list::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    .template-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow);
+      transition: border-color 0.15s;
+    }
+
+    .template-item:hover {
+      border-color: var(--accent-border);
+    }
+
+    .template-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .template-name {
+      font-weight: 600;
+      color: var(--text);
+      font-size: 13px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: block;
+      letter-spacing: -0.005em;
+    }
+
+    .template-cat {
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 1px 8px;
+      border-radius: 20px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid var(--accent-border);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      letter-spacing: 0;
+    }
+
+    .template-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .btn-fill {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid var(--accent-border);
+      padding: 4px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      height: 26px;
+      letter-spacing: -0.005em;
+    }
+
+    .btn-fill:hover {
+      background: var(--accent);
+      color: var(--btn-text);
+      border-color: var(--accent);
+    }
+
+    .btn-delete {
+      background: none;
+      color: var(--muted);
+      border: none;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: color 0.15s;
+      height: 26px;
+    }
+
+    .btn-delete:hover {
+      color: var(--red);
+    }
+
+    /* Auto-fill toggle button per template */
+    .btn-autofill {
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: -0.005em;
+      line-height: 1;
+      color: var(--muted);
+      transition: all 0.15s;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 26px;
+      height: 26px;
+      white-space: nowrap;
+      opacity: 0.75;
+    }
+
+    .btn-auto-toggle::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--muted);
+      margin-right: 6px;
+      opacity: 0.6;
+      transition: all 0.15s;
+    }
+
+    .btn-autofill:hover {
+      border-style: solid;
+      border-color: var(--accent);
+      color: var(--accent);
+      opacity: 1;
+    }
+
+    .btn-auto-toggle:hover::before {
+      background: var(--accent);
+      opacity: 0.6;
+    }
+
+    .btn-autofill.active {
+      background: var(--accent);
+      border-style: solid;
+      border-color: var(--accent);
+      color: #fff;
+      opacity: 1;
+      box-shadow: 0 1px 3px rgba(229, 90, 43, 0.25);
+    }
+
+    .btn-auto-toggle.active::before {
+      background: #fff;
+      opacity: 1;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-autofill.active:hover {
+      background: var(--accent);
+      color: #fff;
+      filter: brightness(1.05);
+    }
+
+    .btn-autofill:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* ── Save section inputs ── */
+    .form-input {
+      width: 100%;
+      padding: 9px 12px;
+      margin-bottom: 9px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
+      box-shadow: var(--shadow);
+    }
+
+    .form-input::placeholder {
+      color: var(--muted);
+    }
+
+    .form-input:focus {
+      border-color: var(--accent);
+    }
+
+    #status {
+      margin-top: 8px;
+      font-size: 11.5px;
+      color: var(--muted);
+      text-align: center;
+      min-height: 16px;
+    }
+
+    /* ── Mismatch Warning ── */
+    #mismatchWarning {
+      display: none;
+      margin-top: 9px;
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+      border-left: 3px solid var(--warn-border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 12px;
+    }
+
+    #mismatchWarning .warn-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 700;
+      color: var(--warn-head);
+      margin-bottom: 5px;
+      font-size: 12px;
+    }
+
+    #mismatchWarning .warn-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--warn-head);
+      padding: 0;
+      line-height: 1;
+    }
+
+    #mismatchWarning .warn-sub {
+      color: var(--warn-text);
+      margin-bottom: 5px;
+      font-size: 11px;
+    }
+
+    #mismatchWarning .warn-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 90px;
+      overflow-y: auto;
+    }
+
+    #mismatchWarning .warn-list li {
+      padding: 3px 0 3px 12px;
+      position: relative;
+      color: var(--warn-text);
+      border-bottom: 1px dashed var(--warn-border);
+      font-size: 11px;
+    }
+
+    #mismatchWarning .warn-list li:last-child {
+      border-bottom: none;
+    }
+
+    #mismatchWarning .warn-list li::before {
+      content: '\2022';
+      position: absolute;
+      left: 2px;
+      color: var(--warn-border);
+    }
+
+    #mismatchWarning .warn-filled {
+      margin-top: 5px;
+      font-size: 11px;
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    /* ── Quick Category Chips ── */
+    .quick-cat-section {
+      margin-bottom: 8px;
+    }
+
+    .quick-cat-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 5px;
+      margin-bottom: 5px;
+    }
+
+    .quick-cat-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      white-space: nowrap;
+      min-width: 44px;
+      padding-top: 3px;
+      letter-spacing: 0;
+    }
+
+    .quick-cat-chips {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--soft);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+      line-height: 1.6;
+      letter-spacing: 0;
+    }
+
+    .chip:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .chip.active {
+      background: var(--accent-soft);
+      border-color: var(--accent-border);
+      color: var(--accent);
+    }
+
+    /* ── Platform select (native, styled) ── */
+    .platform-select {
+      flex: 1;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      padding: 8px 32px 8px 12px;
+      background-color: var(--surface);
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888885' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      letter-spacing: -0.005em;
+      transition: border-color 0.15s;
+      outline: none;
+    }
+
+    .platform-select:hover,
+    .platform-select:focus {
+      border-color: var(--accent-border);
+    }
+
+    .platform-select option {
+      color: var(--text);
+      background: var(--surface);
+      font-weight: 500;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Brand -->
+  <div class="brand">
+    <div class="brand-left">
+      <div class="brand-icon">
+        <img src="../aplus-studio-logo.png" alt="A+ Studio" />
+      </div>
+      <span class="brand-name">A+ Studio</span>
+    </div>
+    <div class="brand-actions">
+      <!-- How Auto works -->
+      <button class="icon-btn auto-info-btn" id="autoInfoBtn" title="How does Auto work?" aria-label="Auto help">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+      </button>
+      <!-- Global auto-fill toggle -->
+      <button class="global-auto-btn" id="autoFillGlobalBtn" title="Auto-fill is ON">Auto</button>
+      <!-- Theme toggle -->
+      <button class="icon-btn" id="themeToggleBtn" title="Toggle theme">
+        <svg id="themeIconSun" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          style="display:none">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+        </svg>
+        <svg id="themeIconMoon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+      </button>
+      <!-- Close button (only visible when in iframe sidebar) -->
+      <button class="icon-btn" id="closeSidebarBtn" title="Close sidebar" style="display:none; margin-left: 4px;">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Auto help popover -->
+  <div class="auto-info-popover" id="autoInfoPopover" role="dialog" aria-labelledby="autoInfoTitle">
+    <div class="auto-info-title" id="autoInfoTitle">
+      <span>How Auto works</span>
+      <button class="auto-info-close" id="autoInfoClose" aria-label="Close">×</button>
+    </div>
+    <p>
+      <span class="pill-demo pill-on">● Auto</span> on a template means it will
+      auto-fill whenever you open a form in that category.
+    </p>
+    <ul>
+      <li><b>One per category.</b> Turning Auto on for a template turns it off for others in the same category.</li>
+      <li><b>Fill</b> (green button) always fills the form manually — Auto state doesn't affect it.</li>
+      <li>The top-right <span class="pill-demo pill-on">● Auto</span> is the global switch — turn it off to disable all auto-fills.</li>
+      <li>Single template in a category? You can still toggle Auto off — <span class="pill-demo pill-off">○ Auto</span> means it won't auto-fill.</li>
+    </ul>
+  </div>
+
+  <!-- ── NOT SIGNED IN ── -->
+  <div id="authSection">
+    <div class="auth-icon">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+      </svg>
+    </div>
+    <div class="auth-title">Sign in to A+ Studio</div>
+    <div class="auth-sub">Log in with your Iprix Media account to get started.</div>
+    <button id="signInBtn" class="btn-signin">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+      </svg>
+      Sign in with A+ Studio
+    </button>
+    <div class="btn-signup-link">
+      Don't have an account? <a id="signUpLink">Sign up</a>
+    </div>
+    <div id="extLoginError" class="login-error"></div>
+  </div>
+
+  <style>
+    @keyframes bfpulse{0%,100%{opacity:1}50%{opacity:0.4}}
+    /* Flipkart template detail table rows */
+    .fk-detail-table tr:hover td { background: var(--accent-soft); }
+    .tab-btn{flex:1;padding:7px 0;border:none;border-radius:6px;font-size:12.5px;font-weight:600;cursor:pointer;background:transparent;color:var(--muted);transition:all .15s;letter-spacing:-0.005em;}
+    .tab-btn.tab-active{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08);}
+    .tab-btn:hover:not(.tab-active){color:var(--soft);}
+    /* Dark mode: force native select/option to use theme colours */
+    [data-theme="dark"] select { color-scheme: dark; color: var(--text); background-color: var(--surface); }
+    [data-theme="dark"] select option { color: var(--text); background-color: var(--surface); }
+    #imHistoryGrid::-webkit-scrollbar{width:4px;}
+    #imHistoryGrid::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+  </style>
+
+  <!-- ── MAIN APP SECTION ── -->
+  <div id="mainSection">
+
+    <!-- User bar -->
+    <div class="user-bar">
+      <div class="user-info">
+        <div class="user-avatar" id="userAvatar">?</div>
+        <div>
+          <div class="user-name" id="userDisplayName">-</div>
+          <div class="user-email" id="userDisplayEmail">-</div>
+        </div>
+      </div>
+      <button class="btn-logout" id="logoutBtn">Sign out</button>
+    </div>
+
+    <!-- ── Platform selector ── -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <label for="platformSelect" style="font-size:12px;font-weight:500;color:var(--muted);">Platform</label>
+      <select id="platformSelect" class="platform-select">
+        <option value="meesho">Meesho</option>
+        <option value="flipkart">Flipkart</option>
+      </select>
+    </div>
+
+    <!-- ── Platform mismatch warning ── -->
+    <div id="platformMismatch" style="display:none;margin-bottom:10px;padding:8px 10px;background:#fff7ed;border:1px solid #fdba74;border-radius:8px;font-size:11px;color:#9a3412;line-height:1.4;">
+      <strong>Heads up:</strong> <span id="platformMismatchText"></span>
+    </div>
+
+    <!-- ── Tab switcher ── -->
+    <div style="display:flex;gap:4px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:3px;margin-bottom:12px;">
+      <button id="tabTemplates" class="tab-btn tab-active">Templates</button>
+      <button id="tabStudioTools" class="tab-btn">Studio</button>
+      <button id="tabBulk" class="tab-btn">Bulk Fill</button>
+      <button id="tabSmartListing" class="tab-btn">Smart Listing</button>
+      <button id="tabImageMaker" class="tab-btn">Images</button>
+    </div>
+
+    <!-- ═══════════ TAB: TEMPLATES ═══════════ -->
+    <div id="tabTemplatesContent">
+
+      <!-- Capture -->
+      <div class="section" id="captureSection">
+        <button id="captureBtn" class="btn btn-primary">Save Current Form as Template</button>
+      </div>
+
+      <!-- Save Confirmation -->
+      <div class="section" id="saveSection" style="display:none">
+        <input type="text" id="templateNameInput" class="form-input" placeholder="Template name" />
+        <input type="text" id="categoryInput" class="form-input" placeholder="Category (optional)" autocomplete="off"
+          list="categoryDatalist" />
+        <datalist id="categoryDatalist"></datalist>
+        <div id="saveCatChips" style="display:none; flex-wrap:wrap; gap:4px; margin-bottom:9px; margin-top:4px;"></div>
+        <div style="display:flex; gap:6px;">
+          <button id="confirmSaveBtn" class="btn btn-secondary" style="margin-bottom:0">Save</button>
+          <button id="cancelSaveBtn" class="btn"
+            style="margin-bottom:0; background:var(--surface2); color:var(--soft); border:1px solid var(--border)">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Templates list -->
+      <div class="section" id="listSection">
+        <h3>Saved Templates</h3>
+        <div class="quick-cat-section" id="quickCatSection" style="display:none">
+          <div class="quick-cat-row" id="recentCatRow" style="display:none">
+            <span class="quick-cat-label">Recent</span>
+            <div class="quick-cat-chips" id="recentCatChips"></div>
+          </div>
+        </div>
+        <div id="loadingMsg" class="status-msg"
+          style="color:var(--muted); font-size:12px; text-align:center; padding:10px 0">Loading templates...</div>
+        <div id="recentContainer" style="display:none; margin-bottom: 14px;">
+          <h4 style="font-size:11.5px;font-weight:600;color:var(--accent);margin-bottom:6px;letter-spacing:0;">Recently Used</h4>
+          <ul id="recentTemplateList" class="template-list" style="max-height: none;"></ul>
+        </div>
+        <div id="mostUsedContainer" style="display:none; margin-bottom: 14px;">
+          <h4 style="font-size:11.5px;font-weight:600;color:#b8890a;margin-bottom:6px;letter-spacing:0;">Most Used</h4>
+          <ul id="mostUsedTemplateList" class="template-list" style="max-height: none;"></ul>
+        </div>
+        <div id="allContainer" style="display:none;">
+          <h4 id="allTitle" style="font-size:11.5px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:0;">Most Used Templates</h4>
+          <ul id="templateList" class="template-list"></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ TAB: BULK FILL ═══════════ -->
+    <!-- TAB: STUDIO TOOLS -->
+    <div id="tabStudioToolsContent" style="display:none;">
+      <div style="display:grid;gap:8px;margin-bottom:12px;">
+        <button id="studioAuditBtn" class="btn btn-primary" style="margin-bottom:0;">Scan Fields &amp; Score Listing</button>
+        <button id="studioDraftBtn" class="btn" style="margin-bottom:0;background:var(--surface);color:var(--soft);border:1px solid var(--border);">Save Local Draft</button>
+      </div>
+
+      <div id="studioScoreCard" style="display:none;margin-bottom:12px;border:1px solid var(--border);border-radius:10px;background:var(--surface);padding:12px;box-shadow:var(--shadow);">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;">
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:0;">Listing score</div>
+            <div id="studioScoreLabel" style="font-size:24px;font-weight:800;color:var(--accent);line-height:1.1;">--</div>
+          </div>
+          <div id="studioPlatformPill" style="font-size:10.5px;font-weight:700;color:var(--text);background:var(--surface2);border:1px solid var(--border);border-radius:99px;padding:4px 8px;">Unknown</div>
+        </div>
+        <div id="studioScoreSummary" style="font-size:11.5px;color:var(--muted);line-height:1.5;"></div>
+      </div>
+
+      <div style="border:1px solid var(--border);border-radius:10px;background:var(--surface);padding:12px;margin-bottom:12px;box-shadow:var(--shadow);">
+        <div style="font-size:11.5px;font-weight:700;color:var(--text);margin-bottom:8px;">SKU Generator</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;">
+          <input id="studioSkuBrand" class="form-input" style="margin-bottom:0;" placeholder="Brand" />
+          <input id="studioSkuCategory" class="form-input" style="margin-bottom:0;" placeholder="Category" />
+          <input id="studioSkuColor" class="form-input" style="margin-bottom:0;" placeholder="Color" />
+          <input id="studioSkuSize" class="form-input" style="margin-bottom:0;" placeholder="Size" />
+        </div>
+        <button id="studioSkuBtn" class="btn btn-secondary" style="margin-bottom:8px;">Generate SKU</button>
+        <div id="studioSkuOutput" style="display:none;font-size:12px;font-weight:700;color:var(--text);background:var(--surface2);border:1px dashed var(--border);border-radius:8px;padding:8px;word-break:break-all;"></div>
+      </div>
+
+      <div style="border:1px solid var(--border);border-radius:10px;background:var(--surface);padding:12px;box-shadow:var(--shadow);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-size:11.5px;font-weight:700;color:var(--text);">Detected Fields</span>
+          <span id="studioFieldCount" style="font-size:10.5px;font-weight:700;color:var(--muted);">0</span>
+        </div>
+        <div id="studioFieldList" style="max-height:190px;overflow:auto;display:grid;gap:6px;font-size:11px;color:var(--muted);"></div>
+      </div>
+
+      <div id="studioStatus" style="font-size:11.5px;color:var(--muted);text-align:center;margin-top:8px;min-height:16px;"></div>
+    </div>
+
+    <div id="tabBulkContent" style="display:none;">
+
+      <!-- Active queue progress (shown when filling) -->
+      <div id="bfActivePanel" style="display:none; background:var(--accent-soft); border:1px solid var(--accent-border); border-radius:10px; padding:12px 14px; margin-bottom:12px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+          <div style="display:flex; align-items:center; gap:7px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--accent);animation:bfpulse 1s infinite;flex-shrink:0;"></div>
+            <span style="font-size:12px;font-weight:700;color:var(--text);">Bulk Fill Running</span>
+          </div>
+          <button id="bfStopBtn" style="font-size:10px;padding:2px 8px;border-radius:5px;border:1px solid var(--accent-border);background:none;color:var(--accent);cursor:pointer;font-weight:600;">Stop</button>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span style="font-size:12px;color:var(--soft);">Row <strong id="bfCurRow" style="color:var(--accent);">1</strong> of <strong id="bfTotRows" style="color:var(--text);">?</strong></span>
+          <span id="bfActiveStatus" style="font-size:11px;color:var(--muted);">Ready</span>
+        </div>
+        <div style="height:5px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-bottom:10px;">
+          <div id="bfProgressBar" style="height:100%;width:0%;background:var(--accent);border-radius:99px;transition:width 0.3s;"></div>
+        </div>
+        <button id="bfFillNextBtn" class="btn btn-primary" style="margin-bottom:0;font-size:12px;padding:8px;">
+          ⚡ Fill This Form &amp; Next
+        </button>
+      </div>
+
+      <!-- Setup UI (shown when no queue active) -->
+      <div id="bfSetupPanel">
+
+        <!-- Step 1: Select template -->
+        <div style="margin-bottom:12px;">
+          <label style="font-size:11.5px;font-weight:500;color:var(--muted);display:block;margin-bottom:6px;letter-spacing:0;">1. Select Template</label>
+          <select id="bfTemplateSelect" style="width:100%;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--text);outline:none;cursor:pointer;">
+            <option value="">— Choose a template —</option>
+          </select>
+        </div>
+
+        <!-- Step 2: Number of forms -->
+        <div id="bfFormCountRow" style="display:none; margin-bottom:12px;">
+          <label style="font-size:11.5px;font-weight:500;color:var(--muted);display:block;margin-bottom:6px;letter-spacing:0;">2. How many forms to fill?</label>
+          <input type="number" id="bfFormCountInput" min="1" placeholder="e.g. 10" style="width:100%;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--text);outline:none;" />
+          <div style="font-size:10px;color:var(--muted);margin-top:5px;line-height:1.4;">Excel will have this many rows, pre-filled with your template data. Edit per row then upload.</div>
+        </div>
+
+        <!-- Step 3: Download template Excel -->
+        <div id="bfDownloadRow" style="display:none; margin-bottom:12px;">
+          <label style="font-size:11.5px;font-weight:500;color:var(--muted);display:block;margin-bottom:6px;letter-spacing:0;">3. Download Excel Template</label>
+          <button id="bfDownloadBtn" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--soft);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Download .xlsx Template
+          </button>
+        </div>
+
+        <!-- Step 4: Upload filled Excel -->
+        <div id="bfUploadRow" style="display:none; margin-bottom:12px;">
+          <label style="font-size:11.5px;font-weight:500;color:var(--muted);display:block;margin-bottom:6px;letter-spacing:0;">4. Upload Filled Excel</label>
+          <input type="file" id="bfFileInput" accept=".xlsx,.xls,.csv" style="display:none;" />
+          <button id="bfUploadBtn" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--soft);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+            Upload Excel
+          </button>
+          <div id="bfRowsInfo" style="display:none; margin-top:6px; font-size:11px; color:var(--green); font-weight:600; text-align:center;"></div>
+        </div>
+
+        <!-- Step 5: Start -->
+        <div id="bfStartRow" style="display:none;">
+          <div id="bfSummary" style="font-size:11px;color:var(--muted);margin-bottom:8px;padding:8px 10px;background:var(--surface2);border-radius:7px;border:1px solid var(--border);"></div>
+          <button id="bfStartBtn" class="btn btn-primary" style="margin-bottom:0;">
+            ⚡ Start Bulk Fill
+          </button>
+        </div>
+
+      </div>
+      <div id="bfStatus" style="font-size:11px;color:var(--muted);text-align:center;margin-top:8px;min-height:14px;"></div>
+    </div>
+
+    <!-- ═══════════ TAB: SMART LISTING ═══════════ -->
+    <div id="tabSmartListingContent" style="display:none;">
+
+      <!-- Compulsory: Smart Listing dropdown -->
+      <div style="margin-bottom:12px;">
+        <label style="font-size:11.5px;font-weight:600;color:var(--muted);display:block;margin-bottom:6px;letter-spacing:0;">1. Smart Listing</label>
+        <select id="slSelect" style="width:100%;padding:8px 32px 8px 10px;background-color:var(--surface);background-image:url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888885' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>\");background-repeat:no-repeat;background-position:right 10px center;appearance:none;-webkit-appearance:none;border:1px solid var(--border);border-radius:8px;font-size:12.5px;font-weight:500;color:var(--text);cursor:pointer;outline:none;font-family:inherit;">
+          <option value="">— Choose a smart listing —</option>
+        </select>
+      </div>
+
+      <!-- Optional: pick a specific product -->
+      <div id="slTitleRow" style="display:none; margin-bottom:12px;">
+        <label style="font-size:11.5px;font-weight:600;color:var(--muted);display:block;margin-bottom:6px;letter-spacing:0;">
+          2. Pick a specific product <span style="font-weight:500;color:var(--soft);font-size:10.5px;">(optional)</span>
+        </label>
+        <select id="slTitleSelect" style="width:100%;padding:8px 32px 8px 10px;background-color:var(--surface);background-image:url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888885' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>\");background-repeat:no-repeat;background-position:right 10px center;appearance:none;-webkit-appearance:none;border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--text);cursor:pointer;outline:none;font-family:inherit;">
+        </select>
+      </div>
+
+      <!-- Progress bar -->
+      <div id="slProgressWrap" style="display:none; margin-bottom:10px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+          <span id="slProgressLabel" style="font-size:11px;color:var(--soft);font-weight:500;">Product 1 of 5</span>
+          <span id="slProgressCount" style="font-size:10.5px;color:var(--muted);font-weight:500;">0 / 5 filled</span>
+        </div>
+        <div style="height:5px;background:var(--surface2);border-radius:99px;overflow:hidden;">
+          <div id="slProgressBar" style="height:100%;width:0%;background:var(--accent);border-radius:99px;transition:width 0.3s;"></div>
+        </div>
+      </div>
+
+      <!-- Fill button -->
+      <button id="slFillBtn" disabled style="width:100%;padding:11px;border:none;border-radius:8px;background:var(--accent);color:#fff;font-size:13.5px;font-weight:600;cursor:pointer;letter-spacing:-0.005em;font-family:inherit;transition:opacity 0.15s, transform 0.1s;margin-bottom:8px;opacity:0.5;">
+        Fill Product 1
+      </button>
+
+      <!-- Reset link (shown after first fill or when all done) -->
+      <div id="slResetRow" style="display:none; text-align:center; margin-bottom:8px;">
+        <button id="slResetBtn" style="background:none;border:none;color:var(--muted);font-size:11px;font-weight:500;cursor:pointer;text-decoration:underline;font-family:inherit;padding:4px 8px;">
+          ↻ Reset to Product 1
+        </button>
+      </div>
+
+      <!-- Empty state -->
+      <div id="slEmptyState" style="display:none;text-align:center;padding:24px 12px;color:var(--muted);font-size:12px;line-height:1.7;">
+        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display:block;margin:0 auto 10px;opacity:0.35;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>
+        No smart listings yet.<br>
+        Create one at <strong>aplusstudio.iprixmedia.com/dashboard/smart-listings</strong>
+      </div>
+
+      <!-- Status -->
+      <div id="slStatus" style="font-size:11.5px;text-align:center;margin-top:6px;min-height:16px;color:var(--muted);"></div>
+    </div>
+
+    <!-- ═══════════ TAB: IMAGE MAKER ═══════════ -->
+    <div id="tabImageMakerContent" style="display:none;">
+
+      <!-- Drop / click upload area -->
+      <div id="imDropArea" style="border:2px dashed var(--border);border-radius:10px;text-align:center;cursor:pointer;margin-bottom:12px;transition:border-color 0.15s;background:var(--surface2);overflow:hidden;">
+        <input type="file" id="imFileInput" accept="image/jpeg,image/png,image/webp" style="display:none;">
+
+        <!-- Idle state -->
+        <div id="imDropIdle" style="padding:20px 14px;">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display:block;margin:0 auto 7px;color:var(--muted);opacity:0.55;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+          <div style="font-size:12px;font-weight:600;color:var(--soft);">Click or drop product image</div>
+          <div style="font-size:10.5px;color:var(--muted);margin-top:3px;">JPG · PNG · WEBP</div>
+        </div>
+
+        <!-- Selected state -->
+        <div id="imDropSelected" style="display:none;padding:10px 12px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <img id="imDropPreview" style="width:52px;height:52px;border-radius:6px;object-fit:cover;flex-shrink:0;border:1px solid var(--border);background:#fff;" src="" alt="">
+            <div style="flex:1;min-width:0;text-align:left;">
+              <div id="imFileName" style="font-size:11px;color:var(--text);font-weight:600;word-break:break-all;line-height:1.35;margin-bottom:6px;"></div>
+              <div style="display:flex;gap:5px;">
+                <button id="imChangeBtn" style="font-size:11px;padding:3px 9px;border-radius:5px;border:1px solid var(--border);background:var(--surface);color:var(--soft);cursor:pointer;font-family:inherit;">Change</button>
+                <button id="imClearBtn" style="font-size:11px;padding:3px 9px;border-radius:5px;border:1px solid rgba(220,38,38,0.25);background:rgba(220,38,38,0.06);color:#dc2626;cursor:pointer;font-family:inherit;">✕ Clear</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Options (shown once file is picked) -->
+      <div id="imOptions" style="display:none;margin-bottom:12px;border:1px solid var(--border);border-radius:9px;overflow:hidden;">
+        <label style="display:flex;align-items:center;gap:9px;cursor:pointer;padding:9px 12px;border-bottom:1px solid var(--border);">
+          <input type="checkbox" id="imRemoveBg" checked style="accent-color:var(--accent);width:14px;height:14px;cursor:pointer;flex-shrink:0;">
+          <div>
+            <div style="font-size:12.5px;font-weight:600;color:var(--text);">Remove Background</div>
+            <div style="font-size:10.5px;color:var(--muted);">White bg → lower Meesho shipping weight</div>
+          </div>
+        </label>
+        <label style="display:flex;align-items:center;gap:9px;cursor:pointer;padding:9px 12px;border-bottom:1px solid var(--border);">
+          <input type="checkbox" id="imAddBorder" style="accent-color:var(--accent);width:14px;height:14px;cursor:pointer;flex-shrink:0;">
+          <div>
+            <div style="font-size:12.5px;font-weight:600;color:var(--text);">Add Border</div>
+            <div style="font-size:10.5px;color:var(--muted);">Thin border around the product</div>
+          </div>
+        </label>
+
+        <!-- Multiple Variations -->
+        <label style="display:flex;align-items:center;gap:9px;cursor:pointer;padding:9px 12px;border-bottom:1px solid var(--border);">
+          <input type="checkbox" id="imMultiVariation" checked style="accent-color:var(--accent);width:14px;height:14px;cursor:pointer;flex-shrink:0;">
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
+              <div style="font-size:12.5px;font-weight:600;color:var(--text);">Multiple Variations</div>
+              <span id="imProBadge" style="display:none;font-size:9.5px;padding:2px 6px;background:#f59e0b;color:#fff;border-radius:4px;font-weight:700;flex-shrink:0;">PRO</span>
+            </div>
+            <div style="font-size:10.5px;color:var(--muted);">Generate several versions</div>
+          </div>
+        </label>
+
+        <!-- Variations count slider -->
+        <div id="imSliderRow" style="padding:8px 12px 10px;border-bottom:1px solid var(--border);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+            <span style="font-size:11.5px;color:var(--muted);">Count: <strong id="imCountLabel" style="color:var(--text);">5</strong></span>
+            <a id="imUpgradeLink" href="#" style="display:none;font-size:10.5px;color:var(--accent);font-weight:600;text-decoration:none;">↑ Upgrade to Pro</a>
+          </div>
+          <input type="range" id="imVariationSlider" min="5" max="50" step="1" value="5" style="width:100%;accent-color:var(--accent);cursor:pointer;">
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:2px;"><span>5</span><span>50</span></div>
+        </div>
+
+        <!-- Add Stickers -->
+        <label style="display:flex;align-items:center;gap:9px;cursor:pointer;padding:9px 12px;border-bottom:1px solid var(--border);">
+          <input type="checkbox" id="imAddStickers" checked style="accent-color:var(--accent);width:14px;height:14px;cursor:pointer;flex-shrink:0;">
+          <div>
+            <div style="font-size:12.5px;font-weight:600;color:var(--text);">Add Stickers</div>
+            <div style="font-size:10.5px;color:var(--muted);">Overlay promotional stickers</div>
+          </div>
+        </label>
+
+        <!-- Category -->
+        <div style="padding:9px 12px;">
+          <div style="font-size:11px;font-weight:500;color:var(--muted);margin-bottom:5px;letter-spacing:0;">Category</div>
+          <select id="imCategory" style="width:100%;padding:6px 10px;background:var(--surface);border:1px solid var(--border);border-radius:7px;font-size:12px;color:var(--text);outline:none;font-family:inherit;cursor:pointer;">
+            <option value="Other">Other</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Fashion">Fashion</option>
+            <option value="Food">Food</option>
+            <option value="Home">Home</option>
+            <option value="Sports">Sports</option>
+            <option value="Toys">Toys</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Generate button -->
+      <button id="imGenerateBtn" disabled style="width:100%;padding:11px;border:none;border-radius:8px;background:var(--accent);color:#fff;font-size:13px;font-weight:600;cursor:pointer;letter-spacing:-0.005em;font-family:inherit;transition:opacity 0.15s;margin-bottom:8px;opacity:0.5;">
+        Generate &amp; Save to Library
+      </button>
+
+      <!-- Generating state -->
+      <div id="imGenerating" style="display:none;padding:12px 14px;background:var(--accent-soft);border:1px solid var(--accent-border);border-radius:10px;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--accent);animation:bfpulse 1.2s infinite;flex-shrink:0;"></div>
+          <span style="font-size:12.5px;font-weight:700;color:var(--text);">Generating images…</span>
+        </div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.5;">This takes 15–30 seconds. You can close this popup — images will save automatically to your library.</div>
+      </div>
+
+      <!-- Success state -->
+      <div id="imSuccess" style="display:none;padding:12px 14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;margin-bottom:8px;text-align:center;">
+        <div style="font-size:13px;font-weight:700;color:#16a34a;margin-bottom:3px;">✓ <span id="imSuccessCount">Images</span> saved!</div>
+        <div style="font-size:11px;color:#15803d;margin-bottom:10px;">View them in your A+ Studio Image Library.</div>
+        <a id="imLibraryLink" href="#" target="_blank" style="display:inline-block;padding:6px 14px;background:#16a34a;color:#fff;border-radius:7px;font-size:12px;font-weight:600;text-decoration:none;">Open Image Library →</a>
+      </div>
+
+      <!-- Error state -->
+      <div id="imError" style="display:none;padding:10px 12px;background:#fef2f2;border:1px solid #fecaca;border-radius:9px;margin-bottom:8px;">
+        <div style="font-size:12px;font-weight:600;color:#dc2626;">Generation failed</div>
+        <div id="imErrorText" style="font-size:11px;color:#b91c1c;margin-top:3px;word-break:break-word;"></div>
+      </div>
+
+      <!-- Image History -->
+      <div id="imHistorySection" style="margin-top:4px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;">
+          <span style="font-size:11.5px;font-weight:600;color:var(--muted);">Your Images</span>
+          <button id="imRefreshBtn" style="background:none;border:none;cursor:pointer;font-size:15px;color:var(--muted);padding:1px 5px;border-radius:5px;line-height:1;transition:color 0.15s;" title="Refresh">↻</button>
+        </div>
+        <div id="imHistoryLoad" style="font-size:11px;color:var(--muted);text-align:center;padding:8px 0;display:none;">Loading…</div>
+        <div id="imHistoryEmpty" style="font-size:11px;color:var(--muted);text-align:center;padding:8px 0;display:none;">No images yet. Generate your first one above!</div>
+        <div id="imHistoryGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-height:240px;overflow-y:auto;"></div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════ TAB: FLIPKART ═══════════ -->
+    <div id="tabFlipkartContent" style="display:none;">
+
+      <!-- State A: not on seller.flipkart.com -->
+      <div id="fkNotOnFlipkartMsg" style="text-align:center;padding:24px 12px;color:var(--muted);font-size:12px;line-height:1.7;display:none;">
+        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display:block;margin:0 auto 10px;opacity:0.35;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
+        Open <strong>Flipkart Seller Hub</strong> and navigate to<br>Add a Single Listing to get started.
+      </div>
+
+      <!-- State B: on Flipkart but no category yet -->
+      <div id="fkNoCategoryMsg" style="text-align:center;padding:20px 12px;color:var(--muted);font-size:12px;line-height:1.7;display:none;">
+        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display:block;margin:0 auto 8px;opacity:0.35;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 9h16.5m-16.5 6.75h16.5"/></svg>
+        Select a vertical on Flipkart — the category<br>will be detected automatically.
+      </div>
+
+      <!-- State C/D: category detected -->
+      <div id="fkCategoryBadge" style="display:none;margin-bottom:10px;padding:12px 14px;background:var(--accent-soft);border:1px solid var(--accent-border);border-radius:10px;">
+        <div style="font-size:11px;font-weight:500;color:var(--muted);margin-bottom:2px;letter-spacing:0;">Detected category</div>
+        <span id="fkCategoryName" style="font-size:14px;font-weight:700;color:var(--accent);letter-spacing:-0.01em;">-</span>
+      </div>
+
+      <!-- Field capture status bar -->
+      <div id="fkBufferBar" style="display:none;margin-bottom:10px;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+          <span id="fkBufferCount" style="font-size:12px;color:var(--muted);flex:1;line-height:1.45;">No fields captured yet — start filling the form sections</span>
+          <button id="fkClearBufferBtn" style="font-size:11.5px;font-weight:500;padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0;">Reset</button>
+        </div>
+      </div>
+
+      <!-- Save template button -->
+      <button id="fkSaveTemplateBtn" class="btn btn-secondary" style="display:none;margin-bottom:8px;">
+        Save Current Form as Template
+      </button>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.5;display:none;" id="fkSaveHint">
+        Fill each form section manually first, then click above to save as a reusable template.
+      </div>
+
+      <!-- Flipkart Save Confirmation (naming flow) -->
+      <div class="section" id="fkSaveSection" style="display:none;margin-bottom:12px;">
+        <input type="text" id="fkTemplateNameInput" class="form-input" placeholder="Template name" />
+        <input type="text" id="fkCategoryInput" class="form-input" placeholder="Category" autocomplete="off" />
+        <div style="display:flex; gap:6px;">
+          <button id="fkConfirmSaveBtn" class="btn btn-secondary" style="margin-bottom:0">Save</button>
+          <button id="fkCancelSaveBtn" class="btn"
+            style="margin-bottom:0; background:var(--surface2); color:var(--soft); border:1px solid var(--border)">Cancel</button>
+        </div>
+      </div>
+
+
+      <!-- Saved Flipkart templates list -->
+      <div id="fkListSection" style="display:none;">
+
+        <!-- Recent -->
+        <div id="fkRecentContainer" style="display:none;margin-bottom:10px;">
+          <div class="section-title">Recent Template</div>
+          <ul id="fkRecentList" class="template-list"></ul>
+        </div>
+
+        <!-- Most Used -->
+        <div id="fkMostUsedContainer" style="display:none;margin-bottom:10px;">
+          <div class="section-title">Most Used Templates</div>
+          <ul id="fkMostUsedList" class="template-list"></ul>
+        </div>
+
+        <!-- All Others -->
+        <div id="fkAllContainer" style="display:none;">
+          <div id="fkAllTitle" class="section-title">All Templates</div>
+          <ul id="fkTemplateList" class="template-list"></ul>
+        </div>
+
+      </div>
+
+      <!-- Status message -->
+      <div id="fkStatus" style="font-size:11.5px;color:var(--muted);text-align:center;margin-top:8px;min-height:16px;"></div>
+
+    </div>
+
+  </div>
+
+  <div id="status"></div>
+
+  <!-- Mismatch Warning -->
+  <div id="mismatchWarning">
+    <div class="warn-header">
+      <span>Some fields were not filled</span>
+      <button class="warn-close" id="warnCloseBtn" title="Dismiss">&times;</button>
+    </div>
+    <div class="warn-sub" id="warnSubtext"></div>
+    <ul class="warn-list" id="warnList"></ul>
+    <div class="warn-filled" id="warnFilled"></div>
+  </div>
+
+  <script src="../config.js"></script>
+  <script src="xlsx.mini.min.js"></script>
+  <script src="popup.js"></script>
+  <script src="flipkart/fk-tab.js"></script>
+</body>
+
+</html>
