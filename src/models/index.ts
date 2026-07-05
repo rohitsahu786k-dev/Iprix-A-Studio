@@ -91,7 +91,12 @@ const templateSchema = new Schema(
         selector: String,
         inputType: String,
         // Extension capture metadata (kept for high-fidelity autofill).
-        type: String,
+        // NOTE: "type" needs the { type: { type: String } } form — Mongoose
+        // treats a bare `type: String` key as declaring the SchemaType of
+        // the whole containing object (its famous reserved-key gotcha),
+        // which silently turned this entire subdocument array into a plain
+        // `[String]` array and broke every template save with fields.
+        type: { type: String },
         id: String,
         name: String,
         placeholder: String,
