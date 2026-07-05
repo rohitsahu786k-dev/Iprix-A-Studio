@@ -11,16 +11,16 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Contact Iprix Media Support | A+ Studio",
     description: "Get in touch with the A+ Studio support team. Send an inquiry, contact us on WhatsApp, or email info@iprixmedia.com for assistance.",
-    url: "https://iprixmedia.com/contact",
+    url: "https://aplusstudio.iprixmedia.com/contact",
     siteName: "A+ Studio",
     type: "website",
-    images: [{ url: "https://iprixmedia.com/seller-dashboard.png", width: 1200, height: 630, alt: "Contact A+ Studio" }],
+    images: [{ url: "https://aplusstudio.iprixmedia.com/seller-dashboard.png", width: 1200, height: 630, alt: "Contact A+ Studio" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Contact Iprix Media Support | A+ Studio",
     description: "Get in touch with the A+ Studio support team. Send an inquiry, contact us on WhatsApp, or email info@iprixmedia.com for assistance.",
-    images: ["https://iprixmedia.com/seller-dashboard.png"],
+    images: ["https://aplusstudio.iprixmedia.com/seller-dashboard.png"],
   },
 };
 

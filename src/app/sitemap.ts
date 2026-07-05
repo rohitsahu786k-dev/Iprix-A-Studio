@@ -7,9 +7,9 @@ const routes = [
   "/pricing",
   "/about",
   "/contact",
-  "/terms-of-service",
-  "/privacy-policy",
-  "/refund-policy",
+  "/terms",
+  "/privacy",
+  "/refund",
   "/login",
   "/signup",
 ];

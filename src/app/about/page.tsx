@@ -3,23 +3,23 @@ import { PublicShell } from "@/components/public-shell";
 import { brand } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "About A+ Studio by Iprix Media | Seller Automation Mission",
+  title: "About A+ Studio | E-commerce Seller Mission",
   description: "Learn more about Iprix Media and A+ Studio's mission to streamline listing creation and inventory onboarding for Indian marketplace sellers.",
   keywords: ["Iprix Media", "About A+ Studio", "Udaipur Rajasthan IT", "e-commerce seller automation team"],
   alternates: { canonical: "/about" },
   openGraph: {
     title: "About A+ Studio by Iprix Media | Seller Automation Mission",
     description: "Learn more about Iprix Media and A+ Studio's mission to streamline listing creation and inventory onboarding for Indian marketplace sellers.",
-    url: "https://iprixmedia.com/about",
+    url: "https://aplusstudio.iprixmedia.com/about",
     siteName: "A+ Studio",
     type: "website",
-    images: [{ url: "https://iprixmedia.com/seller-dashboard.png", width: 1200, height: 630, alt: "About A+ Studio" }],
+    images: [{ url: "https://aplusstudio.iprixmedia.com/seller-dashboard.png", width: 1200, height: 630, alt: "About A+ Studio" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "About A+ Studio by Iprix Media | Seller Automation Mission",
+    title: "About A+ Studio | E-commerce Seller Mission",
     description: "Learn more about Iprix Media and A+ Studio's mission to streamline listing creation and inventory onboarding for Indian marketplace sellers.",
-    images: ["https://iprixmedia.com/seller-dashboard.png"],
+    images: ["https://aplusstudio.iprixmedia.com/seller-dashboard.png"],
   },
 };
 

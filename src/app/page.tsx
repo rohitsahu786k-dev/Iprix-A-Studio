@@ -85,30 +85,38 @@ function JsonLd() {
     {
       "@context": "https://schema.org",
       "@type": "Organization",
-      name: "Iprix Media",
-      url: "https://aplusstudio.iprixmedia.com",
-      logo: "https://aplusstudio.iprixmedia.com/aplus-logo.png",
-      contactPoint: { "@type": "ContactPoint", email: "info@iprixmedia.com", contactType: "customer support", areaServed: "IN" },
+      "@id": "https://aplusstudio.iprixmedia.com/#organization",
+      "name": "Iprix Media",
+      "url": "https://aplusstudio.iprixmedia.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://aplusstudio.iprixmedia.com/aplus-logo.png"
+      }
     },
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      name: "A+ Studio",
-      operatingSystem: "Web, Chrome",
-      applicationCategory: "BusinessApplication",
-      description:
+      "@id": "https://aplusstudio.iprixmedia.com/#software",
+      "name": "A+ Studio",
+      "operatingSystem": "Web, Chrome",
+      "applicationCategory": "BusinessApplication",
+      "description":
         "AI listing generator and Chrome extension for Meesho, Flipkart and Amazon sellers — catalog autofill, keyword research, image compliance and shipping weight tools.",
-      offers: { "@type": "Offer", price: "0", priceCurrency: "INR", description: "Free plan — no credit card required" },
+      "offers": { 
+        "@type": "Offer", 
+        "price": 0, 
+        "priceCurrency": "INR" 
+      }
     },
     {
       "@context": "https://schema.org",
       "@type": "FAQPage",
-      mainEntity: faqs.map((f) => ({
+      "mainEntity": faqs.map((f) => ({
         "@type": "Question",
-        name: f.q,
-        acceptedAnswer: { "@type": "Answer", text: f.a },
-      })),
-    },
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
   ];
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
 }

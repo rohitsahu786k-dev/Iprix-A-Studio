@@ -11,8 +11,8 @@ const beVietnam = Be_Vietnam_Pro({
 export const metadata: Metadata = {
   metadataBase: new URL("https://aplusstudio.iprixmedia.com"),
   title: {
-    default: "Meesho Listing AI Tool & Chrome Extension — Free AI Listing Generator | A+ Studio",
-    template: "%s | A+ Studio — Meesho Listing AI Tool",
+    default: "A+ Studio — Free Meesho Listing AI Tool & Chrome Extension",
+    template: "%s | A+ Studio",
   },
   description:
     "Free AI listing generator + Meesho listing extension for Indian sellers. Create catalog titles, descriptions, keywords & SKUs, autofill Meesho listings, research keywords free, and check image size & shipping weight.",
