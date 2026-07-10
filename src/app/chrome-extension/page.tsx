@@ -317,7 +317,7 @@ export default function ChromeExtensionPage() {
             <div>
               <h3 className="text-lg font-bold text-zinc-200 mb-3">Autofilling Meesho listings</h3>
               <p>
-                Open the Meesho supplier panel and navigate to the catalog listing form. Click the A+ Studio extension icon to open the sidebar, select the template that matches your product, then click Autofill. The extension reads every visible field — product title, price, description, colour, size, material, weight and all category-specific attributes — and fills them automatically. It handles multi-size grids, dropdowns and radio buttons that are standard across Meesho's 1,000+ categories.
+                Open the Meesho supplier panel and navigate to the catalog listing form. Click the A+ Studio extension icon to open the sidebar, select the template that matches your product, then click Autofill. The extension reads every visible field — product title, price, description, colour, size, material, weight and all category-specific attributes — and fills them automatically. It handles multi-size grids, dropdowns and radio buttons that are standard across Meesho’s 1,000+ categories.
               </p>
             </div>
             <div>
@@ -329,13 +329,13 @@ export default function ChromeExtensionPage() {
             <div>
               <h3 className="text-lg font-bold text-zinc-200 mb-3">Flipkart beta support</h3>
               <p>
-                The A+ Studio Chrome extension also supports Flipkart's seller hub listing forms in beta mode. It captures and fills fields including product name, brand, description, HSN code, MRP, selling price and key attributes across Flipkart's categories. Full Flipkart support — including all category-specific attribute grids — is in active development and rolling out progressively.
+                The A+ Studio Chrome extension also supports Flipkart’s seller hub listing forms in beta mode. It captures and fills fields including product name, brand, description, HSN code, MRP, selling price and key attributes across Flipkart’s categories. Full Flipkart support — including all category-specific attribute grids — is in active development and rolling out progressively.
               </p>
             </div>
             <div>
               <h3 className="text-lg font-bold text-zinc-200 mb-3">Security and privacy</h3>
               <p>
-                The A+ Studio extension never auto-submits a form, never reads your bank or payment data, and never captures data from pages unrelated to marketplace listing forms. It only activates on whitelisted domains — Meesho's supplier panel, Flipkart's seller hub, and the A+ Studio dashboard. All communication between the extension and our servers uses HTTPS. Your login session is stored in a secure HTTP-only cookie — never in localStorage or extension storage.
+                The A+ Studio extension never auto-submits a form, never reads your bank or payment data, and never captures data from pages unrelated to marketplace listing forms. It only activates on whitelisted domains — Meesho’s supplier panel, Flipkart’s seller hub, and the A+ Studio dashboard. All communication between the extension and our servers uses HTTPS. Your login session is stored in a secure HTTP-only cookie — never in localStorage or extension storage.
               </p>
             </div>
           </div>

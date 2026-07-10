@@ -25,9 +25,16 @@ export async function POST(request: Request) {
       if (payment.status === "captured" && payment.userId) {
         const user = await User.findById(payment.userId);
         if (user) {
+          // Same time-boxing as /api/subscription/verify: 30 days monthly,
+          // 365 yearly. Usage checks lazily downgrade after currentPeriodEnd.
+          const periodDays = payment.billing === "yearly" ? 365 : 30;
+          const periodStart = new Date();
+          const periodEnd = new Date(periodStart.getTime() + periodDays * 24 * 60 * 60 * 1000);
           user.set({
             plan: payment.plan,
             subscriptionStatus: "active",
+            currentPeriodStart: periodStart,
+            currentPeriodEnd: periodEnd,
             monthlyListingsUsed: 0,
             monthlyListingsLimit: getPlanListingLimit(payment.plan),
             monthlyListingsPeriod: new Date().toISOString().slice(0, 7),

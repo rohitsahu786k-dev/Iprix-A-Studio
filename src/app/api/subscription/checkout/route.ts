@@ -57,6 +57,7 @@ export async function POST(request: Request) {
     amount: order.amount,
     status: order.status,
     plan: plan.slug,
+    billing: parsed.data.billing,
   });
   return ok({ order, payment, keyId: env.RAZORPAY_KEY_ID });
 }

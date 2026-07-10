@@ -32,7 +32,11 @@ const listingInputSchema = z.object({
 });
 
 function shouldConsume(data: z.infer<typeof listingInputSchema>) {
-  if (typeof data.consumeUsage === "boolean") return data.consumeUsage;
+  if (data.consumeUsage === true) return true;
+  // Client may opt OUT only for inert drafts (CSV import, duplicate-as-draft).
+  // Any status that implies the listing was used must consume — otherwise the
+  // quota could be bypassed by passing consumeUsage: false from the client.
+  if (data.consumeUsage === false && data.status === "draft") return false;
   return data.aiGenerated || ["generated", "autofilled", "exported"].includes(data.status);
 }
 

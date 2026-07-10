@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Scale, Package, AlertTriangle, CheckCircle, Info } from "lucide-react";
+import { useState } from "react";
+import { Scale, AlertTriangle, CheckCircle, Info } from "lucide-react";
 
 export function InteractiveCalculator() {
   const [weight, setWeight] = useState<number>(300);
@@ -9,22 +9,12 @@ export function InteractiveCalculator() {
   const [width, setWidth] = useState<number>(25);
   const [height, setHeight] = useState<number>(5);
 
-  const [volumetric, setVolumetric] = useState<number>(0.75);
-  const [chargeable, setChargeable] = useState<number>(0.75);
-  const [slab, setSlab] = useState<number>(1.0);
-  const [isVolumetricHigher, setIsVolumetricHigher] = useState<boolean>(true);
-
-  useEffect(() => {
-    const vol = (length * width * height) / 5000;
-    const dead = weight / 1000;
-    const maxWeight = Math.max(vol, dead);
-    const calculatedSlab = maxWeight <= 0.5 ? 0.5 : Math.ceil(maxWeight * 2) / 2;
-
-    setVolumetric(vol);
-    setChargeable(maxWeight);
-    setSlab(calculatedSlab);
-    setIsVolumetricHigher(vol > dead);
-  }, [weight, length, width, height]);
+  // Derived directly from the inputs — no state/effect needed.
+  const volumetric = (length * width * height) / 5000;
+  const dead = weight / 1000;
+  const chargeable = Math.max(volumetric, dead);
+  const slab = chargeable <= 0.5 ? 0.5 : Math.ceil(chargeable * 2) / 2;
+  const isVolumetricHigher = volumetric > dead;
 
   return (
     <div className="w-full rounded-[28px] border border-zinc-800 bg-white p-6 md:p-8 shadow-pin-lg">

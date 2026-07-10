@@ -237,6 +237,95 @@ export function ProfitCalculator() {
 }
 
 /* ------------------------------------------------------------------ */
+/* 2b. Price calculator — reverse of the profit calculator: enter the  */
+/* profit you WANT per order, get the minimum listing price.           */
+/* ------------------------------------------------------------------ */
+
+export function PriceCalculator() {
+  const [targetProfit, setTargetProfit] = useState(50);
+  const [cost, setCost] = useState(180);
+  const [packaging, setPackaging] = useState(15);
+  const [commissionPct, setCommissionPct] = useState(0);
+  const [gstPct, setGstPct] = useState(5);
+  const [shipping, setShipping] = useState(0);
+  const [adsPerOrder, setAdsPerOrder] = useState(10);
+  const [rtoPct, setRtoPct] = useState(10);
+  const [rtoLoss, setRtoLoss] = useState(80);
+
+  // Invert the ProfitCalculator model:
+  //   expectedProfit = profitDelivered × (1 − r) − r × rtoLoss
+  //   profitDelivered = p×(1 − 1.18c − g/(1+g)) − 1.18×shipping − cost − packaging − ads
+  // Solve for p given expectedProfit = targetProfit.
+  const r = Math.min(0.95, Math.max(0, rtoPct / 100));
+  const c = Math.max(0, commissionPct / 100);
+  const g = Math.max(0, gstPct / 100);
+  const priceFactor = 1 - 1.18 * c - g / (1 + g);
+  const neededDelivered = (targetProfit + r * rtoLoss) / (1 - r);
+  const fixedCosts = 1.18 * shipping + cost + packaging + adsPerOrder;
+  const solvable = priceFactor > 0.05;
+  const requiredPrice = solvable ? (neededDelivered + fixedCosts) / priceFactor : 0;
+  // Charm price: round up to the next price ending in 9 (e.g. 341 → 349).
+  const charmPrice = solvable ? Math.ceil((Math.ceil(requiredPrice) + 1) / 10) * 10 - 1 : 0;
+  const breakevenPrice = solvable ? ((r * rtoLoss) / (1 - r) + fixedCosts) / priceFactor : 0;
+  const settlementAtPrice = requiredPrice - requiredPrice * c - shipping - (requiredPrice * c + shipping) * 0.18;
+
+  return (
+    <div className="grid gap-5">
+      <div className={card}>
+        <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-zinc-100 mb-5">
+          <IndianRupee className="h-4 w-4 text-indigo-500" />
+          Price calculator — kitne me becho
+        </div>
+        <div className="grid gap-4 sm:grid-cols-3">
+          {[
+            ["Target profit per order (₹)", targetProfit, setTargetProfit],
+            ["Product cost (₹)", cost, setCost],
+            ["Packaging cost (₹)", packaging, setPackaging],
+            ["Commission %", commissionPct, setCommissionPct],
+            ["Product GST %", gstPct, setGstPct],
+            ["Shipping charged to you (₹)", shipping, setShipping],
+            ["Ads cost per order (₹)", adsPerOrder, setAdsPerOrder],
+            ["RTO / return rate %", rtoPct, setRtoPct],
+            ["Loss per RTO order (₹)", rtoLoss, setRtoLoss],
+          ].map(([fieldLabel, value, setter]) => (
+            <label className={label} key={String(fieldLabel)}>
+              <span>{String(fieldLabel)}</span>
+              <input
+                className={input}
+                type="number"
+                value={Number(value)}
+                onChange={(e) => (setter as (n: number) => void)(Number(e.target.value) || 0)}
+              />
+            </label>
+          ))}
+        </div>
+
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <StatTile label="Minimum listing price" value={solvable ? `₹${Math.ceil(requiredPrice)}` : "—"} tone={solvable ? "neutral" : "bad"} />
+          <StatTile label="Suggested charm price" value={solvable ? `₹${charmPrice}` : "—"} tone="good" />
+          <StatTile label="Breakeven price" value={solvable ? `₹${Math.ceil(breakevenPrice)}` : "—"} tone="warn" />
+          <StatTile label="Bank settlement @ min price" value={solvable ? `₹${settlementAtPrice.toFixed(0)}` : "—"} tone="neutral" />
+        </div>
+
+        <div className="mt-5 grid gap-3">
+          {!solvable ? (
+            <TipBox tone="warn">
+              Commission + GST itna zyada hai ki koi bhi price par ye target profit possible nahi. Commission % ya GST % check karen.
+            </TipBox>
+          ) : (
+            <TipBox>
+              <b>₹{Math.ceil(requiredPrice)}</b> se kam par bechne par {rtoPct}% RTO ke baad aapka profit ₹{targetProfit}/order se neeche
+              chala jayega. Listing me <b>₹{charmPrice}</b> jaisa charm price use karen. Ye planning estimate hai — final commission
+              apne category rate card se verify karen.
+            </TipBox>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /* 3. First image checker (Meesho image guard)                         */
 /* ------------------------------------------------------------------ */
 
@@ -644,6 +733,7 @@ export function FreeToolsHub() {
       </div>
       <ShippingCalculator />
       <ProfitCalculator />
+      <PriceCalculator />
       <ImageChecker />
       <SkuGenerator />
       <TitleChecker />

@@ -39,12 +39,25 @@ Required keys are documented in `.env.example`, including:
 
 ## AI usage rules
 
-- Free users get 5 lifetime AI listings and 5 lifetime keyword research reports.
-- AI listing generation creates a draft preview and does not consume usage.
-- Usage is consumed only when the user saves, sends to extension, exports, or completes extension autofill.
+- Usage is consumed at generation time: every successful AI listing generation (webapp `/api/ai/listing/generate`, extension `/api/extension/ai-generate`, smart listings) decrements the plan quota immediately. The listing is marked `usageCounted`, so a later save / export / autofill of the same listing never double-counts.
+- Advanced-title generation consumes one credit only when a real OpenAI call happened; the local fallback stays free.
+- Clients can skip usage (`consumeUsage: false`) only for inert drafts (CSV import, duplicate-as-draft). Any status implying use — generated, autofilled, exported — always consumes server-side.
 - Keyword research consumes usage only after a successful report.
 - Failed AI calls are logged and do not consume usage.
+- Paid plans are time-boxed: payment verification stamps `currentPeriodEnd` (30 days monthly / 365 yearly) and every usage check lazily downgrades expired plans to free. A single ₹199 payment can never grant a perpetual quota.
 - All AI calls run through backend routes only; no OpenAI key is exposed to the frontend or extension.
+
+## Low-Shipping Image Generator
+
+`/tools/meesho-low-shipping-image-generator` (public, no login) and `Dashboard → Low Shipping Images` share one engine in `src/lib/low-shipping/`:
+
+- `pipeline.ts` — 100% client-side: WASM background removal (`@imgly/background-removal`, lazy-loaded + cached), tight product bbox from the alpha mask, then 5 white-background 1024×1024 JPEG variants (Compact-70/55/40, Tight-Crop, Original-Cleaned), each ≤300KB with metadata stripped and a Perceived Bulk Score.
+- `estimator.ts` — pure slab estimator: volumetric weight (L×B×H÷5000), chargeable weight, zone-wise ₹ ranges, GST note, return exposure, and the exact gram/cm reduction needed to drop one slab.
+- `rate-card.ts` — the editable rate card. Defaults are indicative only; users edit the JSON from the UI (persisted in localStorage). To change the seeded defaults, edit `DEFAULT_RATE_CARD` here.
+- `strings.ts` — every user-facing string (English + Hinglish) in one file.
+- Unit tests: `npm run test:low-shipping`.
+
+Ethical/ToS boundary (do not relax): images stay honest — only background, crop and framing change; every ₹ figure carries the "estimate only" disclaimer; and the extension drawer on `supplier.meesho.com` (`extension/platforms/meesho/low-shipping.js`) performs zero automated actions on the Meesho panel — no clicks, no form fills, no uploads. It only shows the estimator/tracker UI, reads the visible shipping text when the seller presses "Record shown price", and deep-links to the webapp tool. Automation there violates Meesho ToS and risks seller account bans.
 
 ## Security notes
 

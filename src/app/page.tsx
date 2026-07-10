@@ -60,6 +60,10 @@ const faqs = [
     a: "Couriers charge on the higher of dead weight and volumetric weight (L×B×H÷5000), and Meesho verifies the declared weight against your first catalog image. A combo-looking first image with a single-unit weight is the most common cause of shipping overcharges. A+ Studio's Shipping Calculator and Image Guard catch this before you publish.",
   },
   {
+    q: "How can I reduce Meesho shipping charges with my product image?",
+    a: "Meesho's system estimates a product's physical bulk from the listing image, so a spread-out or prop-heavy photo can push the same product into a higher shipping slab. A+ Studio's free Low-Shipping Image Generator creates 5 honest white-background 1024×1024 variants at different compactness levels with a Perceived Bulk Score, so you can A/B test which image gets the lowest shipping quote. It runs 100% in your browser and needs no login.",
+  },
+  {
     q: "How can I upload my Meesho catalog faster?",
     a: "Save your product once in A+ Studio, generate the listing with AI, then open the Meesho supplier panel — the Chrome extension autofills titles, prices, descriptions and attributes into the catalog upload form. Sellers typically go from 20+ minutes per listing to under 2 minutes.",
   },
@@ -292,6 +296,11 @@ export default function Home() {
                 View Plans
               </Link>
             </div>
+            <Link href="/tools/meesho-low-shipping-image-generator" className="group mt-6 inline-flex items-center gap-2.5 rounded-full border border-indigo-500/20 bg-indigo-500/5 px-4.5 py-2.5 text-xs font-bold text-indigo-300 hover:border-indigo-400/40 hover:bg-indigo-500/10 transition-all">
+              <span className="rounded-full bg-indigo-600 px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wider text-white">New</span>
+              Low-Shipping Image Generator — photo se shipping slab kam karo, free & no login
+              <Icons.ArrowRight />
+            </Link>
           </div>
  
           {/* Interactive Calculator placement on right-hand column */}
@@ -462,20 +471,20 @@ export default function Home() {
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              { title: "Reusable listing templates", icon: <Icons.FileText />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-              { title: "Product library", icon: <Icons.Box />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-              { title: "Smart listing bulk generator", icon: <Icons.Bolt />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-              { title: "AI content writer", icon: <Icons.Sparkles />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-              { title: "AI keyword research", icon: <Icons.Eye />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-              { title: "Label analyser", icon: <Icons.Tag />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-              { title: "Image maker", icon: <Icons.Image />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-              { title: "Marketplace compliance score", icon: <Icons.Shield />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-              { title: "SKU generator", icon: <Icons.Barcode />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-              { title: "Team collaboration", icon: <Icons.Users />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-              { title: "CSV import/export", icon: <Icons.Download />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
-              { title: "Chrome extension autofill", icon: <Icons.Chrome />, desc: "Connected to backend routes, database models, plan checks and extension workflows where applicable." },
+              { title: "Reusable listing templates", icon: <Icons.FileText />, href: "/dashboard/templates", desc: "Capture a Meesho form once with the extension and refill it into every future listing — text, dropdowns, chips, checkboxes and images." },
+              { title: "Product library", icon: <Icons.Box />, href: "/dashboard/products", desc: "Save brand, category, price, features and keywords per product once, then reuse them across AI generation, templates and CSV export." },
+              { title: "Smart listing bulk generator", icon: <Icons.Bolt />, href: "/dashboard/smart-listings", desc: "Select multiple products and generate complete AI listings for each in one batch — titles, descriptions, SKUs and keywords." },
+              { title: "AI content writer", icon: <Icons.Sparkles />, href: "/dashboard/ai-content-studio", desc: "Marketplace-safe titles, long descriptions, bullet points, search terms and care instructions — tuned for Meesho, Flipkart and Amazon India." },
+              { title: "AI keyword research", icon: <Icons.Eye />, href: "/dashboard/keyword-research", desc: "Product-specific keyword reports with primary, long-tail and seasonal buyer phrases — saved to your workspace for every listing." },
+              { title: "Low-shipping image generator", icon: <Icons.Image />, href: "/tools/meesho-low-shipping-image-generator", desc: "5 honest white-background 1024×1024 variants at different compactness levels, with a Perceived Bulk Score — lower slab, same product." },
+              { title: "Label analyser", icon: <Icons.Tag />, href: "/dashboard/label-analyser", desc: "Upload a PDF shipping label and get an instant page-size, margin and print-safety report before you send it to the courier." },
+              { title: "Marketplace compliance score", icon: <Icons.Shield />, href: "/dashboard/title-checker", desc: "Every AI listing is scored for title length, keyword coverage, banned claims and image rules before you publish." },
+              { title: "SKU generator", icon: <Icons.Barcode />, href: "/tools#free-tools", desc: "Consistent bulk SKUs from brand + category + attributes, with duplicate detection and one-click CSV export — free, no login." },
+              { title: "Team collaboration", icon: <Icons.Users />, href: "/dashboard/team", desc: "Invite team members with roles on Growth and higher plans — agencies manage every client catalog from one workspace." },
+              { title: "CSV import/export", icon: <Icons.Download />, href: "/dashboard/bulk-csv-upload", desc: "Import up to 250 draft listings from CSV in one go, and export AI-generated content back to spreadsheets." },
+              { title: "Chrome extension autofill", icon: <Icons.Chrome />, href: "/chrome-extension", desc: "One click fills the Meesho supplier catalog form from your saved template or AI listing — with preview, never auto-submit." },
             ].map((feature, idx) => (
-              <article key={idx} className="flex gap-4.5 p-6 rounded-3xl border border-zinc-800 bg-white shadow-pin hover:shadow-pin-lg hover:-translate-y-0.5 hover:border-indigo-300 transition-all duration-300 group relative items-start">
+              <Link key={idx} href={feature.href} className="flex gap-4.5 p-6 rounded-3xl border border-zinc-800 bg-white shadow-pin hover:shadow-pin-lg hover:-translate-y-0.5 hover:border-indigo-300 transition-all duration-300 group relative items-start">
                 <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center flex-shrink-0 text-zinc-550 group-hover:text-indigo-600 group-hover:border-indigo-200 transition-colors duration-300">
                   {feature.icon}
                 </div>
@@ -486,7 +495,7 @@ export default function Home() {
                 <div className="absolute bottom-6 right-6 w-6 h-6 rounded-full border border-zinc-800 flex items-center justify-center bg-zinc-900 text-zinc-650 group-hover:border-indigo-500/40 group-hover:bg-indigo-50 group-hover:text-indigo-650 transition-all duration-300">
                   <Icons.ArrowRight />
                 </div>
-              </article>
+              </Link>
             ))}
           </div>
         </div>
@@ -730,6 +739,77 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SECTION 5: FREE SELLER TOOLS ── */}
+      <section className="relative py-24 bg-zinc-950 border-t border-zinc-900" id="free-tools">
+        <div className="container relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/5 text-xs font-bold text-emerald-400 uppercase tracking-widest mb-6">
+              <Icons.Check />
+              100% Free · No Login · No AI Credits
+            </div>
+            <h2 className="text-4xl lg:text-5xl font-extrabold text-zinc-100 tracking-tight mb-5 leading-tight">
+              Free tools that <span className="bg-linear-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent">save real money</span>
+            </h2>
+            <p className="text-base lg:text-lg text-zinc-550 leading-relaxed max-w-2xl mx-auto">
+              Calculators aur checkers jo publish karne se pehle hi shipping overcharge, image rejection aur loss-making orders pakad lete hain.
+            </p>
+          </div>
+
+          {/* Featured: Low-Shipping Image Generator */}
+          <Link
+            href="/tools/meesho-low-shipping-image-generator"
+            className="group mb-8 flex flex-col gap-5 rounded-[28px] border border-indigo-500/25 bg-indigo-500/5 p-7 transition-all hover:border-indigo-400/50 hover:bg-indigo-500/10 md:flex-row md:items-center"
+          >
+            <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-indigo-600 text-white shadow-lg shadow-indigo-950/40">
+              <Icons.Image />
+            </div>
+            <div className="flex-1">
+              <h3 className="flex flex-wrap items-center gap-2.5 text-lg font-extrabold text-zinc-100">
+                Meesho Low-Shipping Image Generator
+                <span className="rounded-full bg-indigo-600 px-2.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wider text-white">New</span>
+              </h3>
+              <p className="mt-2 max-w-3xl text-sm font-semibold leading-relaxed text-zinc-400">
+                Meesho aapki listing photo se product ka bulk estimate karta hai — same 100g product ek photo par ₹60 aur doosri par
+                ₹220 shipping dikha sakta hai. Ye tool 5 honest white-background variants banata hai (100% aapke browser me),
+                har ek par Perceived Bulk Score deta hai, aur slab estimator batata hai kitna bachega. A/B test karo, sabse
+                sasti variant publish karo.
+              </p>
+            </div>
+            <span className="inline-flex shrink-0 items-center gap-2 rounded-2xl bg-indigo-600 px-6 py-3.5 text-sm font-bold text-white shadow-md transition-all group-hover:scale-[1.02]">
+              Try it free
+              <Icons.ArrowRight />
+            </span>
+          </Link>
+
+          {/* Tool chips */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { name: "Shipping Weight & Slab Calculator", desc: "Volumetric vs dead weight, chargeable slab, zone-wise ₹ estimate.", href: "/tools/meesho-shipping-calculator" },
+              { name: "Profit Calculator", desc: "GST, commission, shipping, ads aur RTO ke baad real per-order profit.", href: "/tools/meesho-profit-calculator" },
+              { name: "Price Calculator", desc: "Target profit batao — minimum listing price aur charm price milega.", href: "/tools/meesho-price-calculator" },
+              { name: "Listing Image Checker", desc: "Size, 1:1 ratio, white background, brightness — rejection se pehle check.", href: "/tools/meesho-image-checker" },
+              { name: "Bulk SKU Generator", desc: "Brand + category + attributes se consistent SKUs, CSV export ke saath.", href: "/tools/meesho-sku-generator" },
+              { name: "Title Checker", desc: "Length, keyword coverage aur banned-words check har title par.", href: "/tools/meesho-title-checker" },
+            ].map((tool) => (
+              <Link key={tool.name} href={tool.href} className="group flex items-start justify-between gap-3 rounded-3xl border border-zinc-800 bg-zinc-900/30 p-5.5 transition-all hover:border-indigo-500/40 hover:bg-zinc-900/60">
+                <div>
+                  <h3 className="text-sm font-extrabold text-zinc-100 group-hover:text-indigo-400 transition-colors">{tool.name}</h3>
+                  <p className="mt-1.5 text-xs font-semibold leading-relaxed text-zinc-500">{tool.desc}</p>
+                </div>
+                <span className="mt-0.5 shrink-0"><Icons.ArrowRight /></span>
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center">
+            <Link href="/tools" className="inline-flex items-center gap-2 rounded-2xl border border-zinc-800 bg-zinc-900/40 px-7 py-4 text-sm font-bold text-zinc-200 hover:bg-zinc-800 hover:border-zinc-700 transition-all">
+              Open all free tools
+              <Icons.ArrowRight />
+            </Link>
           </div>
         </div>
       </section>

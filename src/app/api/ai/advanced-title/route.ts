@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { fail, ok, parseBody, requireApiUser } from "@/lib/api";
 import { connectDb } from "@/lib/db";
-import { checkListingAllowance } from "@/lib/listing-usage";
+import { checkListingAllowance, consumeListingUsage, getListingUsageSnapshot } from "@/lib/listing-usage";
 import { fallbackAdvancedTitle, generateJsonWithOpenAI } from "@/lib/openai";
 import { AIUsageLog, User } from "@/models";
 
@@ -67,11 +67,25 @@ Rules:
 
   const fallback = fallbackAdvancedTitle(parsed.data);
   const result = await generateJsonWithOpenAI("advanced-title", system, prompt, fallback);
+
+  // Consume one listing credit whenever a real model call happened. The
+  // local-fallback path costs nothing and stays free — but with an OpenAI key
+  // configured, this route previously only checked the quota without ever
+  // decrementing it, allowing unlimited paid model calls.
+  const consumed = result.provider === "openai";
+  if (consumed) {
+    await consumeListingUsage(user, null, "advanced_title", {
+      route: "/api/ai/advanced-title",
+      model: result.model,
+    });
+  }
+  const snapshot = getListingUsageSnapshot(user);
+
   await AIUsageLog.create({
     userId: auth.session.id,
     feature: "advanced-title",
     status: "success",
-    creditsConsumed: 0,
+    creditsConsumed: consumed ? 1 : 0,
     prompt,
     output: result.text,
   });
@@ -80,10 +94,10 @@ Rules:
     output: result.json,
     provider: result.provider,
     model: result.model,
-    usage: allowance.snapshot,
+    usage: snapshot,
     message:
-      allowance.snapshot.plan === "free"
-        ? `Nice! This title is optimized for marketplace search. You have ${allowance.snapshot.remaining} free AI listings left.`
+      snapshot.plan === "free"
+        ? `Nice! This title is optimized for marketplace search. You have ${snapshot.remaining} free AI listings left.`
         : "Advanced title generated within your monthly plan.",
   });
 }

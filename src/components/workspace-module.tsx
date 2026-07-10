@@ -21,12 +21,14 @@ import { pricingPlans } from "@/lib/plans";
 import { PricingCard } from "@/components/pricing-card";
 import {
   ImageChecker,
+  PriceCalculator,
   ProfitCalculator,
   ShippingCalculator,
   SkuGenerator,
   TitleChecker,
 } from "@/components/seller-tools";
 import { KeywordExplorer } from "@/components/keyword-explorer";
+import { LowShippingStudio } from "@/components/low-shipping-studio";
 
 type RazorpayInstance = {
   open: () => void;
@@ -54,11 +56,13 @@ const titles: Record<string, string> = {
   products: "Products",
   "smart-listings": "Smart Listings",
   "image-maker": "Image Maker",
+  "low-shipping-images": "Low Shipping Images",
   "label-analyser": "Label Analyser",
   "keyword-research": "Keyword Research",
   "keyword-explorer": "Keyword Explorer",
   "shipping-calculator": "Shipping Calculator",
   "profit-calculator": "Profit Calculator",
+  "price-calculator": "Price Calculator",
   "image-checker": "Image Checker",
   "sku-generator": "SKU Generator",
   "title-checker": "Title Checker",
@@ -93,11 +97,13 @@ export function WorkspaceModule({ module }: { module: string }) {
     if (module === "keyword-explorer") return <KeywordExplorer />;
     if (module === "shipping-calculator") return <ShippingCalculator />;
     if (module === "profit-calculator") return <ProfitCalculator />;
+    if (module === "price-calculator") return <PriceCalculator />;
     if (module === "image-checker") return <ImageChecker />;
     if (module === "sku-generator") return <SkuGenerator />;
     if (module === "title-checker") return <TitleChecker />;
     if (module === "ai-content-studio") return <AIForm onDone={setStatus} />;
     if (module === "image-maker") return <ImageForm onDone={setStatus} />;
+    if (module === "low-shipping-images") return <LowShippingStudio />;
     if (module === "label-analyser") return <LabelForm onDone={setStatus} />;
     if (module === "subscription") return <SubscriptionForm onDone={setStatus} />;
     if (module === "team") return <TeamForm onDone={setStatus} />;

@@ -86,6 +86,24 @@ Run this before production deployment.
 - [ ] Payment webhook is idempotent enough to avoid duplicate quota reset.
 - [ ] Upload routes validate file type/size before production use.
 
+## Low-Shipping Image Generator
+
+- [ ] `npm run test:low-shipping` passes (estimator + bulk score unit tests).
+- [ ] Uploading a cluttered photo on `/tools/meesho-low-shipping-image-generator` produces 5 white-background 1024×1024 variants, each under 300KB, in under ~30s once the model is cached.
+- [ ] Bulk Score visibly decreases V4 → V1 → V2 → V3.
+- [ ] Estimator: 120g, 15×12×4cm shows volumetric 0.144kg, chargeable 144g, 0–500g slab and the "already in lowest slab" message.
+- [ ] Every screen showing a ₹ figure also shows the "estimate only" disclaimer.
+- [ ] Offline / model-load failure falls back to smart crop with a "background not removed" badge.
+- [ ] Extension drawer opens on supplier.meesho.com without breaking page styles and performs zero automated writes to the page.
+- [ ] Variant A/B tracker stores rows in chrome.storage.local and highlights the cheapest.
+
+## Subscription & Quota Enforcement
+
+- [ ] AI listing generation (webapp + extension) consumes usage at generation time; saving the same listing later does not double-count.
+- [ ] `consumeUsage: false` is honoured only for draft listings; generated/autofilled/exported statuses always consume.
+- [ ] Smart listings stop generating when quota is exhausted and report skipped count.
+- [ ] Paid plan sets `currentPeriodEnd` (30d monthly / 365d yearly) on verify and webhook; after expiry the next usage check downgrades to free.
+
 ## Coming Soon Labels
 
 - [ ] Features not fully integrated are visibly marked Coming Soon.

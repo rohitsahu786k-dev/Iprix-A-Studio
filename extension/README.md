@@ -38,6 +38,11 @@ for the Chrome Web Store.
 - Smart Listings — product-by-product fill workflow from dashboard batches.
 - Image Maker — sends product images to the server-side image pipeline.
 - Studio Tools — scans page fields, estimates listing score, generates SKUs and stores local drafts.
+- Low-Shipping Studio (`platforms/meesho/low-shipping.js`) — floating drawer on `supplier.meesho.com` with a shipping-slab estimator, a variant A/B price tracker (chrome.storage.local) and a deep-link to the webapp image generator.
+
+## Assist, don't automate (Meesho ToS boundary)
+
+The Low-Shipping Studio and Image Guard NEVER click buttons, submit forms, create catalogs or upload images into Meesho's DOM. They only render their own shadow-DOM UI, read shipping text already visible on the page when the seller explicitly presses "Record shown price", and open the A+ Studio webapp in a new tab. The seller performs every panel action manually. Automated actions on the supplier panel violate Meesho's terms and risk seller account bans — do not add them.
 
 ## Security
 

@@ -18,6 +18,8 @@ type UserDoc = {
   monthlyKeywordResearchLimit?: number;
   monthlyKeywordResearchPeriod?: string;
   lastUsageResetAt?: Date;
+  subscriptionStatus?: string;
+  currentPeriodEnd?: Date | string;
   set?: (value: Record<string, unknown>) => void;
   save?: () => Promise<unknown>;
 };
@@ -81,7 +83,30 @@ export function getPlanAIConfig(plan?: string) {
   };
 }
 
+/**
+ * Lazily expires a paid plan once its billing period is over. Runs inside
+ * resetMonthlyUsageIfNeeded, which every allowance/consume path calls first —
+ * so an expired ₹199/month user cannot keep drawing a fresh monthly quota
+ * forever off a single payment. Users with no currentPeriodEnd (legacy /
+ * admin-granted plans) are left untouched.
+ */
+export function expirePlanIfNeeded(user: UserDoc) {
+  const plan = normalizePlan(user.plan);
+  if (plan === "free" || !user.currentPeriodEnd) return;
+  const periodEnd = new Date(user.currentPeriodEnd);
+  if (Number.isNaN(periodEnd.getTime()) || periodEnd.getTime() > Date.now()) return;
+  const updates: Record<string, unknown> = {
+    plan: "free",
+    subscriptionStatus: "expired",
+    monthlyListingsLimit: 0,
+    monthlyKeywordResearchLimit: 0,
+  };
+  user.set?.(updates);
+  Object.assign(user, updates);
+}
+
 export function resetMonthlyUsageIfNeeded(user: UserDoc) {
+  expirePlanIfNeeded(user);
   const plan = normalizePlan(user.plan);
   const period = currentPeriod();
   const updates: Record<string, unknown> = {};

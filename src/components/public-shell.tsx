@@ -169,6 +169,7 @@ export function PublicFooter() {
                 { href: "/dashboard", label: "Dashboard" },
                 { href: "/chrome-extension", label: "Chrome Extension" },
                 { href: "/features", label: "AI Tools" },
+                { href: "/tools/meesho-low-shipping-image-generator", label: "Low-Shipping Image Tool" },
                 { href: "/pricing", label: "Plans" },
               ].map((link) => (
                 <li key={link.href}>

@@ -329,6 +329,7 @@ const schemas = {
       currency: { type: String, default: "INR" },
       status: { type: String, default: "created" },
       plan: String,
+      billing: { type: String, enum: ["monthly", "yearly"], default: "monthly" },
     },
     timestamps,
   ),

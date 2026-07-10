@@ -51,9 +51,16 @@ export async function POST(request: Request) {
 
   const user = await User.findById(auth.session.id);
   if (!user || user.suspended) return fail("Account unavailable", 403);
+  // Paid access is time-boxed: 30 days for monthly, 365 for yearly billing.
+  // Usage checks lazily downgrade to free once currentPeriodEnd passes.
+  const periodDays = payment.billing === "yearly" ? 365 : 30;
+  const periodStart = new Date();
+  const periodEnd = new Date(periodStart.getTime() + periodDays * 24 * 60 * 60 * 1000);
   user.set({
     plan: payment.plan,
     subscriptionStatus: "active",
+    currentPeriodStart: periodStart,
+    currentPeriodEnd: periodEnd,
     monthlyListingsUsed: 0,
     monthlyListingsLimit: getPlanListingLimit(payment.plan),
     monthlyListingsPeriod: new Date().toISOString().slice(0, 7),

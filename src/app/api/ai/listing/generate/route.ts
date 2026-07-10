@@ -1,7 +1,7 @@
 import { fail, ok, parseBody, requireApiUser } from "@/lib/api";
 import { aiListingInputSchema, generateAIListing, planAtTime } from "@/lib/ai-engine";
 import { connectDb } from "@/lib/db";
-import { checkAIListingAllowance, createAIUsageLog } from "@/lib/listing-usage";
+import { checkAIListingAllowance, consumeAIListingUsage, createAIUsageLog } from "@/lib/listing-usage";
 import { AIUsageLog, Listing, User } from "@/models";
 import { rateLimit } from "@/lib/rate-limit";
 
@@ -71,18 +71,26 @@ export async function POST(request: Request) {
       payload: { input: parsed.data, generated },
     });
 
+    // Quota is consumed at generation time (this is where the AI cost is);
+    // consumeListingUsage marks the listing usageCounted so later save /
+    // export / autofill of the same listing never double-counts.
+    const usageResult = await consumeAIListingUsage(user, listing._id, "ai_generated", {
+      route: "/api/ai/listing/generate",
+      model: result.model,
+    });
+
     await AIUsageLog.create({
       userId: auth.session.id,
       feature: "ai_listing",
       planAtTime: planAtTime(user.plan),
       model: result.model,
       status: "success",
-      creditsConsumed: 0,
+      creditsConsumed: 1,
       prompt: result.prompt,
       output: result.text,
     });
 
-    return ok({ listing, output: generated, provider: result.provider, model: result.model, usage: allowance.snapshot }, { status: 201 });
+    return ok({ listing, output: generated, provider: result.provider, model: result.model, usage: usageResult.snapshot }, { status: 201 });
   } catch (error) {
     await createAIUsageLog({
       userId: auth.session.id,

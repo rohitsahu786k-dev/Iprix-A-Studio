@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { ok, parseBody, requireApiUser } from "@/lib/api";
 import { generateWithOpenAI } from "@/lib/openai";
+import { rateLimit } from "@/lib/rate-limit";
 
 const schema = z.object({
   prompt: z.string().optional(),
@@ -13,6 +14,8 @@ const schema = z.object({
 });
 
 export async function POST(request: Request) {
+  const limited = rateLimit(request, "ai:listing-score", 12, 60_000);
+  if (limited) return limited;
   const auth = await requireApiUser();
   if (auth.response) return auth.response;
   const parsed = await parseBody(request, schema);

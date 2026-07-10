@@ -1,8 +1,8 @@
 import { fail, ok, parseBody, requireApiUser } from "@/lib/api";
 import { aiListingInputSchema, generateAIListing, planAtTime } from "@/lib/ai-engine";
 import { connectDb } from "@/lib/db";
-import { checkAIListingAllowance, createAIUsageLog } from "@/lib/listing-usage";
-import { AIUsageLog, User } from "@/models";
+import { checkAIListingAllowance, consumeAIListingUsage, createAIUsageLog } from "@/lib/listing-usage";
+import { AIUsageLog, Listing, User } from "@/models";
 import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
@@ -32,15 +32,38 @@ export async function POST(request: Request) {
   }
 
   const result = await generateAIListing(parsed.data, user.plan);
+
+  // Every extension AI generation consumes one listing credit at generation
+  // time — previously this route only checked the limit without consuming,
+  // which allowed unlimited generations within a never-incrementing quota.
+  // The draft listing keeps the output attached to the user's history and
+  // marks usageCounted so downstream save/autofill never double-counts.
+  const generated = result.json as Record<string, unknown>;
+  const listing = await Listing.create({
+    userId: auth.session.id,
+    platform: parsed.data.targetPlatform || parsed.data.platform || "meesho",
+    source: "ai_generated",
+    status: "draft",
+    title: String(generated.generatedTitle || generated.title || parsed.data.productName || "Extension AI listing"),
+    aiGenerated: true,
+    aiModel: result.model,
+    usageCounted: false,
+    payload: { input: parsed.data, generated, via: "extension" },
+  });
+  const usageResult = await consumeAIListingUsage(user, listing._id, "extension_ai", {
+    route: "/api/extension/ai-generate",
+    model: result.model,
+  });
+
   await AIUsageLog.create({
     userId: auth.session.id,
     feature: "extension_ai",
     planAtTime: planAtTime(user.plan),
     model: result.model,
     status: "success",
-    creditsConsumed: 0,
+    creditsConsumed: 1,
     prompt: result.prompt,
     output: result.text,
   });
-  return ok({ output: result.json, provider: result.provider, model: result.model, usage: allowance.snapshot });
+  return ok({ output: result.json, listingId: String(listing._id), provider: result.provider, model: result.model, usage: usageResult.snapshot });
 }

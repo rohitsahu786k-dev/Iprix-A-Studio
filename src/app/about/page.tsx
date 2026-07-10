@@ -4,12 +4,12 @@ import { brand } from "@/lib/brand";
 
 export const metadata: Metadata = {
   title: "About A+ Studio | E-commerce Seller Mission",
-  description: "Learn more about Iprix Media and A+ Studio's mission to streamline listing creation and inventory onboarding for Indian marketplace sellers.",
+  description: "Learn more about Iprix Media and A+ Studio’s mission to streamline listing creation and inventory onboarding for Indian marketplace sellers.",
   keywords: ["Iprix Media", "About A+ Studio", "Udaipur Rajasthan IT", "e-commerce seller automation team"],
   alternates: { canonical: "/about" },
   openGraph: {
     title: "About A+ Studio by Iprix Media | Seller Automation Mission",
-    description: "Learn more about Iprix Media and A+ Studio's mission to streamline listing creation and inventory onboarding for Indian marketplace sellers.",
+    description: "Learn more about Iprix Media and A+ Studio’s mission to streamline listing creation and inventory onboarding for Indian marketplace sellers.",
     url: "https://aplusstudio.iprixmedia.com/about",
     siteName: "A+ Studio",
     type: "website",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "About A+ Studio | E-commerce Seller Mission",
-    description: "Learn more about Iprix Media and A+ Studio's mission to streamline listing creation and inventory onboarding for Indian marketplace sellers.",
+    description: "Learn more about Iprix Media and A+ Studio’s mission to streamline listing creation and inventory onboarding for Indian marketplace sellers.",
     images: ["https://aplusstudio.iprixmedia.com/seller-dashboard.png"],
   },
 };
@@ -96,14 +96,14 @@ export default function AboutPage() {
               Indian marketplace sellers spend hours manually copying product data between spreadsheets and online listing panels. Titles get truncated, images get rejected, and shipping weights are declared incorrectly — costing sellers money on every order. A+ Studio was born from firsthand experience with these pain points.
             </p>
             <p>
-              Our team at Iprix Media has spent over two years building tools specifically for Meesho, Flipkart and Amazon India sellers. We understand the nuances of catalog compliance, the way Meesho's image checker works, how volumetric weight affects profitability, and what makes a product title rank in marketplace search.
+              Our team at Iprix Media has spent over two years building tools specifically for Meesho, Flipkart and Amazon India sellers. We understand the nuances of catalog compliance, the way Meesho’s image checker works, how volumetric weight affects profitability, and what makes a product title rank in marketplace search.
             </p>
             <p>
               A+ Studio is not a generic SaaS product — it is purpose-built for the Indian e-commerce ecosystem. Every feature addresses a real workflow bottleneck: from the Chrome extension that fills listing forms in seconds, to the AI tool that generates keyword-rich titles and descriptions matched to your product category.
             </p>
             <h2 className="text-2xl font-bold text-zinc-100 pt-4">Our commitment to sellers</h2>
             <p>
-              We believe powerful seller software should be accessible to everyone — from first-time Meesho suppliers to experienced catalog managers handling hundreds of SKUs per day. That is why A+ Studio's free plan is genuinely useful: unlimited keyword research, free image compliance checks, a shipping weight calculator, and AI-powered listing generation with no credit card required.
+              We believe powerful seller software should be accessible to everyone — from first-time Meesho suppliers to experienced catalog managers handling hundreds of SKUs per day. That is why A+ Studio’s free plan is genuinely useful: unlimited keyword research, free image compliance checks, a shipping weight calculator, and AI-powered listing generation with no credit card required.
             </p>
             <p>
               As you grow, our paid plans scale with you — adding higher AI listing limits, bulk CSV uploads, advanced keyword insights and priority support. Every plan is month-to-month with no lock-in. We earn your trust by delivering results, not by trapping you in annual contracts.

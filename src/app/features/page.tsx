@@ -267,13 +267,13 @@ export default function FeaturesPage() {
             <div>
               <h3 className="text-lg font-bold text-zinc-200 mb-3">AI Listing Generator for Meesho, Flipkart &amp; Amazon</h3>
               <p>
-                The A+ Studio AI listing generator creates optimised product titles, descriptions, bullet points and keywords for Indian marketplaces. Simply enter your product name, category and key details — the AI produces marketplace-ready content in seconds. Titles are tuned for Meesho's character limits and keyword ranking signals. Descriptions follow Flipkart's and Amazon India's best practices for conversion.
+                The A+ Studio AI listing generator creates optimised product titles, descriptions, bullet points and keywords for Indian marketplaces. Simply enter your product name, category and key details — the AI produces marketplace-ready content in seconds. Titles are tuned for Meesho’s character limits and keyword ranking signals. Descriptions follow Flipkart’s and Amazon India’s best practices for conversion.
               </p>
             </div>
             <div>
               <h3 className="text-lg font-bold text-zinc-200 mb-3">Chrome Extension with Meesho Autofill</h3>
               <p>
-                The A+ Studio Chrome extension reads your saved listing template and fills the Meesho supplier panel — product title, price, description, size, colour, weight and attributes — automatically. It also supports Flipkart's listing form in beta mode. One click replaces 15 minutes of manual typing per SKU, and it works across all Meesho catalog categories including apparel, home decor, electronics accessories and beauty.
+                The A+ Studio Chrome extension reads your saved listing template and fills the Meesho supplier panel — product title, price, description, size, colour, weight and attributes — automatically. It also supports Flipkart’s listing form in beta mode. One click replaces 15 minutes of manual typing per SKU, and it works across all Meesho catalog categories including apparel, home decor, electronics accessories and beauty.
               </p>
             </div>
             <div>
@@ -291,13 +291,13 @@ export default function FeaturesPage() {
             <div>
               <h3 className="text-lg font-bold text-zinc-200 mb-3">Bulk CSV Upload for Meesho</h3>
               <p>
-                Upload hundreds of products at once using A+ Studio's bulk catalog upload. Import your product spreadsheet, map the columns to Meesho's required fields, run AI generation across every row, and export a ready-to-upload CSV file. This replaces hours of manual data entry for high-volume sellers, cataloging agencies and wholesale suppliers onboarding large inventories.
+                Upload hundreds of products at once using A+ Studio’s bulk catalog upload. Import your product spreadsheet, map the columns to Meesho’s required fields, run AI generation across every row, and export a ready-to-upload CSV file. This replaces hours of manual data entry for high-volume sellers, cataloging agencies and wholesale suppliers onboarding large inventories.
               </p>
             </div>
             <div>
               <h3 className="text-lg font-bold text-zinc-200 mb-3">PDF Label Analyser</h3>
               <p>
-                Meesho prints shipping labels as PDF files that contain declared product weight. A+ Studio's PDF Label Analyser scans your label and extracts the declared weight automatically, then compares it against the calculated volumetric weight of your package dimensions. If there is a mismatch that could trigger a chargeback, the tool flags it before dispatch — protecting your seller rating and profitability.
+                Meesho prints shipping labels as PDF files that contain declared product weight. A+ Studio’s PDF Label Analyser scans your label and extracts the declared weight automatically, then compares it against the calculated volumetric weight of your package dimensions. If there is a mismatch that could trigger a chargeback, the tool flags it before dispatch — protecting your seller rating and profitability.
               </p>
             </div>
           </div>
