@@ -224,7 +224,7 @@ export function PublicFooter() {
 
 export function PublicShell({ children }: { children: React.ReactNode }) {
   return (
-    <main className="min-h-screen w-full bg-zinc-950 text-zinc-100 selection:bg-indigo-600 selection:text-white relative pb-[72px] lg:pb-0">
+    <main className="min-h-screen w-full bg-zinc-950 text-zinc-100 selection:bg-indigo-600 selection:text-white relative pb-[calc(56px+env(safe-area-inset-bottom))] lg:pb-0">
       <PublicHeader />
       <div className="overflow-x-hidden">
         {children}
