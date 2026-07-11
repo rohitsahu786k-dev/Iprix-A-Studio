@@ -1,7 +1,8 @@
 import { z } from "zod";
 import { fail, ok, parseBody, requireApiUser } from "@/lib/api";
 import { connectDb } from "@/lib/db";
-import { Listing } from "@/models";
+import { checkListingAllowance, consumeListingUsage } from "@/lib/listing-usage";
+import { Listing, User } from "@/models";
 
 const patchSchema = z.object({
   title: z.string().max(500).optional(),
@@ -44,6 +45,36 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   const listing = await findOwnedListing(id, auth.session);
   if (!listing) return fail("Not found", 404);
   if (listing === "forbidden") return fail("Forbidden", 403);
+
+  // Escalating an uncounted draft to a used status must consume quota,
+  // otherwise free users could create inert drafts and PATCH them into
+  // real listings without ever hitting the lifetime limit.
+  const consumingStatuses = ["generated", "autofilled", "exported"];
+  const escalates =
+    auth.session.role !== "admin" &&
+    !listing.usageCounted &&
+    !!parsed.data.status &&
+    consumingStatuses.includes(parsed.data.status) &&
+    !consumingStatuses.includes(listing.status);
+  if (escalates) {
+    const user = await User.findById(auth.session.id);
+    if (!user || user.suspended) return fail("Account unavailable", 403);
+    const allowance = await checkListingAllowance(user);
+    if (!allowance.allowed) {
+      return fail("Upgrade required to create more AI-powered listings", 402, {
+        code: allowance.error,
+        usage: allowance.snapshot,
+      });
+    }
+    listing.set(parsed.data);
+    await listing.save();
+    await consumeListingUsage(user, listing._id, "listing_status_update", {
+      route: "/api/listings/[id]",
+      status: parsed.data.status,
+    });
+    return ok({ item: listing, listing });
+  }
+
   listing.set(parsed.data);
   await listing.save();
   return ok({ item: listing, listing });
