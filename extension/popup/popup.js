@@ -548,7 +548,7 @@ document.addEventListener("DOMContentLoaded", () => {
     XLSX.utils.book_append_sheet(wb, sheet, "Listings");
     XLSX.writeFile(
       wb,
-      `lisstify_bulk_${bfSelectedTemplate.name.replace(/\s+/g, "_")}.xlsx`,
+      `a-plus-studio_bulk_${bfSelectedTemplate.name.replace(/\s+/g, "_")}.xlsx`,
     );
     bfStatus(
       `Downloaded ${n} pre-filled rows — edit & upload to start.`,
@@ -1556,8 +1556,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   chrome.storage?.local.get(["listify_autofill_enabled"], (r) => {
-    // Default is ON (only false when explicitly turned off)
-    applyAutoFillGlobal(r.listify_autofill_enabled !== false);
+    // Default is OFF until the seller explicitly enables automatic filling.
+    applyAutoFillGlobal(r.listify_autofill_enabled === true);
   });
 
   autoFillGlobalBtn.addEventListener("click", () => {
@@ -1579,7 +1579,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     chrome.storage?.local.get(["listify_autofill_enabled"], (r) => {
-      const current = r.listify_autofill_enabled !== false; // default true
+      const current = r.listify_autofill_enabled === true; // default false
       const next = !current;
       chrome.storage?.local.set({ listify_autofill_enabled: next });
       applyAutoFillGlobal(next);

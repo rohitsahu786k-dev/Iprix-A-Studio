@@ -64,19 +64,17 @@
       } ]
    },
    "description": "AI listing autofill studio for Indian sellers by Iprix Media.",
-   "host_permissions": [ "https://aplusstudio.iprixmedia.com/*", "https://iprixmedia.com/*", "*://seller.flipkart.com/*", "https://sellercentral.amazon.in/*", "*://supplier.meesho.com/*", "*://*.meesho.com/*", "https://messho-images.picckie.com/*" ],
+   "host_permissions": [ "https://aplusstudio.iprixmedia.com/*", "https://iprixmedia.com/*", "*://seller.flipkart.com/*", "*://*.flixcart.com/*", "https://sellercentral.amazon.in/*", "*://supplier.meesho.com/*", "*://*.meesho.com/*", "https://messho-images.picckie.com/*" ],
    "icons": {
       "128": "aplus-studio-logo.png",
       "16": "aplus-studio-logo.png",
       "32": "aplus-studio-logo.png",
       "48": "aplus-studio-logo.png"
    },
-   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1vGWKNMWNmSrzkDz4pEqw4NoYl3KbJ2Y6f3fOSG8WxE+FBCf9a0XuRxoxML2+GtMNHrBTt+NLPlFBvSmIASuWTKrZ8Gcoj/VNdl6iKb0/3dTTx8N451GxO1w8etvkuIphbG08ioM1fCx/ZTmETl9SdFnkd/uAmXK9DqTNEnuTas+pVryJwU/uEv4+2DRdPEdR+1Usiedz1Ui/wt8CDSIh1NC1p/KwUc87nI4VakC8JTK7lcPapopgsX7xC414s3xjvsp+sSDSfWgi9Lo5WbnOcvwRzATfGhDrYlX8pTQHs3ZvkSWK5PYVQr5OBQ3QO5BqNpSYzsZBBZYR6BBU/hQoQIDAQAB",
    "manifest_version": 3,
    "name": "A+ Studio",
    "permissions": [ "activeTab", "scripting", "storage", "unlimitedStorage", "tabs", "windows", "declarativeNetRequest", "cookies", "alarms", "notifications" ],
-   "update_url": "https://clients2.google.com/service/update2/crx",
-   "version": "1.5.0",
+   "version": "1.5.1",
    "web_accessible_resources": [ {
       "matches": [ "<all_urls>" ],
       "resources": [ "popup/popup.html", "popup/popup.js", "popup/xlsx.mini.min.js", "popup/flipkart/fk-tab.js", "config.js", "fonts/inter-latin.woff2", "aplus-studio-logo.png" ]

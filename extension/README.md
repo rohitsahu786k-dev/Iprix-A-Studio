@@ -1,13 +1,13 @@
 # A+ Studio Extension
 
-AI listing autofill studio for Indian sellers by Iprix Media. This unpacked Manifest V3 extension is based on the Lisstify reference code and upgraded toward the A+ Studio roadmap.
+AI listing autofill studio for Indian sellers by Iprix Media.
 
 ## Load locally
 
 1. Open `chrome://extensions`
 2. Turn on **Developer mode** (top-right)
 3. Click **Load unpacked**
-4. Select this `listify` folder
+4. Select the `extension` folder in this project
 
 ## Source layout
 

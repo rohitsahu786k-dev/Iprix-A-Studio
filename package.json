@@ -12,6 +12,7 @@
     "extension:zip": "powershell Compress-Archive -Path extension/* -DestinationPath a-plus-studio-extension.zip -Force",
     "extension:build": "node scripts/build-extension-src.mjs",
     "extension:dist": "node scripts/build-extension-src.mjs && node scripts/build-extension.mjs",
+    "test:extension": "node scripts/check-extension.mjs",
     "test:low-shipping": "esbuild src/lib/low-shipping/engine.test.ts --bundle --platform=node --format=esm --external:node:* --outfile=.test-build/low-shipping.test.mjs && node --test .test-build/low-shipping.test.mjs"
   },
   "dependencies": {

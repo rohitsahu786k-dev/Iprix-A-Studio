@@ -1638,7 +1638,7 @@ import { detectCurrentCategory, scrapeBreadcrumbCategory } from "./category.js";
               for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
               const blob = new Blob([bytes], { type: mimeType });
               const ext = mimeType.includes("png") ? "png" : "jpg";
-              const file = new File([blob], `lisstify-image.${ext}`, { type: mimeType });
+              const file = new File([blob], `a-plus-studio-image.${ext}`, { type: mimeType });
 
               const fileInput =
                 document.querySelector('[data-testid="changeFrontImage"]') ||

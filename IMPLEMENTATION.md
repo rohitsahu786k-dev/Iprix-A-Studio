@@ -20,6 +20,6 @@ This project is the working foundation for the A+ Studio plan.
 - Razorpay recurring subscriptions and webhook signature verification.
 - SMTP email flows for verification, reset password and notifications.
 
-## Extension reference
+## Extension
 
-The existing unpacked extension in `D:\listify\listify` has been kept as the working reference base and upgraded toward A+ Studio branding/tools separately.
+The Manifest V3 extension lives in `extension/` and ships under the A+ Studio identity.

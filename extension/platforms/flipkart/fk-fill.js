@@ -647,6 +647,23 @@
     // Flipkart "rti--container" fields hold a list of chips (role="tab" with
     // label/value attrs) plus an input for typing more. Used by Quantity,
     // Items Included, Dosage, etc. We save the full list of chip values.
+    // Read values already present when a collapsed section is opened. These
+    // fields may never emit an input/change event, so the normal interaction
+    // observer alone cannot capture them during a full section walk.
+    function captureTextInputsIn(panel) {
+        if (!panel) return;
+        const inputs = panel.querySelectorAll(
+            'input:not([type="hidden"]):not([type="file"]):not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]),' +
+            'textarea'
+        );
+
+        inputs.forEach((input) => {
+            const value = typeof input.value === 'string' ? input.value.trim() : '';
+            if (!value) return;
+            try { captureField(input); } catch (_) {}
+        });
+    }
+
     function captureMultiTextIn(panel) {
         if (!panel) return;
         const containers = panel.querySelectorAll('.rti--container');
@@ -880,6 +897,7 @@
                 captureComboboxesIn(panel);
                 captureMultiTextIn(panel);
                 captureMultiCheckboxIn(panel);
+                captureTextInputsIn(panel);
             }
             visited++;
         }
