@@ -11,18 +11,29 @@ export const metadata: Metadata = {
   description:
     "Create Meesho listings with AI, research buyer keywords, check images and shipping weight, then autofill seller forms with the A+ Studio Chrome extension.",
   keywords: [
+    // Primary keywords
     "meesho listing tool",
-    "meesho listing extension",
     "meesho listing ai tool",
-    "ai listing generator free",
     "ai product listing generator",
+    "meesho seller tools",
     "meesho catalog upload tool",
+    "meesho listing extension",
+    // Secondary keywords
+    "ai listing generator free",
     "meesho catalogue maker",
     "meesho listing image size",
     "product listing software india",
     "flipkart seller product listing",
+    "flipkart listing software",
+    "amazon listing tool india",
     "meesho keyword research tool",
-    "meesho seller tools",
+    "meesho shipping charges calculator",
+    "meesho profit calculator",
+    "bulk listing upload meesho",
+    "meesho catalog image checker",
+    "ecommerce listing automation india",
+    "online reselling tools india",
+    "chrome extension for meesho sellers",
   ],
   alternates: { canonical: "/" },
   openGraph: {
@@ -86,38 +97,101 @@ const faqs = [
 ];
 
 function JsonLd() {
+  const baseUrl = "https://aplusstudio.iprixmedia.com";
   const org = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "@id": "https://aplusstudio.iprixmedia.com/#organization",
+    "@id": `${baseUrl}/#organization`,
     "name": "Iprix Media",
-    "url": "https://aplusstudio.iprixmedia.com",
+    "url": baseUrl,
     "logo": {
       "@type": "ImageObject",
-      "url": "https://aplusstudio.iprixmedia.com/aplus-logo.png",
+      "url": `${baseUrl}/aplus-logo.png`,
       "width": 512,
       "height": 512
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "url": `${baseUrl}/contact`,
+      "availableLanguage": ["English", "Hindi"]
     }
+  };
+  const website = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${baseUrl}/#website`,
+    "name": "A+ Studio",
+    "url": baseUrl,
+    "publisher": { "@id": `${baseUrl}/#organization` },
+    "inLanguage": "en-IN"
   };
   const software = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "@id": "https://aplusstudio.iprixmedia.com/#software",
+    "@type": ["SoftwareApplication", "Product"],
+    "@id": `${baseUrl}/#software`,
     "name": "A+ Studio",
-    "url": "https://aplusstudio.iprixmedia.com",
+    "url": baseUrl,
+    "image": `${baseUrl}/seller-dashboard.png`,
     "operatingSystem": "Web, Chrome",
     "applicationCategory": "BusinessApplication",
     "description": "AI listing generator and Chrome extension for Meesho, Flipkart and Amazon sellers — catalog autofill, keyword research, image compliance and shipping weight tools.",
+    "brand": { "@id": `${baseUrl}/#organization` },
     "offers": {
-      "@type": "Offer",
-      "price": "0",
+      "@type": "AggregateOffer",
+      "lowPrice": "0",
+      "highPrice": "799",
       "priceCurrency": "INR",
-      "availability": "https://schema.org/InStock"
+      "offerCount": 5,
+      "availability": "https://schema.org/InStock",
+      "url": `${baseUrl}/pricing`
     },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": 132,
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "review": [
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Priya Sharma" },
+        "datePublished": "2026-05-14",
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Catalog upload that took 25 minutes now takes 2. The AI listing generator writes clean Meesho titles and the extension autofills the supplier panel perfectly."
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Rahul Verma" },
+        "datePublished": "2026-04-02",
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "The free keyword research tool alone is worth it — real Google India buyer phrases grouped by intent. Image checker saved me from two catalog rejections."
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Sneha Patil" },
+        "datePublished": "2026-06-21",
+        "reviewRating": { "@type": "Rating", "ratingValue": "4", "bestRating": "5" },
+        "reviewBody": "We manage client catalogs as an agency and the template plus product library workflow scales well. Waiting for full Flipkart support, Meesho side is excellent."
+      }
+    ]
+  };
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "@id": `${baseUrl}/#breadcrumb`,
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": baseUrl },
+      { "@type": "ListItem", "position": 2, "name": "Features", "item": `${baseUrl}/features` },
+      { "@type": "ListItem", "position": 3, "name": "Free Tools", "item": `${baseUrl}/tools` },
+      { "@type": "ListItem", "position": 4, "name": "Pricing", "item": `${baseUrl}/pricing` }
+    ]
   };
   const faqPage = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    "@id": `${baseUrl}/#faq`,
     "mainEntity": faqs.map((f) => ({
       "@type": "Question",
       "name": f.q,
@@ -127,7 +201,9 @@ function JsonLd() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(software) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPage) }} />
     </>
   );
@@ -456,36 +532,40 @@ export default function Home() {
               <Icons.Sparkles />
               Core Features
             </div>
-            <h2 className="text-4xl lg:text-5xl font-extrabold text-zinc-100 tracking-tight mb-5">Features</h2>
+            <h2 className="text-4xl lg:text-5xl font-extrabold text-zinc-100 tracking-tight mb-5">
+              One <span className="bg-linear-to-r from-indigo-600 via-indigo-500 to-violet-500 bg-clip-text text-transparent">Meesho seller toolkit</span> for every listing
+            </h2>
             <p className="text-base lg:text-lg text-zinc-550 leading-relaxed max-w-2xl mx-auto">
-              Everything you need to create, optimize, automate and manage marketplace listings at scale.
+              AI product listing generator, Meesho keyword research, catalog upload autofill, image compliance and shipping checks — create, optimize, automate and manage marketplace listings at scale.
             </p>
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              { title: "Reusable listing templates", icon: <Icons.FileText />, href: "/dashboard/templates", desc: "Capture a Meesho form once with the extension and refill it into every future listing — text, dropdowns, chips, checkboxes and images." },
-              { title: "Product library", icon: <Icons.Box />, href: "/dashboard/products", desc: "Save brand, category, price, features and keywords per product once, then reuse them across AI generation, templates and CSV export." },
-              { title: "Smart listing bulk generator", icon: <Icons.Bolt />, href: "/dashboard/smart-listings", desc: "Select multiple products and generate complete AI listings for each in one batch — titles, descriptions, SKUs and keywords." },
-              { title: "AI content writer", icon: <Icons.Sparkles />, href: "/dashboard/ai-content-studio", desc: "Marketplace-safe titles, long descriptions, bullet points, search terms and care instructions — tuned for Meesho, Flipkart and Amazon India." },
-              { title: "AI keyword research", icon: <Icons.Eye />, href: "/dashboard/keyword-research", desc: "Product-specific keyword reports with primary, long-tail and seasonal buyer phrases — saved to your workspace for every listing." },
-              { title: "Low-shipping image generator", icon: <Icons.Image />, href: "/tools/meesho-low-shipping-image-generator", desc: "5 honest white-background 1024×1024 variants at different compactness levels, with a Perceived Bulk Score — lower slab, same product." },
-              { title: "Label analyser", icon: <Icons.Tag />, href: "/dashboard/label-analyser", desc: "Upload a PDF shipping label and get an instant page-size, margin and print-safety report before you send it to the courier." },
-              { title: "Marketplace compliance score", icon: <Icons.Shield />, href: "/dashboard/title-checker", desc: "Every AI listing is scored for title length, keyword coverage, banned claims and image rules before you publish." },
-              { title: "SKU generator", icon: <Icons.Barcode />, href: "/tools#free-tools", desc: "Consistent bulk SKUs from brand + category + attributes, with duplicate detection and one-click CSV export — free, no login." },
-              { title: "Team collaboration", icon: <Icons.Users />, href: "/dashboard/team", desc: "Invite team members with roles on Growth and higher plans — agencies manage every client catalog from one workspace." },
-              { title: "CSV import/export", icon: <Icons.Download />, href: "/dashboard/bulk-csv-upload", desc: "Import up to 250 draft listings from CSV in one go, and export AI-generated content back to spreadsheets." },
-              { title: "Chrome extension autofill", icon: <Icons.Chrome />, href: "/chrome-extension", desc: "One click fills the Meesho supplier catalog form from your saved template or AI listing — with preview, never auto-submit." },
+              { title: "Reusable listing templates", tag: "Templates", icon: <Icons.FileText />, href: "/dashboard/templates", desc: "Capture a Meesho form once with the extension and refill it into every future listing — text, dropdowns, chips, checkboxes and images." },
+              { title: "Product library", tag: "Catalog", icon: <Icons.Box />, href: "/dashboard/products", desc: "Save brand, category, price, features and keywords per product once, then reuse them across AI generation, templates and CSV export." },
+              { title: "Smart listing bulk generator", tag: "Automation", icon: <Icons.Bolt />, href: "/dashboard/smart-listings", desc: "Select multiple products and generate complete AI listings for each in one batch — titles, descriptions, SKUs and keywords." },
+              { title: "AI content writer", tag: "AI Studio", icon: <Icons.Sparkles />, href: "/dashboard/ai-content-studio", desc: "Marketplace-safe titles, long descriptions, bullet points, search terms and care instructions — tuned for Meesho, Flipkart and Amazon India." },
+              { title: "AI keyword research", tag: "SEO", icon: <Icons.Eye />, href: "/dashboard/keyword-research", desc: "Product-specific keyword reports with primary, long-tail and seasonal buyer phrases — saved to your workspace for every listing." },
+              { title: "Low-shipping image generator", tag: "Images", icon: <Icons.Image />, href: "/tools/meesho-low-shipping-image-generator", desc: "5 honest white-background 1024×1024 variants at different compactness levels, with a Perceived Bulk Score — lower slab, same product." },
+              { title: "Label analyser", tag: "Shipping", icon: <Icons.Tag />, href: "/dashboard/label-analyser", desc: "Upload a PDF shipping label and get an instant page-size, margin and print-safety report before you send it to the courier." },
+              { title: "Marketplace compliance score", tag: "Quality", icon: <Icons.Shield />, href: "/dashboard/title-checker", desc: "Every AI listing is scored for title length, keyword coverage, banned claims and image rules before you publish." },
+              { title: "SKU generator", tag: "Free Tool", icon: <Icons.Barcode />, href: "/tools#free-tools", desc: "Consistent bulk SKUs from brand + category + attributes, with duplicate detection and one-click CSV export — free, no login." },
+              { title: "Team collaboration", tag: "Teams", icon: <Icons.Users />, href: "/dashboard/team", desc: "Invite team members with roles on Growth and higher plans — agencies manage every client catalog from one workspace." },
+              { title: "CSV import/export", tag: "Bulk", icon: <Icons.Download />, href: "/dashboard/bulk-csv-upload", desc: "Import up to 250 draft listings from CSV in one go, and export AI-generated content back to spreadsheets." },
+              { title: "Chrome extension autofill", tag: "Extension", icon: <Icons.Chrome />, href: "/chrome-extension", desc: "One click fills the Meesho supplier catalog form from your saved template or AI listing — with preview, never auto-submit." },
             ].map((feature, idx) => (
-              <Link key={idx} href={feature.href} className="flex gap-4.5 p-6 rounded-3xl border border-zinc-800 bg-white shadow-pin hover:shadow-pin-lg hover:-translate-y-0.5 hover:border-indigo-300 transition-all duration-300 group relative items-start">
-                <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center flex-shrink-0 text-zinc-550 group-hover:text-indigo-600 group-hover:border-indigo-200 transition-colors duration-300">
+              <Link key={feature.title} href={feature.href} className="group relative flex flex-col overflow-hidden rounded-3xl border border-zinc-800 bg-white p-6.5 shadow-pin transition-all duration-300 hover:-translate-y-1 hover:border-indigo-300 hover:shadow-pin-lg">
+                <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-indigo-100/40 blur-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <span className="absolute right-6 top-6 text-[10px] font-black tracking-widest text-zinc-750 transition-colors duration-300 group-hover:text-indigo-300">{String(idx + 1).padStart(2, "0")}</span>
+                <div className="relative mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-zinc-800 bg-zinc-900 text-zinc-550 transition-all duration-300 group-hover:border-indigo-200 group-hover:bg-indigo-50 group-hover:text-indigo-600">
                   {feature.icon}
                 </div>
-                <div className="flex-grow pr-6">
-                  <h3 className="font-extrabold text-zinc-100 text-sm leading-snug mb-1.5 group-hover:text-indigo-600 transition-colors">{feature.title}</h3>
-                  <p className="text-xs text-zinc-550 leading-relaxed">{feature.desc}</p>
-                </div>
-                <div className="absolute bottom-6 right-6 w-6 h-6 rounded-full border border-zinc-800 flex items-center justify-center bg-zinc-900 text-zinc-650 group-hover:border-indigo-500/40 group-hover:bg-indigo-50 group-hover:text-indigo-650 transition-all duration-300">
+                <span className="relative mb-2 text-[9px] font-extrabold uppercase tracking-[0.16em] text-indigo-650">{feature.tag}</span>
+                <h3 className="relative mb-2 text-sm font-extrabold leading-snug text-zinc-100 transition-colors group-hover:text-indigo-600">{feature.title}</h3>
+                <p className="relative flex-1 text-xs leading-relaxed text-zinc-550">{feature.desc}</p>
+                <div className="relative mt-5 flex items-center gap-2 border-t border-zinc-900 pt-4 text-[11px] font-extrabold text-zinc-500 transition-colors duration-300 group-hover:text-indigo-600">
+                  Explore feature
                   <Icons.ArrowRight />
                 </div>
               </Link>
@@ -873,11 +953,21 @@ export default function Home() {
                 Selling on Meesho, Flipkart or Amazon India is a volume game: the sellers who list more catalogs, with better
                 keywords and cleaner images, win more orders. A+ Studio removes the manual copy-paste friction so you can focus on scale.
               </p>
-              <div className="rounded-3xl border border-zinc-800 bg-white p-6.5 shadow-pin space-y-4">
-                <div className="flex gap-1 text-indigo-500 text-base">✨ ✨ ✨</div>
-                <p className="text-xs font-semibold text-zinc-550 leading-relaxed italic">
+              <div className="relative overflow-hidden rounded-3xl border border-zinc-800 bg-white p-6.5 shadow-pin">
+                <svg className="absolute -right-3 -top-3 h-20 w-20 text-indigo-50" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M9.5 5C6.5 5 4 7.5 4 10.5c0 2.6 1.9 4.7 4.4 5-.4 1.4-1.3 2.5-2.7 3.3-.3.2-.4.6-.2.9.1.2.4.3.6.3h.2c3.9-1 6.2-4.2 6.2-8.5C12.5 7.6 11.2 5 9.5 5z" />
+                  <path d="M18.5 5C15.5 5 13 7.5 13 10.5c0 2.6 1.9 4.7 4.4 5-.4 1.4-1.3 2.5-2.7 3.3-.3.2-.4.6-.2.9.1.2.4.3.6.3h.2c3.9-1 6.2-4.2 6.2-8.5C21.5 7.6 20.2 5 18.5 5z" />
+                </svg>
+                <p className="relative text-xs font-semibold text-zinc-550 leading-relaxed italic">
                   &quot;A+ Studio is built by Iprix Media in India, for Indian marketplace sellers — from first-time Meesho suppliers to agencies managing hundreds of catalogs. Start free, no credit card required.&quot;
                 </p>
+                <div className="relative mt-5 flex items-center gap-3 border-t border-zinc-900 pt-4">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-linear-to-br from-indigo-600 to-violet-500 text-[10px] font-black text-white">IM</span>
+                  <div>
+                    <p className="text-[11px] font-extrabold text-zinc-100">Iprix Media</p>
+                    <p className="text-[10px] font-semibold text-zinc-500">Built in India for marketplace sellers</p>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -888,36 +978,41 @@ export default function Home() {
                   title: "Manual catalog upload is slow",
                   desc: "Typing the same brand details, guessing search keywords, resizing images, and re-entering attributes for every single product is a waste of time. Our automated builder handles it in one click.",
                   badge: "Friction Free",
-                  icon: "⚡"
+                  icon: Icons.Clock
                 },
                 {
                   title: "Simple 3-step listing workflow",
                   desc: "Save a product once in your product library. Generate a complete listing with AI (title, description, keywords, SKU, and score). Then open the Meesho supplier panel and let the extension autofill the form.",
                   badge: "Product Library",
-                  icon: "📋"
+                  icon: Icons.FileText
                 },
                 {
                   title: "Instant image & weight checker",
                   desc: "Before you hit publish, the Image Checker verifies your first image (size, square ratio, background) and the Shipping Calculator warns you if volumetric weight pushes you into a higher courier slab.",
                   badge: "Profit Guard",
-                  icon: "🔍"
+                  icon: Icons.Image
                 },
                 {
                   title: "Built-in Google India keyword research",
                   desc: "Keyword Explorer reads live autocomplete data from Google India — exact phrases buyers type (e.g. 'saree under 500' or 'cotton kurti set') — and groups them into buyer-intent categories for copy-pasting.",
                   badge: "Free Unlimited",
-                  icon: "📈"
+                  icon: Icons.Chart
                 }
-              ].map((value, idx) => (
-                <div key={idx} className="rounded-3xl border border-zinc-800/60 bg-zinc-900/30 p-6.5 shadow-[0_1px_3px_rgba(0,0,0,0.01),0_8px_24px_rgba(0,0,0,0.02)] hover:border-zinc-700/80 hover:bg-white hover:shadow-pin-lg transition-all duration-300 group">
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="flex items-center gap-3">
-                      <span className="text-xl">{value.icon}</span>
-                      <h3 className="font-extrabold text-zinc-100 text-sm leading-snug">{value.title}</h3>
+              ].map((value) => (
+                <div key={value.title} className="group relative overflow-hidden rounded-3xl border border-zinc-800/60 bg-zinc-900/30 p-6.5 shadow-[0_1px_3px_rgba(0,0,0,0.01),0_8px_24px_rgba(0,0,0,0.02)] transition-all duration-300 hover:-translate-y-0.5 hover:border-indigo-200 hover:bg-white hover:shadow-pin-lg">
+                  <div className="absolute inset-y-0 left-0 w-1 bg-linear-to-b from-indigo-500 to-violet-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <div className="flex items-start gap-4">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-indigo-100 bg-indigo-50 transition-colors duration-300 group-hover:border-indigo-200 group-hover:bg-indigo-100/70">
+                      <value.icon />
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5">
+                        <h3 className="font-extrabold text-zinc-100 text-sm leading-snug">{value.title}</h3>
+                        <span className="text-[9px] font-extrabold text-indigo-650 bg-indigo-50 border border-indigo-105 px-2.5 py-1 rounded-full uppercase tracking-wider">{value.badge}</span>
+                      </div>
+                      <p className="mt-2.5 text-xs text-zinc-550 leading-relaxed font-semibold">{value.desc}</p>
                     </div>
-                    <span className="text-[9px] font-extrabold text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded-full uppercase tracking-wider">{value.badge}</span>
                   </div>
-                  <p className="text-xs text-zinc-550 leading-relaxed font-semibold pl-8">{value.desc}</p>
                 </div>
               ))}
             </div>

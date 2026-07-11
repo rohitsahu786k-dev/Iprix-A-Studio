@@ -60,7 +60,7 @@ export function PricingCard({
           : "border-zinc-800 bg-white shadow-pin text-zinc-100 hover:border-zinc-700"
     }`}>
       {badges[plan.slug] || current ? (
-        <span className={`absolute -top-3 left-1/2 -translate-y-0.5 -translate-x-1/2 rounded-full px-3.5 py-1 text-[9px] font-extrabold uppercase tracking-widest shadow-sm ${
+        <span className={`absolute -top-3 left-1/2 -translate-y-0.5 -translate-x-1/2 whitespace-nowrap rounded-full px-3.5 py-1 text-[9px] font-extrabold uppercase tracking-widest shadow-sm ${
           dark ? "bg-gradient-to-r from-indigo-550 to-violet-550 text-white" : "bg-zinc-800 text-zinc-100"
         }`}>
           {current ? "Current plan" : badges[plan.slug]}
