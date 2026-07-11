@@ -2,18 +2,20 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import {
+  Activity,
   ArrowRight,
+  ArrowUpRight,
+  BarChart3,
   Bell,
   Check,
-  CreditCard,
   FileText,
-  Image as ImageIcon,
   Layers3,
   Package,
   Search,
   Sparkles,
-  Timer,
+  TrendingUp,
   Upload,
   Zap,
 } from "lucide-react";
@@ -29,6 +31,8 @@ import {
 } from "@/components/seller-tools";
 import { KeywordExplorer } from "@/components/keyword-explorer";
 import { LowShippingStudio } from "@/components/low-shipping-studio";
+import { ImageStudio } from "@/components/image-studio";
+import { documentationGuides } from "@/lib/docs";
 
 type RazorpayInstance = {
   open: () => void;
@@ -46,7 +50,6 @@ const resourceMap: Record<string, string> = {
   templates: "templates",
   products: "products",
   "smart-listings": "listings",
-  notifications: "notifications",
   team: "team",
   support: "support-tickets",
 };
@@ -102,12 +105,12 @@ export function WorkspaceModule({ module }: { module: string }) {
     if (module === "sku-generator") return <SkuGenerator />;
     if (module === "title-checker") return <TitleChecker />;
     if (module === "ai-content-studio") return <AIForm onDone={setStatus} />;
-    if (module === "image-maker") return <ImageForm onDone={setStatus} />;
+    if (module === "image-maker") return <ImageStudio onDone={setStatus} />;
     if (module === "low-shipping-images") return <LowShippingStudio />;
     if (module === "label-analyser") return <LabelForm onDone={setStatus} />;
     if (module === "subscription") return <SubscriptionForm onDone={setStatus} />;
     if (module === "team") return <TeamForm onDone={setStatus} />;
-    if (module === "notifications") return <NotificationForm onDone={setStatus} />;
+    if (module === "notifications") return <NotificationCenter onDone={setStatus} />;
     if (module === "support") return <SupportForm onDone={setStatus} />;
     if (module === "tutorial") return <Tutorial />;
     if (module === "bulk-csv-upload") return <BulkCsvForm onDone={setStatus} />;
@@ -118,19 +121,19 @@ export function WorkspaceModule({ module }: { module: string }) {
 
   return (
     <div>
-      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end mb-8">
+      <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
         <div>
-          <p className="text-[10px] font-extrabold uppercase tracking-widest text-zinc-500">Seller Workspace</p>
-          <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-zinc-100">{title}</h1>
+          <p className="text-[9px] font-black uppercase tracking-[0.2em] text-indigo-600">Seller workspace</p>
+          <h1 className="mt-2 text-3xl font-black tracking-[-0.045em] text-slate-950 sm:text-4xl">{title}</h1>
         </div>
-        <span className="inline-flex items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md px-3.5 py-2 text-xs font-bold text-zinc-300 shadow-sm">
-          <Sparkles className="h-3.5 w-3.5 text-zinc-100" />
+        <span className="inline-flex w-fit items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-[10px] font-extrabold text-slate-600 shadow-sm sm:text-xs">
+          <Sparkles className="h-3.5 w-3.5 text-indigo-600" />
           Meesho live | Flipkart/Amazon beta
         </span>
       </div>
       
       {status ? (
-        <div className="mt-5 rounded-xl border border-zinc-800 bg-zinc-950/50 px-4 py-3 text-xs font-bold text-zinc-200 shadow-sm transition-all">
+        <div className="mt-5 rounded-2xl border border-indigo-100 bg-indigo-50/80 px-4 py-3 text-xs font-bold text-indigo-800 shadow-sm transition-all">
           {status}
         </div>
       ) : null}
@@ -141,22 +144,41 @@ export function WorkspaceModule({ module }: { module: string }) {
   );
 }
 
+type DashboardSummary = {
+  user?: { plan?: string };
+  counts?: { templates?: number; products?: number; listings?: number; keywordReports?: number; extensionLogs?: number };
+  usage?: {
+    listings?: { label?: string; used?: number; limit?: number; remaining?: number };
+    keywords?: { label?: string; used?: number; limit?: number; remaining?: number };
+  };
+  analytics?: {
+    listingTrend?: Array<{ label: string; value: number }>;
+    workspaceMix?: Array<{ label: string; value: number }>;
+    statusBreakdown?: Record<string, number>;
+    platformBreakdown?: Record<string, number>;
+    averageListingScore?: number;
+  };
+};
+
 function Overview() {
-  const [summary, setSummary] = useState<{
-    user?: { plan?: string };
-    counts?: { templates?: number; products?: number; listings?: number; keywordReports?: number; extensionLogs?: number };
-    usage?: { listings?: { label?: string; used?: number; limit?: number }; keywords?: { label?: string; used?: number; limit?: number } };
-  } | null>(null);
+  const [summary, setSummary] = useState<DashboardSummary | null>(null);
+  const [loadError, setLoadError] = useState("");
 
   useEffect(() => {
     let mounted = true;
     fetch("/api/dashboard/summary")
-      .then((res) => res.json())
-      .then((data) => {
-        if (mounted) setSummary(data);
+      .then(async (res) => {
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || "Dashboard data is temporarily unavailable.");
+        return data;
       })
-      .catch(() => {
-        if (mounted) setSummary({});
+      .then((data) => {
+        if (!mounted) return;
+        if (!data.ok) throw new Error(data.error || "Dashboard data could not be loaded.");
+        setSummary(data);
+      })
+      .catch((error) => {
+        if (mounted) setLoadError(error instanceof Error ? error.message : "Dashboard data could not be loaded.");
       });
     return () => {
       mounted = false;
@@ -165,84 +187,247 @@ function Overview() {
 
   const counts = summary?.counts || {};
   const stats = [
-    ["Current plan", summary?.user?.plan || "-", CreditCard],
-    ["Templates", String(counts.templates ?? 0), Layers3],
-    ["Products", String(counts.products ?? 0), Package],
-    ["Listings created", String(counts.listings ?? 0), Sparkles],
-    ["Keyword reports", String(counts.keywordReports ?? 0), Search],
-    ["Extension actions", String(counts.extensionLogs ?? 0), Upload],
-    ["Listing quota", summary?.usage?.listings?.label || "-", Zap],
-    ["Keyword quota", summary?.usage?.keywords?.label || "-", Timer],
+    { label: "Listings created", value: counts.listings ?? 0, Icon: Sparkles, accent: "bg-indigo-50 text-indigo-700", helper: "AI and manual listings" },
+    { label: "Saved products", value: counts.products ?? 0, Icon: Package, accent: "bg-violet-50 text-violet-700", helper: "Reusable product records" },
+    { label: "Templates", value: counts.templates ?? 0, Icon: Layers3, accent: "bg-amber-50 text-amber-700", helper: "Ready for autofill" },
+    { label: "Extension actions", value: counts.extensionLogs ?? 0, Icon: Zap, accent: "bg-emerald-50 text-emerald-700", helper: "Successful synced actions" },
   ] as const;
+  const listingUsed = summary?.usage?.listings?.used ?? 0;
+  const listingLimit = summary?.usage?.listings?.limit ?? 0;
+  const keywordUsed = summary?.usage?.keywords?.used ?? 0;
+  const keywordLimit = summary?.usage?.keywords?.limit ?? 0;
+  const listingProgress = quotaProgress(listingUsed, listingLimit);
+  const keywordProgress = quotaProgress(keywordUsed, keywordLimit);
+  const trend = summary?.analytics?.listingTrend || [];
+  const mix = summary?.analytics?.workspaceMix || [];
 
   return (
-    <div className="mt-8 space-y-8">
-      {/* Stats Grid */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map(([label, value, Icon]) => (
-          <article className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-5 shadow-sm flex items-center justify-between hover:border-zinc-700 transition-all group" key={label}>
-            <div className="min-w-0 pr-3">
-              <p className="text-[10px] font-extrabold uppercase tracking-wider text-zinc-500">{label}</p>
-              <p className={`mt-2 break-words font-extrabold tracking-tight text-zinc-100 ${String(label).includes("quota") ? "text-sm leading-5" : "text-3xl font-mono"}`}>{value}</p>
+    <div className="mt-7 space-y-6">
+      {loadError ? (
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 px-5 py-4 text-xs font-bold text-rose-700">{loadError}</div>
+      ) : null}
+
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {stats.map(({ label, value, Icon, accent, helper }) => (
+          <article className="group rounded-[22px] border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.04)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(15,23,42,0.08)]" key={label}>
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-[9px] font-black uppercase tracking-[0.16em] text-slate-400">{label}</p>
+                <p className="mt-3 font-mono text-3xl font-black tracking-tight text-slate-950">{summary ? value : "—"}</p>
+              </div>
+              <span className={`grid h-11 w-11 place-items-center rounded-2xl ${accent}`}><Icon className="h-5 w-5" /></span>
             </div>
-            <div className="grid h-10 w-10 place-items-center rounded-xl border border-zinc-850 bg-zinc-950/50 text-zinc-200 group-hover:bg-zinc-800 group-hover:text-zinc-100 transition-all">
-              <Icon className="h-5 w-5" />
+            <div className="mt-4 flex items-center gap-1.5 text-[10px] font-bold text-slate-500">
+              <TrendingUp className="h-3.5 w-3.5 text-emerald-600" />
+              {helper}
             </div>
           </article>
         ))}
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        {/* Quick Actions */}
-        <article className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6 shadow-sm">
-          <h2 className="text-sm font-extrabold uppercase tracking-wider text-zinc-100 mb-5">Quick Actions</h2>
-          <div className="grid gap-3">
-            {[
-              ["Create product", Package, "/dashboard/products"],
-              ["Save template", Layers3, "/dashboard/templates"],
-              ["Generate listing", Sparkles, "/dashboard/listings/new"],
-              ["Research keywords", Search, "/dashboard/keyword-research"],
-            ].map(([item, Icon, href]) => (
-              <a 
-                className="flex items-center justify-between rounded-xl border border-zinc-800 px-4 py-3.5 text-xs font-bold text-zinc-300 hover:bg-zinc-950/50 hover:text-indigo-400 transition-all group" 
-                href={String(href)} 
-                key={String(item)}
-              >
-                <span className="flex items-center gap-3">
-                  <Icon className="h-4 w-4 text-zinc-400 group-hover:text-indigo-400 transition-colors" />
-                  {String(item)}
-                </span>
-                <ArrowRight className="h-4 w-4 text-zinc-500 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
-              </a>
-            ))}
+      <div className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.75fr)]">
+        <article className="min-w-0 rounded-[24px] border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.04)] sm:p-6">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-[9px] font-black uppercase tracking-[0.16em] text-indigo-600">Performance</p>
+              <h2 className="mt-1.5 text-lg font-extrabold text-slate-950">Listing activity</h2>
+              <p className="mt-1 text-[10px] font-semibold text-slate-500">Listings created during the last six months</p>
+            </div>
+            <span className="inline-flex w-fit items-center gap-2 rounded-xl bg-slate-50 px-3 py-2 text-[10px] font-extrabold text-slate-600">
+              <BarChart3 className="h-3.5 w-3.5 text-indigo-600" />
+              {trend.reduce((total, item) => total + item.value, 0)} total
+            </span>
+          </div>
+          <ListingTrendChart data={trend} />
+        </article>
+
+        <article className="rounded-[24px] border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.04)] sm:p-6">
+          <p className="text-[9px] font-black uppercase tracking-[0.16em] text-violet-600">Distribution</p>
+          <h2 className="mt-1.5 text-lg font-extrabold text-slate-950">Workspace mix</h2>
+          <WorkspaceDonut data={mix} />
+        </article>
+      </div>
+
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
+        <article className="rounded-[24px] border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.04)] sm:p-6">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-[9px] font-black uppercase tracking-[0.16em] text-slate-400">Plan usage</p>
+              <h2 className="mt-1.5 text-lg font-extrabold text-slate-950">Monthly capacity</h2>
+            </div>
+            <Link href="/dashboard/subscription" className="inline-flex items-center gap-1 text-[10px] font-extrabold text-indigo-600 hover:text-indigo-800">
+              Manage plan <ArrowUpRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+          <div className="mt-6 space-y-5">
+            <QuotaRow label="AI listings" used={listingUsed} limit={listingLimit} progress={listingProgress} color="bg-indigo-600" />
+            <QuotaRow label="Keyword reports" used={keywordUsed} limit={keywordLimit} progress={keywordProgress} color="bg-violet-600" />
+          </div>
+          <div className="mt-6 grid grid-cols-2 gap-3">
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-[9px] font-black uppercase tracking-wider text-slate-400">Current plan</p>
+              <p className="mt-2 text-sm font-extrabold capitalize text-slate-900">{summary?.user?.plan || "Loading"}</p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-[9px] font-black uppercase tracking-wider text-slate-400">Avg. AI score</p>
+              <p className="mt-2 text-sm font-extrabold text-slate-900">{summary?.analytics?.averageListingScore || 0}/100</p>
+            </div>
           </div>
         </article>
 
-        {/* Onboarding Checklist */}
-        <article className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6 shadow-sm">
-          <h2 className="text-sm font-extrabold uppercase tracking-wider text-zinc-100 mb-5">Workspace Checklist</h2>
-          <div className="space-y-4">
+        <article className="rounded-[24px] border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.04)] sm:p-6">
+          <p className="text-[9px] font-black uppercase tracking-[0.16em] text-slate-400">Shortcuts</p>
+          <h2 className="mt-1.5 text-lg font-extrabold text-slate-950">Quick actions</h2>
+          <div className="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
             {[
-              { title: "Add product data", desc: "Save product name, brand, category, price and features." },
-              { title: "Generate AI listing", desc: "Create final title, descriptions, keywords, SKU and score." },
-              { title: "Run keyword research", desc: "Save product-specific keyword reports before publishing." },
-              { title: "Connect Chrome extension", desc: "Use saved templates and autofill after checking quota." },
-            ].map((step, idx) => (
-              <div className="flex gap-4 items-start" key={idx}>
-                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-600 text-white font-mono text-[10px] font-bold shrink-0 mt-0.5">
-                  0{idx + 1}
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-zinc-100 flex items-center gap-2">
-                    {step.title}
-                    <Check className="h-3.5 w-3.5 text-zinc-500" />
-                  </h4>
-                  <p className="text-[10px] text-zinc-400 leading-normal mt-0.5">{step.desc}</p>
-                </div>
-              </div>
+              ["Generate AI listing", Sparkles, "/dashboard/listings/new", "bg-indigo-50 text-indigo-700"],
+              ["Add product", Package, "/dashboard/products", "bg-violet-50 text-violet-700"],
+              ["Save template", Layers3, "/dashboard/templates", "bg-amber-50 text-amber-700"],
+              ["Research keywords", Search, "/dashboard/keyword-research", "bg-emerald-50 text-emerald-700"],
+            ].map(([item, Icon, href, accent]) => (
+              <Link className="group flex items-center gap-3 rounded-2xl border border-slate-100 p-3 transition hover:border-slate-200 hover:bg-slate-50" href={String(href)} key={String(item)}>
+                <span className={`grid h-9 w-9 place-items-center rounded-xl ${accent}`}><Icon className="h-4 w-4" /></span>
+                <span className="min-w-0 flex-1 text-[11px] font-extrabold text-slate-700">{String(item)}</span>
+                <ArrowRight className="h-3.5 w-3.5 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-indigo-600" />
+              </Link>
             ))}
           </div>
         </article>
+      </div>
+
+      <article className="rounded-[24px] border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.04)] sm:p-6">
+        <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+          <div>
+            <p className="text-[9px] font-black uppercase tracking-[0.16em] text-slate-400">Onboarding</p>
+            <h2 className="mt-1.5 text-lg font-extrabold text-slate-950">Workspace checklist</h2>
+          </div>
+          <Link href="/docs" className="text-[10px] font-extrabold text-indigo-600">Open documentation →</Link>
+        </div>
+        <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {[
+            { title: "Add product data", desc: "Save product details once.", done: (counts.products || 0) > 0, href: "/dashboard/products" },
+            { title: "Generate AI listing", desc: "Create optimized listing copy.", done: (counts.listings || 0) > 0, href: "/dashboard/listings/new" },
+            { title: "Run keyword research", desc: "Find buyer-intent terms.", done: (counts.keywordReports || 0) > 0, href: "/dashboard/keyword-research" },
+            { title: "Use the extension", desc: "Autofill marketplace forms.", done: (counts.extensionLogs || 0) > 0, href: "/docs/install-extension" },
+          ].map((step, idx) => (
+            <Link className="group rounded-2xl border border-slate-100 bg-slate-50/70 p-4 transition hover:border-indigo-100 hover:bg-indigo-50/40" href={step.href} key={step.title}>
+              <div className="flex items-center justify-between">
+                <span className={`grid h-8 w-8 place-items-center rounded-xl text-[10px] font-black ${step.done ? "bg-emerald-100 text-emerald-700" : "bg-white text-slate-500 shadow-sm"}`}>
+                  {step.done ? <Check className="h-4 w-4" /> : `0${idx + 1}`}
+                </span>
+                <ArrowUpRight className="h-3.5 w-3.5 text-slate-300 transition group-hover:text-indigo-600" />
+              </div>
+              <h3 className="mt-4 text-xs font-extrabold text-slate-900">{step.title}</h3>
+              <p className="mt-1 text-[10px] font-semibold leading-4 text-slate-500">{step.desc}</p>
+            </Link>
+          ))}
+        </div>
+      </article>
+    </div>
+  );
+}
+
+function quotaProgress(used: number, limit: number) {
+  if (limit < 0) return 22;
+  if (!limit) return 0;
+  return Math.min(100, Math.round((used / limit) * 100));
+}
+
+function QuotaRow({ label, used, limit, progress, color }: { label: string; used: number; limit: number; progress: number; color: string }) {
+  return (
+    <div>
+      <div className="mb-2 flex items-center justify-between gap-3 text-[10px] font-extrabold">
+        <span className="text-slate-600">{label}</span>
+        <span className="font-mono text-slate-900">{limit < 0 ? `${used} / Unlimited` : `${used} / ${limit}`}</span>
+      </div>
+      <div className="h-2.5 overflow-hidden rounded-full bg-slate-100">
+        <div className={`h-full rounded-full transition-all duration-700 ${color}`} style={{ width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function ListingTrendChart({ data }: { data: Array<{ label: string; value: number }> }) {
+  const fallback = Array.from({ length: 6 }, (_, index) => ({ label: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"][index], value: 0 }));
+  const pointsData = data.length ? data : fallback;
+  const maxValue = Math.max(1, ...pointsData.map((item) => item.value));
+  const width = 620;
+  const height = 220;
+  const padX = 24;
+  const padY = 28;
+  const chartWidth = width - padX * 2;
+  const chartHeight = height - padY * 2;
+  const points = pointsData.map((item, index) => ({
+    ...item,
+    x: padX + (index * chartWidth) / Math.max(1, pointsData.length - 1),
+    y: padY + chartHeight - (item.value / maxValue) * chartHeight,
+  }));
+  const polyline = points.map((point) => `${point.x},${point.y}`).join(" ");
+  const area = `${padX},${height - padY} ${polyline} ${width - padX},${height - padY}`;
+
+  return (
+    <div className="mt-5 overflow-hidden" aria-label="Six month listing activity line graph" role="img">
+      <svg className="h-auto w-full" viewBox={`0 0 ${width} ${height}`}>
+        <defs>
+          <linearGradient id="listing-area" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#4f46e5" stopOpacity="0.24" />
+            <stop offset="100%" stopColor="#4f46e5" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        {[0, 1, 2, 3].map((line) => {
+          const y = padY + (line * chartHeight) / 3;
+          return <line key={line} x1={padX} x2={width - padX} y1={y} y2={y} stroke="#e2e8f0" strokeDasharray="4 6" />;
+        })}
+        <polygon points={area} fill="url(#listing-area)" />
+        <polyline points={polyline} fill="none" stroke="#4f46e5" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+        {points.map((point) => (
+          <g key={`${point.label}-${point.x}`}>
+            <circle cx={point.x} cy={point.y} r="6" fill="#fff" stroke="#4f46e5" strokeWidth="4" />
+            <text x={point.x} y={height - 5} textAnchor="middle" fill="#64748b" fontSize="11" fontWeight="700">{point.label}</text>
+            <text x={point.x} y={Math.max(14, point.y - 13)} textAnchor="middle" fill="#0f172a" fontSize="11" fontWeight="800">{point.value}</text>
+          </g>
+        ))}
+      </svg>
+    </div>
+  );
+}
+
+function WorkspaceDonut({ data }: { data: Array<{ label: string; value: number }> }) {
+  const colors = ["#4f46e5", "#8b5cf6", "#f59e0b", "#10b981"];
+  const safeData = data.length ? data : [
+    { label: "Listings", value: 0 },
+    { label: "Products", value: 0 },
+    { label: "Templates", value: 0 },
+    { label: "Keywords", value: 0 },
+  ];
+  const total = safeData.reduce((sum, item) => sum + item.value, 0);
+  const stops = safeData.map((item, index) => {
+    const valuesBefore = safeData.slice(0, index).reduce((sum, entry) => sum + entry.value, 0);
+    const valuesThrough = valuesBefore + item.value;
+    const start = total ? (valuesBefore / total) * 100 : index * 25;
+    const end = total ? (valuesThrough / total) * 100 : (index + 1) * 25;
+    return `${colors[index % colors.length]} ${start}% ${end}%`;
+  });
+
+  return (
+    <div className="mt-5 flex flex-col items-center gap-5 sm:flex-row xl:flex-col 2xl:flex-row">
+      <div className="relative h-36 w-36 shrink-0 rounded-full" style={{ background: `conic-gradient(${stops.join(", ")})` }}>
+        <div className="absolute inset-4 grid place-items-center rounded-full bg-white shadow-inner">
+          <div className="text-center">
+            <Activity className="mx-auto h-4 w-4 text-indigo-600" />
+            <p className="mt-1 font-mono text-2xl font-black text-slate-950">{total}</p>
+            <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">records</p>
+          </div>
+        </div>
+      </div>
+      <div className="w-full space-y-2.5">
+        {safeData.map((item, index) => (
+          <div className="flex items-center gap-2.5" key={item.label}>
+            <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: colors[index % colors.length] }} />
+            <span className="flex-1 text-[10px] font-bold text-slate-500">{item.label}</span>
+            <span className="font-mono text-[11px] font-black text-slate-900">{item.value}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -260,8 +445,91 @@ function TeamForm({ onDone }: { onDone: (message: string) => void }) {
   return <JsonForm endpoint="/api/team" fields={["email", "role"]} onDone={onDone} />;
 }
 
-function NotificationForm({ onDone }: { onDone: (message: string) => void }) {
-  return <JsonForm endpoint="/api/notifications" fields={["title", "message", "type"]} onDone={onDone} />;
+function NotificationCenter({ onDone }: { onDone: (message: string) => void }) {
+  const [items, setItems] = useState<Array<Record<string, unknown>>>([]);
+  const [busy, setBusy] = useState(false);
+
+  const load = useCallback(async () => {
+    setBusy(true);
+    try {
+      const response = await fetch("/api/notifications", { cache: "no-store" });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || "Notifications could not be loaded.");
+      setItems(Array.isArray(data.items) ? data.items : []);
+    } catch (error) {
+      onDone(error instanceof Error ? error.message : "Notifications could not be loaded.");
+    } finally {
+      setBusy(false);
+    }
+  }, [onDone]);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => void load(), 0);
+    return () => window.clearTimeout(timer);
+  }, [load]);
+
+  async function markRead(id: string) {
+    const response = await fetch(`/api/notifications?id=${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ read: true }),
+    });
+    if (response.ok) setItems((current) => current.map((item) => String(item._id) === id ? { ...item, read: true } : item));
+    else onDone("Notification could not be updated.");
+  }
+
+  async function remove(id: string) {
+    const response = await fetch(`/api/notifications?id=${encodeURIComponent(id)}`, { method: "DELETE" });
+    if (response.ok) {
+      setItems((current) => current.filter((item) => String(item._id) !== id));
+      onDone("Notification removed.");
+    } else onDone("Notification could not be removed.");
+  }
+
+  async function markAllRead() {
+    const unread = items.filter((item) => !item.read);
+    if (!unread.length) {
+      onDone("All notifications are already read.");
+      return;
+    }
+    setBusy(true);
+    const results = await Promise.all(unread.map((item) => fetch(`/api/notifications?id=${encodeURIComponent(String(item._id))}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ read: true }),
+    })));
+    setBusy(false);
+    if (results.every((response) => response.ok)) {
+      setItems((current) => current.map((item) => ({ ...item, read: true })));
+      onDone("All notifications marked as read.");
+    } else onDone("Some notifications could not be updated.");
+  }
+
+  return (
+    <div className="rounded-[24px] border border-slate-200 bg-white shadow-[0_8px_30px_rgba(15,23,42,0.04)]">
+      <div className="flex flex-col gap-3 border-b border-slate-100 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+        <div><h2 className="text-sm font-extrabold text-slate-950">Notification centre</h2><p className="mt-1 text-[10px] font-semibold text-slate-500">Account, extension, billing and support updates</p></div>
+        <button type="button" onClick={() => void markAllRead()} disabled={busy} className="inline-flex w-fit items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-[10px] font-extrabold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"><Check className="h-3.5 w-3.5" /> Mark all read</button>
+      </div>
+      <div className="divide-y divide-slate-100">
+        {items.map((item) => {
+          const id = String(item._id);
+          return (
+            <div className={`flex gap-3 p-5 sm:items-center sm:gap-4 sm:px-6 ${item.read ? "bg-white" : "bg-indigo-50/35"}`} key={id}>
+              <span className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full sm:mt-0 ${item.read ? "bg-slate-300" : "bg-indigo-600"}`} />
+              <div className="min-w-0 flex-1"><h3 className="text-xs font-extrabold text-slate-900">{String(item.title || "A+ Studio update")}</h3><p className="mt-1 text-[10px] font-semibold leading-5 text-slate-500">{String(item.message || "Open the dashboard for more information.")}</p></div>
+              <div className="flex shrink-0 flex-col gap-1 sm:flex-row">
+                {!item.read ? <button type="button" onClick={() => void markRead(id)} className="rounded-lg px-2.5 py-2 text-[9px] font-extrabold text-indigo-600 hover:bg-indigo-50">Mark read</button> : null}
+                <button type="button" onClick={() => void remove(id)} className="rounded-lg px-2.5 py-2 text-[9px] font-extrabold text-slate-400 hover:bg-rose-50 hover:text-rose-700">Remove</button>
+              </div>
+            </div>
+          );
+        })}
+        {!busy && !items.length ? <div className="p-12 text-center"><Bell className="mx-auto h-8 w-8 text-slate-300" /><p className="mt-3 text-xs font-bold text-slate-500">No notifications yet.</p></div> : null}
+        {busy && !items.length ? <div className="p-12 text-center text-xs font-bold text-slate-500">Loading notifications...</div> : null}
+      </div>
+    </div>
+  );
 }
 
 function SupportForm({ onDone }: { onDone: (message: string) => void }) {
@@ -288,7 +556,36 @@ function SupportForm({ onDone }: { onDone: (message: string) => void }) {
 }
 
 function SettingsForm({ onDone }: { onDone: (message: string) => void }) {
-  return <JsonForm endpoint="/api/products" fields={["title", "internalNotes"]} button="Save profile note" onDone={onDone} />;
+  const [busy, setBusy] = useState(false);
+
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setBusy(true);
+    const payload = Object.fromEntries(new FormData(event.currentTarget).entries());
+    try {
+      const response = await fetch("/api/auth/me", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json().catch(() => ({}));
+      onDone(response.ok ? "Profile settings saved. Refreshing your workspace..." : data.error || "Settings could not be saved.");
+      if (response.ok) window.setTimeout(() => window.location.reload(), 500);
+    } catch {
+      onDone("Settings could not be saved.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <form onSubmit={submit} className="grid gap-5 rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6 md:grid-cols-2">
+      <label className="grid gap-2 text-xs font-extrabold text-slate-700"><span>Display name</span><input className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-xs font-semibold" name="name" minLength={2} required /></label>
+      <label className="grid gap-2 text-xs font-extrabold text-slate-700"><span>GSTIN (optional)</span><input className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-xs font-semibold uppercase" name="gstin" maxLength={15} /></label>
+      <div className="rounded-2xl bg-slate-50 p-4 text-[11px] font-semibold leading-5 text-slate-500 md:col-span-2">Your account email and plan are managed securely and cannot be changed from this profile form. Contact support for billing identity changes.</div>
+      <button className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3.5 text-xs font-extrabold text-white disabled:opacity-60 md:col-span-2" disabled={busy}><Check className="h-4 w-4" />{busy ? "Saving settings..." : "Save profile settings"}</button>
+    </form>
+  );
 }
 
 function SmartListingForm({ onDone }: { onDone: (message: string) => void }) {
@@ -303,8 +600,11 @@ function JsonForm({ endpoint, fields, button = "Save", onDone }: { endpoint: str
     setBusy(true);
     const raw = Object.fromEntries(new FormData(event.currentTarget).entries());
     const payload: Record<string, unknown> = {};
+    const listFields = new Set(["keywords", "colors", "sizes", "features", "bulletPoints"]);
     for (const [key, value] of Object.entries(raw)) {
-      payload[key] = String(value).includes(",") ? String(value).split(",").map((part) => part.trim()).filter(Boolean) : value;
+      payload[key] = listFields.has(key)
+        ? String(value).split(",").map((part) => part.trim()).filter(Boolean)
+        : value;
     }
     if (endpoint.includes("templates")) {
       payload.selectors = {
@@ -455,80 +755,6 @@ function AIJsonForm({
           </pre>
         </div>
       )}
-    </form>
-  );
-}
-
-function ImageForm({ onDone }: { onDone: (message: string) => void }) {
-  const [busy, setBusy] = useState(false);
-  const [image, setImage] = useState("");
-  const [filename, setFilename] = useState("");
-  const [result, setResult] = useState<{ url?: string; publicId?: string } | null>(null);
-
-  function selectFile(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    setFilename(file.name.replace(/\.[^.]+$/, ""));
-    const reader = new FileReader();
-    reader.onload = () => setImage(String(reader.result || ""));
-    reader.readAsDataURL(file);
-  }
-
-  async function submit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (!image) {
-      onDone("Choose an image first.");
-      return;
-    }
-    setBusy(true);
-    setResult(null);
-    try {
-      const response = await fetch("/api/images", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image, filename: filename || "product-image" }),
-      });
-      const data = await response.json().catch(() => ({}));
-      setResult(data.image || null);
-      onDone(response.ok ? "Image processed and saved." : data.error || "Image processing failed.");
-    } catch {
-      onDone("Image processing failed.");
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  return (
-    <form onSubmit={submit} className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6 shadow-sm space-y-5">
-      <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-zinc-100">
-        <ImageIcon className="h-4.5 w-4.5 text-zinc-200" />
-        Product image processing
-      </div>
-      <div className="grid gap-4 md:grid-cols-[1fr_0.7fr]">
-        <label className="grid gap-1.5 text-xs font-bold text-zinc-300">
-          <span>Image file</span>
-          <input className="rounded-xl border border-zinc-800 px-4 py-3 text-xs font-semibold" type="file" accept="image/*" onChange={selectFile} required />
-        </label>
-        <label className="grid gap-1.5 text-xs font-bold text-zinc-300">
-          <span>Output name</span>
-          <input className="rounded-xl border border-zinc-800 px-4 py-3 text-xs font-semibold" value={filename} onChange={(event) => setFilename(event.target.value)} />
-        </label>
-      </div>
-      {image ? (
-        // Data URL preview for a local file selected before upload.
-        // eslint-disable-next-line @next/next/no-img-element
-        <img alt="" className="max-h-64 rounded-xl border border-zinc-850 object-contain" src={image} />
-      ) : null}
-      <button className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3.5 text-xs font-bold text-white disabled:opacity-60" disabled={busy}>
-        <Upload className="h-4 w-4" />
-        {busy ? "Processing..." : "Upload and resize 1000x1000"}
-      </button>
-      {result?.url ? (
-        <div className="grid gap-3 rounded-xl border border-zinc-850 bg-zinc-950/50 p-4 text-xs font-semibold text-zinc-300">
-          <a className="font-bold text-indigo-400 underline" href={result.url} target="_blank" rel="noreferrer">Open processed image</a>
-          <span className="font-mono text-[10px] text-zinc-400">{result.publicId}</span>
-        </div>
-      ) : null}
     </form>
   );
 }
@@ -883,24 +1109,23 @@ function SubscriptionForm({ onDone }: { onDone: (message: string) => void }) {
 
 function Tutorial() {
   return (
-    <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-      {["Install extension", "Login with A+ Studio", "Save Meesho template", "Autofill with preview", "Use AI content", "Optimize images"].map((step, idx) => (
-        <article className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6 shadow-sm hover:border-zinc-700 transition-all flex flex-col justify-between" key={step}>
+    <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      {documentationGuides.map((guide) => (
+        <Link className="group flex min-h-64 flex-col justify-between rounded-[24px] border border-slate-200 bg-white p-6 shadow-[0_8px_30px_rgba(15,23,42,0.04)] transition hover:-translate-y-1 hover:border-indigo-200 hover:shadow-[0_18px_45px_rgba(79,70,229,0.10)]" href={`/docs/${guide.slug}`} key={guide.slug}>
           <div>
-            <span className="text-[10px] font-extrabold text-zinc-500 uppercase tracking-widest">Step 0{idx + 1}</span>
-            <h2 className="flex items-center gap-2 text-sm font-extrabold text-zinc-100 mt-2">
-              <FileText className="h-4 w-4 text-zinc-400" />
-              {step}
-            </h2>
-            <p className="mt-2.5 text-xs font-semibold leading-relaxed text-zinc-400">
-              Follow this step in your seller workflow. Embedded tutorial video preview is Coming Soon.
-            </p>
+            <div className="flex items-center justify-between">
+              <span className="text-[9px] font-black uppercase tracking-[0.18em] text-indigo-600">Step {guide.step}</span>
+              <span className="rounded-full bg-slate-50 px-2.5 py-1 text-[9px] font-extrabold text-slate-500">{guide.duration}</span>
+            </div>
+            <span className="mt-6 grid h-11 w-11 place-items-center rounded-2xl bg-slate-950 text-white shadow-lg shadow-slate-200"><FileText className="h-4.5 w-4.5" /></span>
+            <h2 className="mt-5 text-base font-extrabold tracking-tight text-slate-950">{guide.title}</h2>
+            <p className="mt-2.5 text-xs font-semibold leading-6 text-slate-500">{guide.summary}</p>
           </div>
-          <div className="mt-6 border-t border-zinc-900 pt-4 flex items-center justify-between">
-            <span className="w-8 h-[2px] bg-indigo-600 rounded-full" />
-            <span className="text-[10px] font-bold text-zinc-500">Documentation</span>
+          <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-4">
+            <span className="text-[10px] font-extrabold text-indigo-600">Read documentation</span>
+            <ArrowRight className="h-4 w-4 text-indigo-600 transition group-hover:translate-x-1" />
           </div>
-        </article>
+        </Link>
       ))}
     </div>
   );
@@ -914,7 +1139,7 @@ function Records({ items, resource }: { items: Array<Record<string, unknown>>; r
           <Bell className="h-4 w-4 text-zinc-200" />
           Recent {resource || "records"}
         </h2>
-        <div className="mt-6 rounded-xl border border-dashed border-zinc-800 bg-zinc-950/50/50 p-8 text-center text-xs font-semibold text-zinc-500">
+        <div className="mt-6 rounded-xl border border-dashed border-zinc-800 bg-zinc-950/50 p-8 text-center text-xs font-semibold text-zinc-500">
           No records found in this workspace yet.
         </div>
       </section>
@@ -932,7 +1157,7 @@ function Records({ items, resource }: { items: Array<Record<string, unknown>>; r
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-left text-xs">
           <thead>
-            <tr className="border-b border-zinc-850 bg-zinc-950/50/50 text-[10px] font-extrabold uppercase tracking-wider text-zinc-500">
+            <tr className="border-b border-zinc-850 bg-zinc-950/50 text-[10px] font-extrabold uppercase tracking-wider text-zinc-500">
               {resource === "products" && (
                 <>
                   <th className="px-6 py-3">Product Name</th>
@@ -966,7 +1191,7 @@ function Records({ items, resource }: { items: Array<Record<string, unknown>>; r
           </thead>
           <tbody className="divide-y divide-zinc-900 font-semibold text-zinc-300">
             {items.slice(0, 10).map((item, index) => (
-              <tr key={String(item._id || index)} className="hover:bg-zinc-950/50/50 transition-colors">
+              <tr key={String(item._id || index)} className="transition-colors hover:bg-zinc-950/50">
                 {resource === "products" && (
                   <>
                     <td className="px-6 py-4 font-bold text-zinc-100">{String(item.title || "—")}</td>

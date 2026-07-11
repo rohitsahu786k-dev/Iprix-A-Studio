@@ -15,7 +15,7 @@ Next.js App Router, TypeScript, MongoDB/Mongoose, Tailwind CSS, Zod, secure HTTP
    - Admin: `admin@iprixmedia.com` / `Admin@12345`
    - Demo user: `user@iprixmedia.com` / `User@12345`
 5. Change both default passwords immediately after first login.
-6. Run `npm run dev` and open `http://localhost:3000`.
+6. Run `npm run dev` and open the development URL printed in the terminal.
 
 ## Environment
 
@@ -26,6 +26,8 @@ Required keys are documented in `.env.example`, including:
 - `MONGODB_URI`
 - `JWT_SECRET`
 - `OPENAI_API_KEY`
+- `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN` (optional Workers AI image generation)
+- `CLOUDFLARE_IMAGE_MODEL` (optional; defaults to `@cf/black-forest-labs/flux-1-schnell`)
 - `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`
 - `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET`

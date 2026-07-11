@@ -72,9 +72,7 @@ chrome.action.onClicked.addListener(async (tab) => {
       const websiteTabs = await chrome.tabs.query({
         url: [
           "https://aplusstudio.iprixmedia.com/*",
-          "https://iprixmedia.com/*",
-          "http://localhost:3000/*",
-          "http://localhost:3457/*"
+          "https://iprixmedia.com/*"
         ]
       });
       for (const wTab of websiteTabs) {
@@ -449,8 +447,6 @@ async function runBulkFillTabs(queue, templateUrl, firstTabId) {
       url: [
         "*://aplusstudio.iprixmedia.com/dashboard*",
         "*://iprixmedia.com/dashboard*",
-        "*://localhost:*/dashboard*",
-        "*://127.0.0.1:*/dashboard*",
       ],
     })
     .catch(() => []);
@@ -1380,7 +1376,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
         // (covers the case where the user hasn't visited Lisstify since the token bridge was added)
         if (!listify_token) {
           try {
-            const lisstifyTabs = await chrome.tabs.query({ url: ["https://aplusstudio.iprixmedia.com/*", "https://iprixmedia.com/*", "http://localhost:3000/*", "http://localhost:3457/*", "http://localhost/*"] });
+            const lisstifyTabs = await chrome.tabs.query({ url: ["https://aplusstudio.iprixmedia.com/*", "https://iprixmedia.com/*"] });
             for (const tab of lisstifyTabs) {
               if (!tab.id) continue;
               const results = await chrome.scripting.executeScript({
@@ -1497,7 +1493,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
     (async () => {
       try {
         const lisstifyTabs = await chrome.tabs.query({
-          url: ["https://aplusstudio.iprixmedia.com/*", "https://iprixmedia.com/*", "http://localhost:3000/*", "http://localhost:3457/*", "http://localhost/*"],
+          url: ["https://aplusstudio.iprixmedia.com/*", "https://iprixmedia.com/*"],
         });
         let websiteCosts = {};
         for (const tab of lisstifyTabs) {
@@ -1788,8 +1784,6 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
         url: [
           "*://aplusstudio.iprixmedia.com/dashboard*",
           "*://iprixmedia.com/dashboard*",
-          "*://localhost:*/dashboard*",
-          "*://127.0.0.1:*/dashboard*",
         ],
       });
       for (const t of dashboardTabs) {

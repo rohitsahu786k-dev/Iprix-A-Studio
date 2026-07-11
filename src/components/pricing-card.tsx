@@ -43,10 +43,6 @@ export function PricingCard({
   const checkoutPath = `/dashboard/subscription?plan=${plan.slug}&billing=${billing}`;
   const loginCheckoutPath = `/login?next=${encodeURIComponent(checkoutPath)}`;
 
-  const text = dark ? "text-zinc-100" : "text-neutral-900";
-  const muted = dark ? "text-neutral-300" : "text-neutral-500";
-  const featureText = dark ? "text-neutral-100" : "text-neutral-800";
-  
   const features = [
     `${plan.templates} templates`,
     `${plan.listings} AI-powered listings`,

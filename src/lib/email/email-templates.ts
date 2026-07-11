@@ -1,137 +1,66 @@
 import { brand } from "@/lib/brand";
 
+const APP_URL = "https://aplusstudio.iprixmedia.com";
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
 export function getEmailWrapper(contentHtml: string, previewText: string, ctaUrl?: string, ctaText?: string) {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com";
-  // Fallback logo url if env is local
-  const logoUrl = brand.logo.startsWith("http") ? brand.logo : `${appUrl}${brand.logo}`;
+  const logoUrl = `${APP_URL}/aplus-logo.png`;
+  const safePreview = escapeHtml(previewText);
+  const safeCtaUrl = ctaUrl ? escapeHtml(ctaUrl) : "";
+  const safeCtaText = ctaText ? escapeHtml(ctaText) : "";
 
   return `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${previewText}</title>
+  <meta name="color-scheme" content="light">
+  <title>${safePreview}</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #fafafa;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-    .wrapper {
-      width: 100%;
-      table-layout: fixed;
-      background-color: #fafafa;
-      padding-bottom: 40px;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      background-color: #ffffff;
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      overflow: hidden;
-      margin-top: 40px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
-    }
-    .header {
-      background-color: #09090b;
-      padding: 32px 40px;
-      text-align: center;
-    }
-    .logo {
-      height: 28px;
-      width: auto;
-      display: inline-block;
-    }
-    .content {
-      padding: 40px;
-      color: #18181b;
-      line-height: 1.6;
-      font-size: 15px;
-    }
-    .heading {
-      font-size: 20px;
-      font-weight: 700;
-      color: #09090b;
-      margin-top: 0;
-      margin-bottom: 16px;
-      letter-spacing: -0.025em;
-    }
-    .text {
-      color: #3f3f46;
-      margin-bottom: 24px;
-      font-size: 14px;
-    }
-    .highlight-card {
-      background-color: #f4f4f5;
-      border: 1px solid #e4e4e7;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 24px;
-    }
-    .button-container {
-      margin-top: 28px;
-      margin-bottom: 28px;
-      text-align: center;
-    }
-    .button {
-      background-color: #09090b;
-      color: #ffffff !important;
-      padding: 12px 28px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
-      border-radius: 8px;
-      display: inline-block;
-    }
-    .footer {
-      padding: 32px 40px;
-      background-color: #fafafa;
-      text-align: center;
-      font-size: 11px;
-      color: #71717a;
-      border-top: 1px solid #e5e7eb;
-    }
-    .footer a {
-      color: #3f3f46;
-      text-decoration: underline;
-    }
-    .badge {
-      display: inline-block;
-      padding: 4px 10px;
-      background-color: #f4f4f5;
-      color: #18181b;
-      font-size: 10px;
-      font-weight: 700;
-      border-radius: 9999px;
-      text-transform: uppercase;
-      margin-bottom: 16px;
-    }
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; border: 0; display: block; outline: none; text-decoration: none; }
+    body { margin: 0 !important; padding: 0 !important; width: 100% !important; background: #f4f6fb; color: #0f172a; font-family: Arial, Helvetica, sans-serif; }
+    .content { padding: 38px 42px; color: #0f172a; font-size: 15px; line-height: 1.7; }
+    .heading { margin: 0 0 16px; color: #0f172a; font-size: 25px; line-height: 1.25; font-weight: 800; letter-spacing: -0.6px; }
+    .text { margin: 0 0 20px; color: #475569; font-size: 14px; line-height: 1.75; }
+    .highlight-card { margin: 24px 0; padding: 20px; border: 1px solid #e2e8f0; border-radius: 14px; background: #f8fafc; }
+    .button-container { margin: 30px 0 10px; text-align: left; }
+    .button { display: inline-block; padding: 14px 24px; border-radius: 12px; background: #4f46e5; color: #ffffff !important; font-size: 13px; font-weight: 800; line-height: 1; text-decoration: none; box-shadow: 0 8px 18px rgba(79,70,229,.22); }
+    .badge { display: inline-block; margin: 0 0 16px; padding: 6px 11px; border-radius: 999px; background: #eef2ff; color: #4338ca; font-size: 9px; line-height: 1; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; }
+    .footer-link { color: #4f46e5 !important; text-decoration: none; }
+    @media screen and (max-width: 620px) { .email-shell { width: 100% !important; border-radius: 0 !important; } .content { padding: 30px 22px !important; } .header-cell { padding: 24px 22px !important; } .footer-cell { padding: 24px 22px !important; } }
   </style>
 </head>
 <body>
-  <div class="wrapper">
-    <div class="container">
-      <div class="header">
-        <img src="${logoUrl}" alt="${brand.company}" class="logo" />
-      </div>
-      <div class="content">
-        ${contentHtml}
-        ${ctaUrl && ctaText ? `
-        <div class="button-container">
-          <a href="${ctaUrl}" class="button" target="_blank">${ctaText}</a>
-        </div>` : ""}
-      </div>
-      <div class="footer">
-        <p>&copy; ${new Date().getFullYear()} ${brand.company}. All rights reserved.</p>
-        <p>${brand.address} | Founders: ${brand.founders}</p>
-        <p>You received this transactional email related to your registered account on <a href="${appUrl}">${brand.appName}</a>.</p>
-      </div>
-    </div>
-  </div>
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">${safePreview}</div>
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;background:#f4f6fb;">
+    <tr><td align="center" style="padding:34px 12px;">
+      <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" class="email-shell" style="width:600px;max-width:600px;overflow:hidden;border:1px solid #e2e8f0;border-radius:22px;background:#ffffff;box-shadow:0 18px 45px rgba(15,23,42,.08);">
+        <tr><td class="header-cell" style="padding:28px 42px;background:#0f172a;">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"><tr>
+            <td width="48" valign="middle"><img src="${logoUrl}" width="42" height="42" alt="A+ Studio" style="width:42px;height:42px;border-radius:12px;"></td>
+            <td valign="middle" style="padding-left:12px;color:#ffffff;"><div style="font-size:16px;line-height:1.2;font-weight:800;">A+ Studio</div><div style="margin-top:4px;color:#a5b4fc;font-size:9px;line-height:1;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;">by Iprix Media</div></td>
+            <td align="right" valign="middle" style="color:#cbd5e1;font-size:10px;font-weight:700;">Seller workspace</td>
+          </tr></table>
+        </td></tr>
+        <tr><td class="content">${contentHtml}${ctaUrl && ctaText ? `<div class="button-container"><a href="${safeCtaUrl}" class="button" target="_blank" rel="noopener">${safeCtaText} &nbsp;→</a></div>` : ""}</td></tr>
+        <tr><td class="footer-cell" style="padding:26px 42px;border-top:1px solid #e2e8f0;background:#f8fafc;text-align:center;color:#64748b;font-size:10px;line-height:1.7;">
+          <p style="margin:0 0 6px;font-weight:700;color:#475569;">&copy; ${new Date().getFullYear()} ${brand.company}. All rights reserved.</p>
+          <p style="margin:0 0 6px;">${brand.address} &nbsp;•&nbsp; ${brand.supportEmail}</p>
+          <p style="margin:0;">This transactional email relates to your <a class="footer-link" href="${APP_URL}">${brand.appName}</a> account.</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
 </body>
 </html>`;
 }
@@ -157,7 +86,13 @@ export type EmailTemplateInput = {
   message?: string;
 };
 
-export const emailTemplates: Record<
+function sanitizeEmailInput(input: EmailTemplateInput): EmailTemplateInput {
+  return Object.fromEntries(
+    Object.entries(input).map(([key, value]) => [key, typeof value === "string" ? escapeHtml(value) : value]),
+  ) as EmailTemplateInput;
+}
+
+const emailTemplateBuilders: Record<
   string,
   (input: EmailTemplateInput) => { subject: string; html: string }
 > = {
@@ -191,7 +126,7 @@ export const emailTemplates: Record<
          </ul>
        </div>`,
       "Welcome to A+ Studio",
-      `${process.env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com"}/dashboard`,
+      `${APP_URL}/dashboard`,
       "Go to Dashboard"
     );
     return { subject, html };
@@ -219,7 +154,7 @@ export const emailTemplates: Record<
        <p class="text">Hi ${input.name},</p>
        <p class="text">Your account password was successfully updated. If you did not make this change, please contact our support team immediately.</p>`,
       "Your password has changed",
-      `${process.env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com"}/dashboard`,
+      `${APP_URL}/dashboard`,
       "Go to Dashboard"
     );
     return { subject, html };
@@ -233,7 +168,7 @@ export const emailTemplates: Record<
        <p class="text">Hi ${input.name},</p>
        <p class="text">This is a quick notification to let you know that you have used ${input.used} of your ${input.limit} listings. Upgrade your subscription to ensure uninterrupted service.</p>`,
       "Quota warning",
-      `${process.env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com"}/pricing`,
+      `${APP_URL}/pricing`,
       "Upgrade Plan"
     );
     return { subject, html };
@@ -247,7 +182,7 @@ export const emailTemplates: Record<
        <p class="text">Hi ${input.name},</p>
        <p class="text">You have used ${input.used} of your ${input.limit} available listings. Please upgrade your plan to unlock more listings and continue generating high-converting copy.</p>`,
       "Limit Reached",
-      `${process.env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com"}/pricing`,
+      `${APP_URL}/pricing`,
       "Upgrade Now"
     );
     return { subject, html };
@@ -267,7 +202,7 @@ export const emailTemplates: Record<
          <p class="text" style="margin: 0; font-size: 13px;">Status: Paid & Active</p>
        </div>`,
       "Payment Confirmation",
-      `${process.env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com"}/dashboard/subscription`,
+      `${APP_URL}/dashboard/subscription`,
       "View Subscription"
     );
     return { subject, html };
@@ -282,7 +217,7 @@ export const emailTemplates: Record<
        <p class="text">We were unable to process your payment of Rs ${input.amount} for your ${input.plan} subscription.</p>
        <p class="text">Reason: ${input.error || "Declined by bank"}. Please update your payment method to keep your premium benefits active.</p>`,
       "Payment Failed",
-      `${process.env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com"}/dashboard/subscription`,
+      `${APP_URL}/dashboard/subscription`,
       "Update Billing Info"
     );
     return { subject, html };
@@ -301,7 +236,7 @@ export const emailTemplates: Record<
        </div>
        <p class="text">Our team is reviewing your request and will get back to you shortly.</p>`,
       `Ticket #${input.ticketId} created`,
-      `${process.env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com"}/dashboard/support`,
+      `${APP_URL}/dashboard/support`,
       "View Support Tickets"
     );
     return { subject, html };
@@ -320,7 +255,7 @@ export const emailTemplates: Record<
        </div>
        <p class="text">Our team is reviewing your request and will get back to you shortly.</p>`,
       `Ticket #${input.ticketId} created`,
-      `${process.env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com"}/dashboard/support`,
+      `${APP_URL}/dashboard/support`,
       "View Support Tickets"
     );
     return { subject, html };
@@ -338,7 +273,7 @@ export const emailTemplates: Record<
        </div>
        <p class="text">If you have any further questions or if this issue was not fully addressed, please reply or open a new ticket.</p>`,
       `Ticket #${input.ticketId} resolved`,
-      `${process.env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com"}/dashboard/support`,
+      `${APP_URL}/dashboard/support`,
       "View Support Tickets"
     );
     return { subject, html };
@@ -355,7 +290,7 @@ export const emailTemplates: Record<
          <p class="text" style="margin: 0; font-style: italic;">"${input.replyText}"</p>
        </div>`,
       "New support reply",
-      `${process.env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com"}/dashboard/support`,
+      `${APP_URL}/dashboard/support`,
       "Reply Back"
     );
     return { subject, html };
@@ -369,7 +304,7 @@ export const emailTemplates: Record<
        <p class="text">Hi ${input.name},</p>
        <p class="text">We have successfully received your business inquiry. A customer representative from Iprix Media will reach out to you within 24 business hours.</p>`,
       "Enquiry received",
-      process.env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com",
+      APP_URL,
       "Visit Website"
     );
     return { subject, html };
@@ -399,7 +334,7 @@ export const emailTemplates: Record<
        <p class="text">Hi ${input.name},</p>
        <p class="text">Your A+ Studio plan has been successfully upgraded to <strong>${input.plan}</strong>. You now have access to higher template limits, additional listings, and all beta features.</p>`,
       "Plan upgraded",
-      `${process.env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com"}/dashboard`,
+      `${APP_URL}/dashboard`,
       "Go to Dashboard"
     );
     return { subject, html };
@@ -413,7 +348,7 @@ export const emailTemplates: Record<
        <p class="text">Hi ${input.name},</p>
        <p class="text">Your subscription plan has been downgraded to <strong>${input.plan}</strong>. If this was a mistake or you wish to re-subscribe, click below:</p>`,
       "Plan downgraded",
-      `${process.env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com"}/pricing`,
+      `${APP_URL}/pricing`,
       "Resubscribe"
     );
     return { subject, html };
@@ -432,7 +367,7 @@ export const emailTemplates: Record<
        </div>
        <p class="text">If this was you, no action is needed. If you do not recognize this activity, please reset your password immediately.</p>`,
       "New login alert",
-      `${process.env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com"}/dashboard/settings`,
+      `${APP_URL}/dashboard/settings`,
       "Account Security"
     );
     return { subject, html };
@@ -447,7 +382,7 @@ export const emailTemplates: Record<
        <p class="text">Your A+ Studio Chrome Extension has been successfully authorized and connected to your account.</p>
        <p class="text">You can now automatically save listing drafts and autofill forms on Flipkart, Amazon, and Meesho supplier portals.</p>`,
       "Extension connected",
-      `${process.env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com"}/dashboard/tutorial`,
+      `${APP_URL}/dashboard/tutorial`,
       "View Extension Tutorial"
     );
     return { subject, html };
@@ -462,8 +397,23 @@ export const emailTemplates: Record<
        <p class="text">You have successfully saved a new template: <strong>${input.templateName}</strong> for <strong>${input.platform}</strong>.</p>
        <p class="text">This template is now synced to your dashboard and available for instant autofilling.</p>`,
       "Template saved",
-      `${process.env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com"}/dashboard/templates`,
+      `${APP_URL}/dashboard/templates`,
       "Manage Templates"
+    );
+    return { subject, html };
+  },
+
+  newsletter_welcome: (input) => {
+    const subject = "You're subscribed to A+ Studio updates";
+    const html = getEmailWrapper(
+      `<span class="badge">Product updates</span>
+       <h1 class="heading">Welcome to A+ Studio updates</h1>
+       <p class="text">Hi ${input.name},</p>
+       <p class="text">You are now subscribed to practical seller workflow tips, new A+ Studio features and important product announcements. We keep these updates focused and useful.</p>
+       <div class="highlight-card"><p class="text" style="margin:0;"><strong>While you wait:</strong> explore the free Meesho calculators, listing checks and step-by-step extension documentation.</p></div>`,
+      "You're subscribed to A+ Studio updates",
+      `${APP_URL}/tools`,
+      "Explore Free Seller Tools",
     );
     return { subject, html };
   },
@@ -476,9 +426,19 @@ export const emailTemplates: Record<
        <p class="text">Hi ${input.name},</p>
        <p class="text">${input.message}</p>`,
       "System notice",
-      process.env.NEXT_PUBLIC_APP_URL || "https://iprixmedia.com",
+      APP_URL,
       "Visit Site"
     );
     return { subject, html };
   },
 };
+
+export const emailTemplates: Record<
+  string,
+  (input: EmailTemplateInput) => { subject: string; html: string }
+> = Object.fromEntries(
+  Object.entries(emailTemplateBuilders).map(([trigger, builder]) => [
+    trigger,
+    (input: EmailTemplateInput) => builder(sanitizeEmailInput(input)),
+  ]),
+);

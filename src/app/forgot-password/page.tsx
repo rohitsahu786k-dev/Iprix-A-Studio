@@ -3,7 +3,7 @@ import { AuthForm } from "@/components/auth-form";
 import { PublicShell } from "@/components/public-shell";
 
 export const metadata: Metadata = {
-  title: "Forgot Password | A+ Studio",
+  title: "Forgot Password",
   description: "Reset your A+ Studio account password. Enter your registered email address and we will send you a secure password reset link within minutes.",
   alternates: { canonical: "/forgot-password" },
 };

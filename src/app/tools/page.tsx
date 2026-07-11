@@ -4,7 +4,7 @@ import { ArrowRight, ImageIcon, Lock, Search, Sparkles } from "lucide-react";
 import { PublicShell } from "@/components/public-shell";
 import { FreeToolsHub } from "@/components/seller-tools";
 
-const pageTitle = "Free Meesho Seller Tools — Shipping, Profit, Image, SKU & Title Checkers";
+const pageTitle = "Free Meesho Seller Tools & Calculators";
 const pageDescription =
   "7 free tools for Meesho, Flipkart & Amazon sellers: low-shipping image generator, shipping weight & slab calculator, profit calculator with GST/commission/RTO, listing image checker, bulk SKU generator and title checker. No login, no credit card, unlimited use.";
 

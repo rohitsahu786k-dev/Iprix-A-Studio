@@ -44,5 +44,12 @@ export async function GET() {
   if (auth.response) return auth.response;
   await connectDb();
   const items = await ImageJob.find({ userId: auth.session.id }).sort({ createdAt: -1 }).limit(50);
-  return ok({ items, comingSoon: ["background-removal"] });
+  return ok({
+    items,
+    capabilities: {
+      backgroundRemoval: "local-keyless",
+      imageGeneration: "cloudflare-workers-ai",
+      resize: "cloudinary-1000x1000",
+    },
+  });
 }

@@ -87,7 +87,7 @@ export async function getSession() {
     if (authHeader?.startsWith("Bearer ")) {
       return readToken(authHeader.slice(7));
     }
-  } catch (_) {
+  } catch {
     // headers() may throw in some contexts (e.g. generateStaticParams)
   }
 

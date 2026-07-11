@@ -5,7 +5,7 @@ import { PublicShell } from "@/components/public-shell";
 import { getSession } from "@/lib/auth";
 
 export const metadata: Metadata = {
-  title: "Login | A+ Studio",
+  title: "Login",
   description: "Sign in to your A+ Studio account to access AI listing tools, keyword research, Chrome extension autofill and your seller dashboard for Meesho, Flipkart and Amazon India.",
   alternates: { canonical: "/login" },
 };

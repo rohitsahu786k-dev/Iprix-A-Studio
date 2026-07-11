@@ -3,7 +3,7 @@ import Image from "next/image";
 import { PublicShell } from "@/components/public-shell";
 
 export const metadata: Metadata = {
-  title: "Seller Automation & AI Listing Features | A+ Studio",
+  title: "AI Listing & Seller Automation Features",
   description: "Explore AI Content Studio, bulk product uploads, PDF label analyser, and Chrome extension autofill features for Meesho, Flipkart, and Amazon sellers.",
   keywords: ["A+ Studio features", "AI Content Studio", "PDF Label Analyser", "bulk listing upload", "marketplace listing tools"],
   alternates: { canonical: "/features" },

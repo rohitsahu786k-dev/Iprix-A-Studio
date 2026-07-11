@@ -141,9 +141,7 @@ import { detectCurrentCategory, scrapeBreadcrumbCategory } from "./category.js";
     const host = window.location.hostname;
     if (
       host === "iprixmedia.com" ||
-      host.endsWith(".iprixmedia.com") ||
-      host === "localhost" ||
-      host === "127.0.0.1"
+      host.endsWith(".iprixmedia.com")
     ) {
       const syncNow = () => {
         try {
@@ -280,6 +278,17 @@ import { detectCurrentCategory, scrapeBreadcrumbCategory } from "./category.js";
     if (event.source !== window) return;
     const d = event.data;
     if (!d || d.source !== "lisstify-dashboard") return;
+    if (d.type === "EXTENSION_PING") {
+      window.postMessage(
+        {
+          source: "lisstify-extension",
+          type: "EXTENSION_PONG",
+          version: chrome.runtime?.getManifest?.().version || "installed",
+        },
+        window.location.origin,
+      );
+      return;
+    }
     if (
       d.type === "BULK_FILL_SET_QUEUE" ||
       d.type === "BULK_FILL_CLEAR_QUEUE"

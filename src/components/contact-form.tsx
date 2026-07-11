@@ -21,19 +21,20 @@ export function ContactForm() {
     const form = new FormData(event.currentTarget);
     const payload = Object.fromEntries(form.entries());
 
-    const response = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    if (response.ok) {
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) throw new Error("Request failed");
       event.currentTarget.reset();
       setStatus("Message sent. We will get back to you soon.");
-    } else {
+    } catch {
       setStatus("Could not send message. Please try WhatsApp or email.");
+    } finally {
+      setBusy(false);
     }
-    setBusy(false);
   }
 
   return (

@@ -28,8 +28,8 @@ export async function POST(request: Request) {
   await connectDb();
   const inquiry = await ContactInquiry.create(parsed.data);
 
-  // Send contact_received to user
-  await sendMailWithLog(null, parsed.data.email, "contact_received", {
+  const isNewsletter = parsed.data.businessType === "Product updates";
+  await sendMailWithLog(null, parsed.data.email, isNewsletter ? "newsletter_welcome" : "contact_received", {
     name: parsed.data.name,
   });
 
@@ -46,4 +46,3 @@ export async function POST(request: Request) {
 
   return NextResponse.json({ ok: true, inquiryId: inquiry._id });
 }
-

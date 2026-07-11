@@ -1,10 +1,8 @@
-// Change these to switch environments.
+// Production application origin.
 const BASE_URL = "https://aplusstudio.iprixmedia.com";
-// const BASE_URL = "http://localhost:3457";
 
 // Frontend URL (for login redirect)
 const FRONTEND_URL = "https://aplusstudio.iprixmedia.com";
-// const FRONTEND_URL = "http://localhost:3457";
 
 const API_URL    = `${BASE_URL}/api/templates`;
 const FK_API_URL = `${BASE_URL}/api/flipkart/templates`;

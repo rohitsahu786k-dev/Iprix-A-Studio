@@ -130,6 +130,13 @@ export default function NewListingPage() {
     setStatus("CSV exported.");
   }
 
+  function updateResult(key: string, value: string, list = false) {
+    setResult((current) => current ? {
+      ...current,
+      [key]: list ? value.split(list && key === "bulletPoints" ? "\n" : ",").map((item) => item.trim()).filter(Boolean) : value,
+    } : current);
+  }
+
   return (
     <div className="space-y-7">
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
@@ -181,9 +188,9 @@ export default function NewListingPage() {
               )}
             </label>
           ))}
-          <button className="inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-950 px-4 py-3.5 text-xs font-bold text-zinc-100 disabled:opacity-60 md:col-span-2" disabled={busy}>
+          <button className="inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-950 px-4 py-3.5 text-xs font-bold text-white disabled:opacity-60 md:col-span-2" disabled={busy}>
             <Sparkles className="h-4 w-4" />
-            {busy ? "Generating..." : "Generate & Save AI Listing"}
+            {busy ? "Generating..." : "Generate AI Listing"}
           </button>
         </form>
 
@@ -194,13 +201,13 @@ export default function NewListingPage() {
           </div>
           {result ? (
             <div className="mt-5 space-y-4">
-              <EditableBlock label="Optimized title" value={String(result.generatedTitle || result.title || "")} />
-              <EditableBlock label="Short description" value={String(result.shortDescription || "")} />
-              <EditableBlock label="Long description" value={String(result.longDescription || "")} tall />
-              <EditableBlock label="Bullet points" value={toTextList(result.bulletPoints).join("\n")} tall />
-              <EditableBlock label="Primary keywords" value={toTextList(result.primaryKeywords).join(", ")} />
-              <EditableBlock label="Secondary keywords" value={toTextList(result.secondaryKeywords).join(", ")} />
-              <EditableBlock label="Long-tail keywords" value={toTextList(result.longTailKeywords).join(", ")} />
+              <EditableBlock label="Optimized title" value={String(result.generatedTitle || result.title || "")} onChange={(value) => updateResult("generatedTitle", value)} />
+              <EditableBlock label="Short description" value={String(result.shortDescription || "")} onChange={(value) => updateResult("shortDescription", value)} />
+              <EditableBlock label="Long description" value={String(result.longDescription || "")} tall onChange={(value) => updateResult("longDescription", value)} />
+              <EditableBlock label="Bullet points" value={toTextList(result.bulletPoints).join("\n")} tall onChange={(value) => updateResult("bulletPoints", value, true)} />
+              <EditableBlock label="Primary keywords" value={toTextList(result.primaryKeywords).join(", ")} onChange={(value) => updateResult("primaryKeywords", value, true)} />
+              <EditableBlock label="Secondary keywords" value={toTextList(result.secondaryKeywords).join(", ")} onChange={(value) => updateResult("secondaryKeywords", value, true)} />
+              <EditableBlock label="Long-tail keywords" value={toTextList(result.longTailKeywords).join(", ")} onChange={(value) => updateResult("longTailKeywords", value, true)} />
               <div className="grid gap-3 sm:grid-cols-2">
                 <Score label="Title score" value={scoreValue(result.listingScore, "title")} />
                 <Score label="Keyword score" value={scoreValue(result.listingScore, "keywords")} />
@@ -208,7 +215,7 @@ export default function NewListingPage() {
                 <Score label="Readiness score" value={scoreValue(result.listingScore, "marketplaceReadiness")} />
               </div>
               <div className="flex flex-wrap gap-2 pt-2">
-                <button className="inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-4 py-3 text-xs font-bold text-zinc-100" onClick={() => countUsage("save")}>
+                <button className="inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-4 py-3 text-xs font-bold text-white" onClick={() => countUsage("save")}>
                   <Save className="h-4 w-4" />
                   Save Listing
                 </button>
@@ -252,11 +259,11 @@ function scoreValue(score: unknown, key: string) {
   return typeof value === "number" ? value : undefined;
 }
 
-function EditableBlock({ label, value, tall = false }: { label: string; value?: string; tall?: boolean }) {
+function EditableBlock({ label, value, tall = false, onChange }: { label: string; value?: string; tall?: boolean; onChange: (value: string) => void }) {
   return (
     <label className="grid gap-1.5 text-xs font-bold text-neutral-700">
       <span>{label}</span>
-      <textarea className={`rounded-xl border border-neutral-200 p-3 text-xs font-semibold leading-6 outline-none focus:border-neutral-300 focus:ring-2 focus:ring-indigo-100 ${tall ? "min-h-28" : "min-h-16"}`} defaultValue={value || ""} />
+      <textarea className={`rounded-xl border border-neutral-200 p-3 text-xs font-semibold leading-6 outline-none focus:border-neutral-300 focus:ring-2 focus:ring-indigo-100 ${tall ? "min-h-28" : "min-h-16"}`} value={value || ""} onChange={(event) => onChange(event.target.value)} />
     </label>
   );
 }
@@ -278,7 +285,7 @@ function UpgradeModal() {
         Your saved templates and listings are safe. Upgrade now to continue creating, optimizing and autofilling product listings without interruption.
       </p>
       <div className="mt-5 flex flex-wrap gap-3">
-        <Link className="rounded-xl bg-neutral-950 px-4 py-3 text-xs font-bold text-zinc-100" href="/dashboard/subscription">Upgrade to Seller</Link>
+        <Link className="rounded-xl bg-neutral-950 px-4 py-3 text-xs font-bold text-white" href="/dashboard/subscription">Upgrade to Seller</Link>
         <Link className="rounded-xl border border-neutral-200 bg-white px-4 py-3 text-xs font-bold text-neutral-800" href="/pricing">View All Plans</Link>
       </div>
     </div>

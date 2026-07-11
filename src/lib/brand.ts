@@ -15,6 +15,7 @@ export const publicLinks = [
   { href: "/", label: "Home" },
   { href: "/features", label: "Features" },
   { href: "/tools", label: "Free Tools" },
+  { href: "/docs", label: "Docs" },
   { href: "/chrome-extension", label: "Extension" },
   { href: "/pricing", label: "Pricing" },
   { href: "/about", label: "About" },
@@ -71,4 +72,3 @@ export const adminNav = [
   ["Email Logs", "/admin/email-logs"],
   ["Audit Logs", "/admin/audit-logs"],
 ];
-

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ArrowRight,
   Download,
@@ -37,6 +38,7 @@ type Listing = {
 };
 
 export default function ListingsPage() {
+  const router = useRouter();
   const [usage, setUsage] = useState<Usage | null>(null);
   const [items, setItems] = useState<Listing[]>([]);
   const [status, setStatus] = useState("");
@@ -57,10 +59,11 @@ export default function ListingsPage() {
 
   async function listingAction(action: string, item: Listing) {
     if (action === "view" || action === "edit") {
-      setStatus(`${item.title || "Listing"} is ready. Full editor view is handled from Create AI Listing review.`);
+      router.push(`/dashboard/listings/${item._id}${action === "view" ? "?mode=view" : ""}`);
       return;
     }
     if (action === "delete") {
+      if (!window.confirm(`Delete "${item.title || "this listing"}"? This cannot be undone.`)) return;
       const response = await fetch(`/api/listings/${item._id}`, { method: "DELETE" });
       setStatus(response.ok ? "Listing deleted." : "Could not delete listing.");
       await load();
@@ -142,7 +145,7 @@ export default function ListingsPage() {
           <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-neutral-900">Listings</h1>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Link className="inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-4 py-3 text-xs font-bold text-zinc-100" href="/dashboard/listings/new">
+          <Link className="inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-4 py-3 text-xs font-bold text-white" href="/dashboard/listings/new">
             <Plus className="h-4 w-4" />
             Create AI Listing
           </Link>
@@ -175,7 +178,7 @@ export default function ListingsPage() {
             <div className={`h-full rounded-full ${usage?.upgradeRequired ? "bg-red-600" : "bg-neutral-950"}`} style={{ width: `${progress}%` }} />
           </div>
           <div className="mt-5 flex flex-wrap gap-3">
-            <Link className="inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-4 py-3 text-xs font-bold text-zinc-100" href="/dashboard/subscription">
+            <Link className="inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-4 py-3 text-xs font-bold text-white" href="/dashboard/subscription">
               Upgrade Now
               <ArrowRight className="h-4 w-4" />
             </Link>
@@ -224,7 +227,7 @@ export default function ListingsPage() {
               </thead>
               <tbody className="divide-y divide-neutral-100 font-semibold text-neutral-700">
                 {items.map((item) => (
-                  <tr key={item._id}>
+                  <tr key={item._id} className="transition hover:bg-neutral-50/70">
                     <td className="max-w-xs px-5 py-4 font-bold text-neutral-900">{item.title || "Untitled listing"}</td>
                     <td className="px-5 py-4 capitalize">{item.platform || "meesho"}</td>
                     <td className="px-5 py-4">{sourceLabel(item.source)}</td>
@@ -255,7 +258,7 @@ export default function ListingsPage() {
             <FilePlus2 className="mx-auto h-10 w-10 text-neutral-300" />
             <h3 className="mt-4 text-lg font-extrabold text-neutral-900">Create your first AI-powered listing</h3>
             <div className="mt-5 flex flex-wrap justify-center gap-3">
-              <Link className="inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-4 py-3 text-xs font-bold text-zinc-100" href="/dashboard/listings/new">
+              <Link className="inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-4 py-3 text-xs font-bold text-white" href="/dashboard/listings/new">
                 Generate AI Listing
               </Link>
               <Link className="inline-flex items-center gap-2 rounded-xl border border-neutral-200 bg-white px-4 py-3 text-xs font-bold text-neutral-800" href="/dashboard/tutorial">
@@ -283,7 +286,7 @@ function UpgradeNotice({ strong = false }: { strong?: boolean }) {
               ? "You have used all 5 free AI listings. Upgrade to continue generating, saving and autofilling listings."
               : "You have created 3 AI listings. Upgrade to Seller and get 100 AI listings/month."}
           </p>
-          <Link className="mt-4 inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-4 py-3 text-xs font-bold text-zinc-100" href="/dashboard/subscription">
+          <Link className="mt-4 inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-4 py-3 text-xs font-bold text-white" href="/dashboard/subscription">
             Upgrade to Seller ₹99/month
             <ArrowRight className="h-4 w-4" />
           </Link>

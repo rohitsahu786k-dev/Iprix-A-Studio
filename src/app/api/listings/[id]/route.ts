@@ -3,7 +3,19 @@ import { fail, ok, parseBody, requireApiUser } from "@/lib/api";
 import { connectDb } from "@/lib/db";
 import { Listing } from "@/models";
 
-const patchSchema = z.record(z.string(), z.any());
+const patchSchema = z.object({
+  title: z.string().max(500).optional(),
+  description: z.string().max(10000).optional(),
+  sku: z.string().max(160).optional(),
+  brand: z.string().max(160).optional(),
+  category: z.string().max(240).optional(),
+  platform: z.enum(["meesho", "flipkart", "amazon"]).optional(),
+  status: z.enum(["draft", "generated", "autofilled", "exported", "failed"]).optional(),
+  price: z.coerce.number().nonnegative().optional(),
+  mrp: z.coerce.number().nonnegative().optional(),
+  keywords: z.array(z.string().max(120)).max(100).optional(),
+  bulletPoints: z.array(z.string().max(500)).max(30).optional(),
+});
 
 async function findOwnedListing(id: string, session: { id: string; role: string }) {
   await connectDb();

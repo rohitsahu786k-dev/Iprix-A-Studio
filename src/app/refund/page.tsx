@@ -1,6 +1,6 @@
 import { LegalPage } from "@/components/legal-page";
 
-export const metadata = { title: "Refund Policy - A+ Studio" };
+export const metadata = { title: "Refund Policy" };
 
 export default function RefundPage() {
   return (

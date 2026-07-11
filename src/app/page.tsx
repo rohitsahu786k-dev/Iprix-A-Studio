@@ -7,16 +7,16 @@ import { PricingSection } from "@/components/pricing-section";
 import { InteractiveCalculator } from "@/components/interactive-calculator";
 
 export const metadata: Metadata = {
-  title: "Meesho Listing AI Tool & Chrome Extension — Free AI Listing Generator | A+ Studio",
+  title: { absolute: "Meesho Listing AI Tool & Extension | A+ Studio" },
   description:
-    "A+ Studio is the best Meesho listing tool for Indian sellers: free AI listing generator, Meesho listing extension with autofill, keyword research, catalog image checker, shipping weight calculator and bulk CSV upload for Meesho, Flipkart & Amazon.",
+    "Create Meesho listings with AI, research buyer keywords, check images and shipping weight, then autofill seller forms with the A+ Studio Chrome extension.",
   keywords: [
     "meesho listing tool",
     "meesho listing extension",
     "meesho listing ai tool",
     "ai listing generator free",
     "ai product listing generator",
-    "meesho catalog upload",
+    "meesho catalog upload tool",
     "meesho catalogue maker",
     "meesho listing image size",
     "product listing software india",
@@ -114,13 +114,6 @@ function JsonLd() {
       "priceCurrency": "INR",
       "availability": "https://schema.org/InStock"
     },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "ratingCount": "120",
-      "bestRating": "5",
-      "worstRating": "1"
-    }
   };
   const faqPage = {
     "@context": "https://schema.org",
@@ -932,6 +925,41 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── SEARCH-LED SELLER TOOLKIT ── */}
+      <section className="relative overflow-hidden border-t border-zinc-900 bg-zinc-950 py-24">
+        <div className="absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full bg-indigo-200/20 blur-3xl" />
+        <div className="container relative">
+          <div className="grid gap-10 rounded-[32px] border border-zinc-800 bg-white p-6 shadow-pin-lg sm:p-9 lg:grid-cols-[0.85fr_1.15fr] lg:p-12">
+            <div>
+              <span className="inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-3.5 py-2 text-[9px] font-black uppercase tracking-[0.18em] text-indigo-700">
+                <Icons.Eye /> Search-led workflow
+              </span>
+              <h2 className="mt-6 text-3xl font-black leading-tight tracking-[-0.04em] text-zinc-100 lg:text-4xl">One seller workspace from keyword discovery to final autofill</h2>
+              <p className="mt-5 text-sm font-semibold leading-7 text-zinc-550">
+                A+ Studio is a complete <strong className="text-zinc-200">Meesho listing tool</strong> that combines practical <strong className="text-zinc-200">Meesho seller tools</strong>, a guided <strong className="text-zinc-200">Meesho catalog upload</strong> workflow and an <strong className="text-zinc-200">AI product listing generator</strong> in one responsive dashboard.
+              </p>
+              <Link href="/docs" className="mt-7 inline-flex items-center gap-2 rounded-xl bg-zinc-100 px-5 py-3 text-xs font-extrabold text-white shadow-lg transition hover:-translate-y-0.5">
+                Explore seller documentation <Icons.ArrowRight />
+              </Link>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {[
+                { title: "Buyer keyword discovery", text: "Use the Meesho keyword research tool to group primary, secondary and long-tail buyer phrases before writing catalog copy.", tag: "Meesho keyword research tool" },
+                { title: "India-first listing software", text: "Purpose-built product listing software India teams can use for Meesho, Flipkart beta and Amazon-ready content workflows.", tag: "Product listing software India" },
+                { title: "Catalog upload control", text: "Preview titles, prices, descriptions, attributes and images before the Meesho catalog upload reaches the supplier panel.", tag: "Catalog workflow" },
+                { title: "Complete seller toolkit", text: "Bring AI copy, reusable templates, image checks, calculators, CSV import and Meesho seller tools into one account.", tag: "Meesho seller tools" },
+              ].map((item) => (
+                <article key={item.title} className="rounded-3xl border border-zinc-800 bg-zinc-900/40 p-5 transition hover:border-indigo-200 hover:bg-indigo-50/30">
+                  <span className="text-[8px] font-black uppercase tracking-[0.14em] text-indigo-650">{item.tag}</span>
+                  <h3 className="mt-3 text-sm font-extrabold text-zinc-100">{item.title}</h3>
+                  <p className="mt-2 text-[11px] font-semibold leading-5 text-zinc-550">{item.text}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── FAQ ── */}
       <section className="py-24 bg-zinc-950 border-t border-zinc-900" id="faq">
         <div className="container max-w-4xl">
@@ -958,7 +986,7 @@ export default function Home() {
       </section>
 
       {/* ── PRICING PLANS ── */}
-      <PricingSection />
+      <PricingSection embedded />
       <JsonLd />
     </PublicShell>
   );

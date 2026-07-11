@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PublicShell } from "@/components/public-shell";
 import { VerifyEmailClient } from "@/components/verify-email-client";
 
-export const metadata: Metadata = { title: "Verify Email | A+ Studio" };
+export const metadata: Metadata = { title: "Verify Email" };
 
 export default function VerifyEmailPage() {
   return (

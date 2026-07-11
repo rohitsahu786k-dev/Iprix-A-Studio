@@ -4,7 +4,7 @@ import { Box, Home as HomeIcon, Layers, Zap as ZapIcon } from "lucide-react";
 import { PublicShell } from "@/components/public-shell";
 
 export const metadata: Metadata = {
-  title: "Meesho & Flipkart Autofill Extension | A+ Studio",
+  title: "Meesho & Flipkart Autofill Extension",
   description: "Download the A+ Studio Chrome Extension. Save templates and automatically autofill seller forms inside Meesho, Flipkart, and Amazon listing panels.",
   keywords: ["Autofill Chrome Extension", "Meesho seller extension", "Flipkart automation tool", "Amazon seller assistant"],
   alternates: { canonical: "/chrome-extension" },

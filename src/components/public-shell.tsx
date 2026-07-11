@@ -1,6 +1,5 @@
 import Link from "next/link";
 import {
-  ArrowRight,
   ChevronRight,
   Mail,
   MessageCircle,
@@ -9,6 +8,7 @@ import {
 import { brand, publicLinks } from "@/lib/brand";
 import { BrandLogo, WideLogo } from "@/components/brand-logo";
 import { MobileBottomNav } from "@/components/mobile-bottom-nav";
+import { NewsletterForm } from "@/components/newsletter-form";
 
 import { getSession } from "@/lib/auth";
 
@@ -203,18 +203,7 @@ export function PublicFooter() {
             <div className="space-y-3">
               <h3 className="text-xs font-extrabold uppercase tracking-widest text-zinc-400">Subscribe to updates</h3>
               <p className="text-xs text-zinc-650 leading-relaxed">Get product updates, features, and pricing details.</p>
-              <form className="flex items-center gap-2 rounded-2xl border border-zinc-800 bg-zinc-900/60 px-3 py-2.5 shadow-sm focus-within:border-indigo-500/40 transition-colors">
-                <input 
-                  type="email" 
-                  placeholder="your@email.com" 
-                  className="bg-transparent text-xs text-zinc-500 focus:outline-none w-full placeholder:text-zinc-700"
-                  required
-                />
-                <button type="submit" className="text-xs font-bold text-indigo-650 hover:text-indigo-500 transition-colors flex items-center gap-1 cursor-pointer bg-transparent border-0">
-                  Join
-                  <ArrowRight className="h-3 w-3" />
-                </button>
-              </form>
+              <NewsletterForm />
             </div>
           </div>
         </div>

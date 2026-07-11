@@ -50,7 +50,7 @@ export function AdminResource({ resource }: { resource: string }) {
         <div className="grid gap-3">
           {items.length ? (
             items.map((item, index) => (
-              <div className="rounded-xl border border-zinc-800 bg-zinc-950/50/60 p-3" key={String(item._id || index)}>
+              <div className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-3" key={String(item._id || index)}>
                 <div className="grid gap-2 text-xs sm:grid-cols-2 lg:grid-cols-4">
                   {Object.entries(item).slice(0, 8).map(([key, value]) => (
                     <div className="min-w-0 rounded-lg border border-zinc-900 bg-zinc-900/50 backdrop-blur-md p-3" key={key}>

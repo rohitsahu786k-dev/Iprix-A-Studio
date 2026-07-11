@@ -3,7 +3,7 @@ import { PublicShell } from "@/components/public-shell";
 import { brand } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "About A+ Studio | E-commerce Seller Mission",
+  title: "About Our E-commerce Seller Mission",
   description: "Learn more about Iprix Media and A+ Studio’s mission to streamline listing creation and inventory onboarding for Indian marketplace sellers.",
   keywords: ["Iprix Media", "About A+ Studio", "Udaipur Rajasthan IT", "e-commerce seller automation team"],
   alternates: { canonical: "/about" },
