@@ -52,8 +52,9 @@ async function walk(dir) {
 
 await walk(out);
 
-// manifest "key" is only for local dev identity — the Web Store strips it,
-// but remove it from dist to avoid upload warnings.
+// A Web Store listing owns its production identity. Never ship a copied or
+// hand-authored manifest key/update URL: Chrome can otherwise treat this
+// package as another extension and apply that listing's updates over it.
 const manifestPath = join(out, "manifest.json");
 const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
 delete manifest.key;

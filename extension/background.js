@@ -544,8 +544,8 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     `listify_cat_${tabId}`,
   ]);
 
-  // Global toggle: default is ON, only skip if explicitly set to false
-  if (stored.listify_autofill_enabled === false) return;
+  // Automatic filling is opt-in; manual Fill remains available at all times.
+  if (stored.listify_autofill_enabled !== true) return;
 
   const token = stored.listify_token;
   if (!token) return;
@@ -882,7 +882,7 @@ chrome.tabs.onActivated.addListener(async ({ tabId }) => {
     "listify_token",
     `listify_cat_${tabId}`,
   ]);
-  if (stored.listify_autofill_enabled === false) return;
+  if (stored.listify_autofill_enabled !== true) return;
   const token = stored.listify_token;
   if (!token) return;
 

@@ -1863,7 +1863,7 @@
         if (document.visibilityState !== 'visible') return;
 
         const stored = await chrome.storage?.local.get(['listify_autofill_enabled']);
-        if (stored.listify_autofill_enabled === false) return;
+        if (stored.listify_autofill_enabled !== true) return;
 
         const catRes = await chrome.runtime?.sendMessage({ action: 'get_my_tab_category' });
         const cat = (catRes?.category || '').trim();
